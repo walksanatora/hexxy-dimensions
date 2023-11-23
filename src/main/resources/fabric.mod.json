@@ -1,0 +1,48 @@
+{
+	"schemaVersion": 1,
+	"id": "hexxy-dimensions",
+	"version": "${version}",
+	"name": "Hexxy Dimensions",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/hexxy-dimensions/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "net.walksanator.hexdim.HexxyDimensions",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "net.walksanator.hexdim.HexxyDimensionsClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"hexxy-dimensions.mixins.json",
+		{
+			"config": "hexxy-dimensions.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.24",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-language-kotlin": ">=1.9.20"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
