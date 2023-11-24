@@ -1,16 +1,4 @@
 #version 150
-
-uniform sampler2D Sampler0;
-uniform vec4 ColorModulator;
-uniform vec2 ScreenSize;
-
-in vec4 vertexColor;
-in vec2 texCoord0;
-in vec2 texCoord2;
-in vec4 normal;
-in float gameTime;
-
-out vec4 fragColor;
 // The Universe Within - by Martijn Steinrucken aka BigWings 2018
 // Email:countfrolic@gmail.com Twitter:@The_ArtOfCode
 // License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
@@ -38,16 +26,28 @@ out vec4 fragColor;
 // note from walksanator here:
 // I made it PURPLE and "adapted" the values that MC provides
 
+in vec4 texProj0;
+
+uniform float GameTime;
+uniform vec2 ScreenSize;
+
+
 //re-defining shaderlab uniforms in terms of minecraft uniforms
-#define iTime (gameTime * 1200.)
+#define iResolution ScreenSize
+#define iTime GameTime
 #define iMouse vec4(0.0,0.0,0.0,0.0)
-#define fragCoord (gl_FragCoord.xy)
+#define fragCoord texProj0.xy
 
 #define S(a, b, t) smoothstep(a, b, t)
 #define NUM_LAYERS 4.
 
+
+
+//#define SIMPLE
+
+
 float N21(vec2 p) {
-    vec3 a = fract(vec3(p.xyx) * vec3(213.897, 653.453, 253.098));
+	vec3 a = fract(vec3(p.xyx) * vec3(213.897, 653.453, 253.098));
     a += dot(a, a.yzx + 79.76);
     return fract((a.x + a.y) * a.z);
 }
@@ -61,18 +61,18 @@ vec2 GetPos(vec2 id, vec2 offs, float t) {
 }
 
 float GetT(vec2 ro, vec2 rd, vec2 p) {
-    return dot(p-ro, rd);
+	return dot(p-ro, rd);
 }
 
 float LineDist(vec3 a, vec3 b, vec3 p) {
-    return length(cross(b-a, p-a))/length(p-a);
+	return length(cross(b-a, p-a))/length(p-a);
 }
 
 float df_line( in vec2 a, in vec2 b, in vec2 p)
 {
     vec2 pa = p - a, ba = b - a;
-    float h = clamp(dot(pa,ba) / dot(ba,ba), 0., 1.);
-    return length(pa - ba * h);
+	float h = clamp(dot(pa,ba) / dot(ba,ba), 0., 1.);
+	return length(pa - ba * h);
 }
 
 float line(vec2 a, vec2 b, vec2 uv) {
@@ -95,9 +95,9 @@ float NetLayer(vec2 st, float n, float t) {
     vec2 p[9];
     int i=0;
     for(float y=-1.; y<=1.; y++) {
-        for(float x=-1.; x<=1.; x++) {
+    	for(float x=-1.; x<=1.; x++) {
             p[i++] = GetPos(id, vec2(x,y), t);
-        }
+    	}
     }
 
     float m = 0.;
@@ -118,7 +118,7 @@ float NetLayer(vec2 st, float n, float t) {
     }
 
     m += line(p[1], p[3], st);
-    m += line(p[1], p[5], st);
+	m += line(p[1], p[5], st);
     m += line(p[7], p[5], st);
     m += line(p[7], p[3], st);
 
@@ -129,10 +129,16 @@ float NetLayer(vec2 st, float n, float t) {
     return m;
 }
 
-void main()
+out vec4 fragColor;
+
+void main() {
+    fragColor = vec4(1.,0.,0.,1.);
+}
+
+void main2()
 {
-    vec2 uv = (fragCoord-ScreenSize.xy*.5)/ScreenSize.y;
-    vec2 M = iMouse.xy / ScreenSize.xy-.5;
+    vec2 uv = (fragCoord-iResolution.xy*.5)/iResolution.y;
+	vec2 M = iMouse.xy/iResolution.xy-.5;
 
     float t = iTime*.1;
 
@@ -140,7 +146,7 @@ void main()
     float c = cos(t);
     mat2 rot = mat2(c, -s, s, c);
     vec2 st = uv*rot;
-    M *= rot*2.;
+	M *= rot*2.;
 
     float m = 0.;
     for(float i=0.; i<1.; i+=1./NUM_LAYERS) {

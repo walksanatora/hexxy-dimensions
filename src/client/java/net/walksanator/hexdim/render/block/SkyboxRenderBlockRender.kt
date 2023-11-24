@@ -26,21 +26,6 @@ class SkyboxRenderBlockRender(ctx: BlockEntityRendererFactory.Context) : BlockEn
         i: Int,
         j: Int
     ) {
-        val blockRender: BlockRenderManager = MinecraftClient.getInstance().blockRenderManager
-
-        matrixStack.push()
-        blockRender.renderBlock(
-            Blocks.CHISELED_STONE_BRICKS.defaultState,
-            endPortalBlockEntity.getPos(),
-            MinecraftClient.getInstance().world,
-            matrixStack,
-            vertexConsumerProvider.getBuffer(getLayer()),
-            true,
-            Random.create()
-        )
-        matrixStack.pop()
-        return
-
         val matrix4f = matrixStack.peek().positionMatrix
         renderSides(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.getLayer()))
     }
