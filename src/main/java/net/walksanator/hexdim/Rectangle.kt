@@ -53,7 +53,6 @@ class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
         }
         for (side in toClose) {
             openSides.remove(side)
-            println("removing side %s of rectangle %s, %s".format(side,x,y))
         }
         return PossiblePointsCheck(locations,openSides.isEmpty())
     }

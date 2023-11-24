@@ -1,0 +1,8 @@
+{
+	"fragment": "hexdim:rendertype_hexdim_skybox",
+	"vertex": "rendertype_end_portal",
+	"uniforms": [
+		{"name":  "GameTime", "type":  "float", "count":  1, "values": [0.0]},
+		{"name":  "ScreenSize", "type":  "float", "count":  2, "values": [0.0,0.0]}
+	]
+}

@@ -21,7 +21,7 @@ repositories {
 
 loom {
     splitEnvironmentSourceSets()
-
+	accessWidenerPath = file("src/client/resources/hexxy-dimensions.accesswidener")
 	mods {
 		"hexxy-dimensions" {
 			sourceSet sourceSets.main

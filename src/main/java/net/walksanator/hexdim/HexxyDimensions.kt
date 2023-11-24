@@ -7,11 +7,17 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.command.CommandException
+import net.minecraft.item.BlockItem
+import net.minecraft.item.Item.Settings
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.walksanator.hexdim.blocks.BlockRegistry
 import org.slf4j.LoggerFactory
 import java.lang.Exception
 import kotlin.random.Random
@@ -22,12 +28,19 @@ object HexxyDimensions : ModInitializer {
 	private val open = ArrayList<Rectangle>()
 	private val all = ArrayList<Rectangle>()
 
+	private const val MOD_ID = "hexdim"
+
 	override fun onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		logger.info("Hello Fabric world!")
-		CommandRegistrationCallback.EVENT.register { dispatch, registry, env ->
+
+		Registry.register(Registries.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
+		Registry.register(Registries.ITEM, Identifier(MOD_ID,"skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
+		Registry.register(Registries.BLOCK_ENTITY_TYPE,Identifier(MOD_ID, "skybox_entity"), BlockRegistry.SKYBOX_ENTITY)
+
+		CommandRegistrationCallback.EVENT.register { dispatch, _, _ ->
 			run {
 				dispatch.register(literal("room")
 					.then(
@@ -90,8 +103,8 @@ object HexxyDimensions : ModInitializer {
 						it.source.sendMessage(Text.literal("the room says it has %s open sides".format(targetRect.openSides.size)))
 						1
 					})
-					.executes { it ->
-					val world = it.source.world
+					.executes {
+						val world = it.source.world
 					for (rect in all) {
 						fillAreaWithBlock(world,Pair(rect.x,rect.y),Pair(rect.x+rect.w,rect.y+rect.h),-60, Blocks.RED_WOOL)
 						outlineRectangle(world,rect,-59,Blocks.BLUE_WOOL)
