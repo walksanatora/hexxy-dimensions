@@ -1,15 +1,20 @@
 package net.walksanator.hexdim.render.block
 
+import net.minecraft.block.Blocks
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.block.BlockRenderManager
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.walksanator.hexdim.blocks.SkyboxRenderBlockEntity
 import net.walksanator.hexdim.render.HexxyDimensionRenderLayer
 import org.joml.Matrix4f
+
 
 class SkyboxRenderBlockRender(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<SkyboxRenderBlockEntity> {
 
@@ -21,6 +26,21 @@ class SkyboxRenderBlockRender(ctx: BlockEntityRendererFactory.Context) : BlockEn
         i: Int,
         j: Int
     ) {
+        val blockRender: BlockRenderManager = MinecraftClient.getInstance().blockRenderManager
+
+        matrixStack.push()
+        blockRender.renderBlock(
+            Blocks.CHISELED_STONE_BRICKS.defaultState,
+            endPortalBlockEntity.getPos(),
+            MinecraftClient.getInstance().world,
+            matrixStack,
+            vertexConsumerProvider.getBuffer(getLayer()),
+            true,
+            Random.create()
+        )
+        matrixStack.pop()
+        return
+
         val matrix4f = matrixStack.peek().positionMatrix
         renderSides(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.getLayer()))
     }

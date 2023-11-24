@@ -131,7 +131,11 @@ float NetLayer(vec2 st, float n, float t) {
 
 out vec4 fragColor;
 
-void main()
+void main() {
+    fragColor = vec4(1.,0.,0.,1.);
+}
+
+void main2()
 {
     vec2 uv = (fragCoord-iResolution.xy*.5)/iResolution.y;
 	vec2 M = iMouse.xy/iResolution.xy-.5;
