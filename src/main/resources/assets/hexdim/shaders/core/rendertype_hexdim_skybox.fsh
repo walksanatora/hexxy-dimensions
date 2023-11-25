@@ -4,11 +4,11 @@ uniform sampler2D Sampler0;
 uniform vec4 ColorModulator;
 uniform vec2 ScreenSize;
 
+in float gameTime;
 in vec4 vertexColor;
 in vec2 texCoord0;
 in vec2 texCoord2;
 in vec4 normal;
-in float gameTime;
 
 out vec4 fragColor;
 // The Universe Within - by Martijn Steinrucken aka BigWings 2018

@@ -1,5 +1,6 @@
 package net.walksanator.hexdim
 
+import at.petrak.hexcasting.api.mod.HexConfig
 import com.mojang.brigadier.arguments.IntegerArgumentType.getInteger
 import com.mojang.brigadier.arguments.IntegerArgumentType.integer
 import net.fabricmc.api.ModInitializer
@@ -22,15 +23,14 @@ import org.slf4j.LoggerFactory
 import java.lang.Exception
 import kotlin.random.Random
 
-
 object HexxyDimensions : ModInitializer {
     private val logger = LoggerFactory.getLogger("hexxy-dimensions")
-	private val open = ArrayList<Rectangle>()
-	private val all = ArrayList<Rectangle>()
-
 	private const val MOD_ID = "hexdim"
+	val STORAGE = HexxyDimStorage()
 
 	override fun onInitialize() {
+		//HexConfig.ServerConfigAccess.DEFAULT_DIM_TP_DENYLIST.add("hexdim:hexdim")
+
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
@@ -48,7 +48,7 @@ object HexxyDimensions : ModInitializer {
 							val w = Random.nextInt(32,64)
 							val h = Random.nextInt(32,64)
 							try {
-								val placed = addRectangle(Pair(w,h),open,all,Pair(0,0),Pair(32,32))
+								val placed = addRectangle(Pair(w,h),STORAGE.open,STORAGE.all,Pair(0,0),Pair(32,32))
 								if (!placed) {
 									it.source.sendError(Text.literal("failed to place rectangle (%s,%s)".format(w,h)))
 								} else {
@@ -66,7 +66,7 @@ object HexxyDimensions : ModInitializer {
 								argument("height",integer(0)).executes {
 									val w = getInteger(it, "width")
 									val h = getInteger(it, "height")
-									val placed = addRectangle(Pair(w,h),open,all,Pair(0,0),Pair(32,32))
+									val placed = addRectangle(Pair(w,h),STORAGE.open,STORAGE.all,Pair(0,0),Pair(32,32))
 
 									if (!placed) {
 										throw CommandException(Text.literal("failed to place rectangle (%s,%s)".format(w,h)))
@@ -80,7 +80,7 @@ object HexxyDimensions : ModInitializer {
 				)
 				dispatch.register(literal("render")
 					.then(literal("bounds").executes {
-						val targetRect = findRectangle(it.source.position.x.toInt(),it.source.position.z.toInt(),all)
+						val targetRect = findRectangle(it.source.position.x.toInt(),it.source.position.z.toInt(),STORAGE.all)
 						val x = targetRect.x
 						val y = targetRect.y
 						val h = targetRect.h
@@ -94,7 +94,7 @@ object HexxyDimensions : ModInitializer {
 								RectSideOpen.Right -> Pair(x+w,y)
 							}
 							val newRect = Rectangle(xy.first,xy.second,target.first,target.second)
-							if (newRect.isOverlap(all)) {
+							if (newRect.isOverlap(STORAGE.all)) {
 								outlineRectangle(it.source.world,newRect,-57,Blocks.BLACK_WOOL)
 							} else {
 								outlineRectangle(it.source.world,newRect,-57,Blocks.GRAY_WOOL)
@@ -105,11 +105,11 @@ object HexxyDimensions : ModInitializer {
 					})
 					.executes {
 						val world = it.source.world
-					for (rect in all) {
+					for (rect in STORAGE.all) {
 						fillAreaWithBlock(world,Pair(rect.x,rect.y),Pair(rect.x+rect.w,rect.y+rect.h),-60, Blocks.RED_WOOL)
 						outlineRectangle(world,rect,-59,Blocks.BLUE_WOOL)
 					}
-					for (closed in all.filter { rect -> !open.contains(rect) }) {
+					for (closed in STORAGE.all.filter { rect -> !STORAGE.open.contains(rect) }) {
 						it.source.sendMessage(Text.literal("closed square at (%s,%s)".format(closed.x,closed.y)))
 						outlineRectangle(world,closed,-58,Blocks.GLASS)
 					}

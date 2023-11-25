@@ -5,3 +5,6 @@ accessible class net/minecraft/client/render/RenderPhase$Texture
 accessible class net/minecraft/client/render/RenderLayer$MultiPhase
 accessible class net/minecraft/client/render/RenderPhase$ShaderProgram
 accessible class net/minecraft/client/render/RenderPhase$Lightmap
+accessible method net/minecraft/client/render/WorldRenderer renderLayer (Lnet/minecraft/client/render/RenderLayer;Lnet/minecraft/client/util/math/MatrixStack;DDDLorg/joml/Matrix4f;)V
+mutable field net/minecraft/client/render/RenderLayer BLOCK_LAYERS Lcom/google/common/collect/ImmutableList;
+accessible field net/minecraft/client/render/RenderLayer BLOCK_LAYERS Lcom/google/common/collect/ImmutableList;

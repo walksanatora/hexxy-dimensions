@@ -1,6 +1,7 @@
 package net.walksanator.hexdim.blocks
 
 import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
@@ -12,7 +13,10 @@ class SkyboxRenderBlock(settings: Settings) : BlockWithEntity(settings) {
 }
 
 class SkyboxRenderBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(BlockRegistry.SKYBOX_ENTITY,pos,state) {
+    init {
+        println("spawned the entity!")
+    }
     fun shouldDrawSide(direction: Direction?): Boolean {
-        return true
+        return Block.shouldDrawSide(cachedState, world, getPos(), direction, getPos().offset(direction))
     }
 }
