@@ -3,11 +3,10 @@
 uniform sampler2D Sampler0;
 uniform vec4 ColorModulator;
 uniform vec2 ScreenSize;
+uniform float GameTime;
 
 in float gameTime;
 in vec4 vertexColor;
-in vec2 texCoord0;
-in vec2 texCoord2;
 in vec4 normal;
 
 out vec4 fragColor;
@@ -39,9 +38,10 @@ out vec4 fragColor;
 // I made it PURPLE and "adapted" the values that MC provides
 
 //re-defining shaderlab uniforms in terms of minecraft uniforms
-#define iTime (gameTime * 1200.)
+#define iTime (GameTime * 1200.)
 #define iMouse vec4(0.0,0.0,0.0,0.0)
 #define fragCoord (gl_FragCoord.xy)
+#define iResolution ScreenSize
 
 #define S(a, b, t) smoothstep(a, b, t)
 #define NUM_LAYERS 4.
@@ -129,7 +129,13 @@ float NetLayer(vec2 st, float n, float t) {
     return m;
 }
 
-void main()
+void main() {
+    // Normalized pixel coordinates (from 0 to 1)
+    float c = mod(iTime,256.) / 256.;
+    fragColor = vec4(c,c,c,1.0);
+}
+
+void main2()
 {
     vec2 uv = (fragCoord-ScreenSize.xy*.5)/ScreenSize.y;
     vec2 M = iMouse.xy / ScreenSize.xy-.5;
