@@ -13,6 +13,6 @@ class SkyboxRenderBlock(settings: Settings) : BlockWithEntity(settings) {
 
 class SkyboxRenderBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(BlockRegistry.SKYBOX_ENTITY,pos,state) {
     fun shouldDrawSide(direction: Direction?): Boolean {
-        return Block.shouldDrawSide(cachedState, world, getPos(), direction, getPos().offset(direction))
+        return true
     }
 }
