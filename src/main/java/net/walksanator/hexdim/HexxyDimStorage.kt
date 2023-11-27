@@ -10,50 +10,69 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.PersistentState
 import net.minecraft.world.chunk.ChunkStatus
+import net.walksanator.hexdim.util.Rectangle
+import net.walksanator.hexdim.util.Room
+import net.walksanator.hexdim.util.addRectangle
+import kotlin.math.max
 
 
 class HexxyDimStorage : PersistentState() {
-    val open = ArrayList<Rectangle>()
-    val all = ArrayList<Rectangle>()
+    val open = ArrayList<Room>()
+    val all = ArrayList<Room>()
     val free = ArrayList<Int>()
     var world: ServerWorld? = null
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        val rectangles = IntArray(all.size * 5)
+        val rectangles = IntArray(all.size * 6)
         for ((idx, rect) in all.withIndex()) {
-            rectangles[(idx*5) + 0] = rect.x
-            rectangles[(idx*5) + 1] = rect.y
-            rectangles[(idx*5) + 2] = rect.w
-            rectangles[(idx*5) + 3] = rect.h
-            rectangles[(idx*5) + 4] = rect.height
+            rect.toIntArray().copyInto(rectangles,idx*6)
         }
         nbt.putIntArray("rects",rectangles)
         nbt.putIntArray("free",free)
         return nbt
     }
 
-    fun mallocRoom(size: Pair<Int, Int>, height: Int): Rectangle? {
-        val xPad = 64
-        val yPad = 64
+    fun mallocRoom(size: Pair<Int, Int>, height: Int): Room? {
         val size2 = Pair(size.first + xPad, size.second + yPad)
         val posRect = addRectangle(size2, height, this, Pair(0, 0), Pair(xPad, yPad))
         markDirty()
         return if (posRect) {
-            val rect = all.last()
+            val room = all.last()
             if (world != null) {
-                for (pos in BlockPos.iterate(
-                        BlockPos(rect.x+(xPad/2),0,rect.y+(yPad/2)),
-                        BlockPos(rect.x + (rect.w-xPad), rect.height, rect.y + (rect.h-yPad))
-                )) {
-                    val cpos = world!!.getChunk(pos).pos
-                    world!!.getChunk(cpos.x,cpos.z, ChunkStatus.FULL,true)
-                    world!!.setBlockState(pos, Blocks.AIR.defaultState)
-                }
+                carveRoom(room,world!!)
             } else {
                 HexxyDimensions.logger.error("WARNING!!! room was malloc'd without any world being sent to the storage. THIS IS A BUG")
             }
-            rect
+            room
         } else {
             null
+        }
+    }
+
+    fun carveRoom(room: Room, world: ServerWorld) {
+        for (pos in BlockPos.iterate(
+            BlockPos(room.getX(),0,room.getY()),
+            BlockPos(room.getX() + max(room.getW()-1,0), max(room.height-1,0), room.getY() + max(room.getH()-1,0))
+        )) {
+            val chunkPos = world.getChunk(pos).pos
+            world.getChunk(chunkPos.x,chunkPos.z, ChunkStatus.FULL,true)
+            world.setBlockState(pos, Blocks.AIR.defaultState)
+        }
+    }
+
+    fun insertRoom(room: Room) {
+        all.add(room)
+        open.add(room)
+    }
+
+    fun closeRoomsBulk(rect: List<Rectangle>) {
+        val toClose: MutableList<Room> = mutableListOf()
+        for (x in open) {
+            for (y in rect) {
+                if (x.rect == y) toClose.add(x)
+            }
+        }
+        for (room in toClose) {
+            open.remove(room)
         }
     }
 
@@ -62,17 +81,22 @@ class HexxyDimStorage : PersistentState() {
     }
 
     companion object {
+        const val xPad = 64
+        const val yPad = 64
         fun createFromNBT(nbt: NbtCompound): HexxyDimStorage {
             val storage = HexxyDimStorage()
             val rectangles = nbt.getIntArray("rects")
-            for (i in 0 ..< (rectangles.size/5)) {
+            for (i in 0 ..< (rectangles.size/6)) {
                 storage.all.add(
-                    Rectangle(
-                        rectangles[(i*5)],
-                        rectangles[(i*5)+1],
-                        rectangles[(i*5)+2],
-                        rectangles[(i*5)+3],
-                        rectangles[(i*5)+4]
+                    Room(
+                        Rectangle(
+                            rectangles[(i*6)],
+                            rectangles[(i*6)+1],
+                            rectangles[(i*6)+2],
+                            rectangles[(i*6)+3]
+                        ),
+                        rectangles[(i*6)+4],
+                        rectangles[(i*6)+5]
                     )
                 )
             }

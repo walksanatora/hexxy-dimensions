@@ -1,5 +1,6 @@
 package net.walksanator.hexdim
 
+import at.petrak.hexcasting.api.item.IotaHolderItem
 import com.mojang.brigadier.arguments.IntegerArgumentType.getInteger
 import com.mojang.brigadier.arguments.IntegerArgumentType.integer
 import net.fabricmc.api.ModInitializer
@@ -9,12 +10,14 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.command.CommandException
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item.Settings
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -22,13 +25,17 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
 import net.walksanator.hexdim.blocks.BlockRegistry
+import net.walksanator.hexdim.iotas.IotaTypes
+import net.walksanator.hexdim.iotas.RoomIota
+import net.walksanator.hexdim.patterns.DimPatternRegistry
+import net.walksanator.hexdim.util.Rectangle
+import net.walksanator.hexdim.util.toRectList
 import org.slf4j.LoggerFactory
-import java.lang.Exception
-import java.util.Optional
+import java.util.*
 import kotlin.random.Random
 
 object HexxyDimensions : ModInitializer {
-    private const val MOD_ID = "hexdim"
+    const val MOD_ID = "hexdim"
     val logger = LoggerFactory.getLogger("hexxy-dimensions")
     var STORAGE: Optional<HexxyDimStorage> = Optional.empty()
 
@@ -39,6 +46,10 @@ object HexxyDimensions : ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
         logger.info("Hello Fabric world!")
+
+        IotaTypes.registerTypes()
+        DimPatternRegistry.registerPatterns()
+
 
         Registry.register(Registries.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
         Registry.register(Registries.ITEM, Identifier(MOD_ID, "skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
@@ -57,7 +68,6 @@ object HexxyDimensions : ModInitializer {
 
         CommandRegistrationCallback.EVENT.register { dispatch, _, _ ->
             run {
-
                 dispatch.register(literal("hexdim")
                     .then(literal("allocate")
                         .then(literal("random")
@@ -127,9 +137,12 @@ object HexxyDimensions : ModInitializer {
                                     it.source.sendError(Text.literal("index is out of bounds range 0..%s".format(storage.all.size)))
                                 } else {
                                     val room = storage.all[idx]
-                                    it.source.sendMessage(Text.literal("room %s has a total w/h of %s %s\nis placed at %s,%s (real corner %s,%s) "
-                                        .format(idx,room.w,room.h,room.x,room.y,room.x+32,room.y+32)
-                                    ))
+                                    val rect = room.rect
+                                    val rect2 = room.internalToRect()
+                                    it.source.sendMessage(Text.literal("Information for room: %s".format(idx)))
+                                    it.source.sendMessage(Text.literal("Perimeter: (xywh) %s, %s, %s, %s".format(rect.x,rect.y,rect.w,rect.h)))
+                                    it.source.sendMessage(Text.literal("Internal: (xywh) %s, %s, %s, %s".format(rect2.x,rect2.y,rect2.w,rect2.h)))
+                                    it.source.sendMessage(Text.literal("InternalHeight: %s".format(room.height)))
                                 }
 
                                 1
@@ -152,13 +165,14 @@ object HexxyDimensions : ModInitializer {
                                 if (idx >= storage.all.size ) {
                                     it.source.sendError(Text.literal("index is out of bounds range 0..%s".format(storage.all.size)))
                                 } else {
+
                                     val room = storage.all[idx]
                                     val ent = it.source.entity!!
                                     FabricDimensions.teleport(ent,storage.world, TeleportTarget(
                                         Vec3d(
-                                            (room.x.toDouble() + room.w - 32 + room.x)/2,
+                                            (room.getX().toDouble() + (room.getW().toDouble()/2)),
                                             room.height.toDouble()/2,
-                                            (room.y.toDouble() + room.h - 32 + room.y)/2
+                                            (room.getY().toDouble() + (room.getH().toDouble()/2))
                                         ),
                                         Vec3d.ZERO,
                                         0F,0F
@@ -168,61 +182,49 @@ object HexxyDimensions : ModInitializer {
                             }
                         )
                     )
-                )
+                    .then(literal("dump")
+                        .then(argument("idx",integer(0))
+                            .executes {
+                                val idx = getInteger(it,"idx")
+                                val storage = STORAGE.get()
+                                if (idx >= storage.all.size ) {
+                                    it.source.sendError(Text.literal("index is out of bounds range 0..%s".format(storage.all.size)))
+                                } else {
+                                    val plr = (it.source.entity!! as PlayerEntity)
+                                    val hand = plr.mainHandStack;
+                                    if (hand.item is IotaHolderItem) {
+                                        (hand.item as IotaHolderItem).writeDatum(
+                                            hand,
+                                            RoomIota(Pair(idx,storage.all[idx].key!!))
+                                        )
+                                    } else {
+                                        val ohand = plr.offHandStack
+                                        if (ohand.item is IotaHolderItem) {
+                                            (ohand.item as IotaHolderItem).writeDatum(
+                                                hand,
+                                                RoomIota(Pair(idx,storage.all[idx].key!!))
+                                            )
+                                        }
+                                    }
+                                }
+                                1
+                            }
+                        )
+                        .executes {
+                            val storage = STORAGE.get()
+                            val world = storage.world as ServerWorld
+                            for (rect in toRectList(storage.all)) {
+                                fillAreaWithBlock(world,Pair(rect.x,rect.y),Pair(rect.x+rect.w,rect.y+rect.h),0,Blocks.RED_STAINED_GLASS)
+                                outlineRectangle(world,rect,1,Blocks.BLUE_STAINED_GLASS)
+                            }
+                            for (room in storage.all) {
+                                outlineRectangle(world,room.internalToRect(),1,Blocks.GREEN_STAINED_GLASS)
+                            }
 
-                dispatch.register(literal("render")
-                    .then(literal("bounds").executes {
-                        val storage = STORAGE.get()
-                        val targetRect =
-                            findRectangle(it.source.position.x.toInt(), it.source.position.z.toInt(), storage.all)
-                        val x = targetRect.x
-                        val y = targetRect.y
-                        val h = targetRect.h
-                        val w = targetRect.w
-                        val target = Pair(32, 32)
-                        for (side in enumValues<RectSideOpen>()) {
-                            val xy = when (side) {
-                                RectSideOpen.Up -> Pair(x, y - target.second)
-                                RectSideOpen.Down -> Pair(x, y + h)
-                                RectSideOpen.Left -> Pair(x - target.first, y)
-                                RectSideOpen.Right -> Pair(x + w, y)
-                            }
-                            val newRect = Rectangle(xy.first, xy.second, target.first, target.second, 0)
-                            if (newRect.isOverlap(storage.all)) {
-                                outlineRectangle(it.source.world, newRect, -57, Blocks.BLACK_WOOL)
-                            } else {
-                                outlineRectangle(it.source.world, newRect, -57, Blocks.GRAY_WOOL)
-                            }
+                            1
                         }
-                        it.source.sendMessage(Text.literal("the room says it has %s open sides".format(targetRect.openSides.size)))
-                        1
-                    })
-                    .executes {
-                        val storage = STORAGE.get()
-                        val world = it.source.world
-                        for (rect in storage.all) {
-                            fillAreaWithBlock(
-                                world,
-                                Pair(rect.x, rect.y),
-                                Pair(rect.x + rect.w, rect.y + rect.h),
-                                -60,
-                                Blocks.RED_WOOL
-                            )
-                            outlineRectangle(world, rect, -59, Blocks.BLUE_WOOL)
-                        }
-                        for (closed in storage.all.filter { rect -> !storage.open.contains(rect) }) {
-                            it.source.sendMessage(
-                                Text.literal(
-                                    "closed square at (%s,%s)".format(
-                                        closed.x,
-                                        closed.y
-                                    )
-                                )
-                            )
-                            outlineRectangle(world, closed, -58, Blocks.GLASS)
-                        }
-                        1
-                    })
+                    )
+                )
             }
         }
     }

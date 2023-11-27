@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Build-On-Minecraft: 1.20.1
+Implementation-Vendor: petra-kat
+Implementation-Title: Fabric
+Timestampe: 1691404306391
+Specification-Version: 0.11.1-7
+Implementation-Version: 0.11.1-7
+Built-On-Java: 17.0.7+10-b829.16 JetBrains s.r.o.
+Specification-Title: hexcasting
+Implementation-Timestamp: 2023-08-07T20:31:46+0000
+Specification-Vendor: petra-kat
+Fabric-Gradle-Version: 7.6
+Fabric-Loom-Version: 1.0.18
+Fabric-Mixin-Compile-Extensions-Version: 0.5.0
+Fabric-Minecraft-Version: 1.20.1
+Fabric-Tiny-Remapper-Version: 0.8.5
+Fabric-Loader-Version: 11.1.106
+Fabric-Mixin-Version: 0.12.5+mixin.0.8.5
+Fabric-Mixin-Group: net.fabricmc
+Fabric-Mapping-Namespace: intermediary
+
