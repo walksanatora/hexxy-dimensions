@@ -1,150 +1,104 @@
 package net.walksanator.hexdim
 
-import at.petrak.hexcasting.api.mod.HexConfig
-import com.mojang.brigadier.arguments.IntegerArgumentType.getInteger
-import com.mojang.brigadier.arguments.IntegerArgumentType.integer
-import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
-import net.minecraft.block.Block
 import net.minecraft.block.Blocks
-import net.minecraft.command.CommandException
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item.Settings
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.server.command.CommandManager.argument
-import net.minecraft.server.command.CommandManager.literal
-import net.minecraft.text.Text
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.server.MinecraftServer
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
-import net.walksanator.hexdim.blocks.BlockRegistry
-import org.slf4j.LoggerFactory
-import java.lang.Exception
-import kotlin.random.Random
+import net.minecraft.world.PersistentState
+import net.minecraft.world.chunk.ChunkStatus
 
-object HexxyDimensions : ModInitializer {
-    private val logger = LoggerFactory.getLogger("hexxy-dimensions")
-	private const val MOD_ID = "hexdim"
-	val STORAGE = HexxyDimStorage()
 
-	override fun onInitialize() {
-		//HexConfig.ServerConfigAccess.DEFAULT_DIM_TP_DENYLIST.add("hexdim:hexdim")
+class HexxyDimStorage : PersistentState() {
+    val open = ArrayList<Rectangle>()
+    val all = ArrayList<Rectangle>()
+    val free = ArrayList<Int>()
+    var world: ServerWorld? = null
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        val rectangles = IntArray(all.size * 5)
+        for ((idx, rect) in all.withIndex()) {
+            rectangles[(idx*5) + 0] = rect.x
+            rectangles[(idx*5) + 1] = rect.y
+            rectangles[(idx*5) + 2] = rect.w
+            rectangles[(idx*5) + 3] = rect.h
+            rectangles[(idx*5) + 4] = rect.height
+        }
+        nbt.putIntArray("rects",rectangles)
+        nbt.putIntArray("free",free)
+        return nbt
+    }
 
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-		logger.info("Hello Fabric world!")
+    fun mallocRoom(size: Pair<Int, Int>, height: Int): Rectangle? {
+        val xPad = 64
+        val yPad = 64
+        val size2 = Pair(size.first + xPad, size.second + yPad)
+        val posRect = addRectangle(size2, height, this, Pair(0, 0), Pair(xPad, yPad))
+        markDirty()
+        return if (posRect) {
+            val rect = all.last()
+            if (world != null) {
+                for (pos in BlockPos.iterate(
+                        BlockPos(rect.x+(xPad/2),0,rect.y+(yPad/2)),
+                        BlockPos(rect.x + (rect.w-xPad), rect.height, rect.y + (rect.h-yPad))
+                )) {
+                    val cpos = world!!.getChunk(pos).pos
+                    world!!.getChunk(cpos.x,cpos.z, ChunkStatus.FULL,true)
+                    world!!.setBlockState(pos, Blocks.AIR.defaultState)
+                }
+            } else {
+                HexxyDimensions.logger.error("WARNING!!! room was malloc'd without any world being sent to the storage. THIS IS A BUG")
+            }
+            rect
+        } else {
+            null
+        }
+    }
 
-		Registry.register(Registries.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
-		Registry.register(Registries.ITEM, Identifier(MOD_ID,"skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
-		Registry.register(Registries.BLOCK_ENTITY_TYPE,Identifier(MOD_ID, "skybox_entity"), BlockRegistry.SKYBOX_ENTITY)
+    fun freeRoom(index: Int) {
+        free.add(index)
+    }
 
-		CommandRegistrationCallback.EVENT.register { dispatch, _, _ ->
-			run {
-				dispatch.register(literal("room")
-					.then(
-						literal("random").executes {
-							val w = Random.nextInt(32,64)
-							val h = Random.nextInt(32,64)
-							try {
-								val placed = addRectangle(Pair(w,h),STORAGE.open,STORAGE.all,Pair(0,0),Pair(32,32))
-								if (!placed) {
-									it.source.sendError(Text.literal("failed to place rectangle (%s,%s)".format(w,h)))
-								} else {
-									it.source.sendMessage(Text.literal("placed rectangle (%s,%s)".format(w,h)))
-								}
-							} catch (e: Exception) {
-								e.printStackTrace()
-							}
+    companion object {
+        fun createFromNBT(nbt: NbtCompound): HexxyDimStorage {
+            val storage = HexxyDimStorage()
+            val rectangles = nbt.getIntArray("rects")
+            for (i in 0 ..< (rectangles.size/5)) {
+                storage.all.add(
+                    Rectangle(
+                        rectangles[(i*5)],
+                        rectangles[(i*5)+1],
+                        rectangles[(i*5)+2],
+                        rectangles[(i*5)+3],
+                        rectangles[(i*5)+4]
+                    )
+                )
+            }
+            storage.open.addAll(storage.all)
+            nbt.getIntArray("free").toCollection(storage.free)
+            return storage
+        }
+        fun getServerState(server: MinecraftServer): HexxyDimStorage {
+            // (Note: arbitrary choice to use 'World.OVERWORLD' instead of 'World.END' or 'World.NETHER'.  Any work)
+            val world = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, Identifier("hexdim","hexdim")))!!
+            val persistentStateManager = world.persistentStateManager
 
-							1
-						}
-					).then(
-						literal("wh").then(
-							argument("width",integer(0)).then(
-								argument("height",integer(0)).executes {
-									val w = getInteger(it, "width")
-									val h = getInteger(it, "height")
-									val placed = addRectangle(Pair(w,h),STORAGE.open,STORAGE.all,Pair(0,0),Pair(32,32))
+            // The first time the following 'getOrCreate' function is called, it creates a brand new 'StateSaverAndLoader' and
+            // stores it inside the 'PersistentStateManager'. The subsequent calls to 'getOrCreate' pass in the saved
+            // 'StateSaverAndLoader' NBT on disk to our function 'StateSaverAndLoader::createFromNbt'.
+            val state: HexxyDimStorage = persistentStateManager.getOrCreate({ nbt -> createFromNBT(nbt) }, { HexxyDimStorage() }, "hexdim")
 
-									if (!placed) {
-										throw CommandException(Text.literal("failed to place rectangle (%s,%s)".format(w,h)))
-									}
+            state.world = world
 
-									1
-								}
-							)
-						)
-					)
-				)
-				dispatch.register(literal("render")
-					.then(literal("bounds").executes {
-						val targetRect = findRectangle(it.source.position.x.toInt(),it.source.position.z.toInt(),STORAGE.all)
-						val x = targetRect.x
-						val y = targetRect.y
-						val h = targetRect.h
-						val w = targetRect.w
-						val target = Pair(32,32)
-						for (side in enumValues<RectSideOpen>()) {
-							val xy = when (side) {
-								RectSideOpen.Up -> Pair(x,y-target.second)
-								RectSideOpen.Down -> Pair(x,y+h)
-								RectSideOpen.Left -> Pair(x-target.first,y)
-								RectSideOpen.Right -> Pair(x+w,y)
-							}
-							val newRect = Rectangle(xy.first,xy.second,target.first,target.second)
-							if (newRect.isOverlap(STORAGE.all)) {
-								outlineRectangle(it.source.world,newRect,-57,Blocks.BLACK_WOOL)
-							} else {
-								outlineRectangle(it.source.world,newRect,-57,Blocks.GRAY_WOOL)
-							}
-						}
-						it.source.sendMessage(Text.literal("the room says it has %s open sides".format(targetRect.openSides.size)))
-						1
-					})
-					.executes {
-						val world = it.source.world
-					for (rect in STORAGE.all) {
-						fillAreaWithBlock(world,Pair(rect.x,rect.y),Pair(rect.x+rect.w,rect.y+rect.h),-60, Blocks.RED_WOOL)
-						outlineRectangle(world,rect,-59,Blocks.BLUE_WOOL)
-					}
-					for (closed in STORAGE.all.filter { rect -> !STORAGE.open.contains(rect) }) {
-						it.source.sendMessage(Text.literal("closed square at (%s,%s)".format(closed.x,closed.y)))
-						outlineRectangle(world,closed,-58,Blocks.GLASS)
-					}
-					1
-				})
-			}
-		}
-	}
-}
-
-fun fillAreaWithBlock(world: World, start: Pair<Int,Int>, end: Pair<Int,Int>, y: Int, block: Block) {
-	for (x in start.first until end.first) {
-		for (z in start.second until end.second) {
-			world.setBlockState(BlockPos(x, y, z), block.defaultState, 3) // Use 3 for block update
-		}
-	}
-}
-fun outlineRectangle(world: World, rectangle: Rectangle, yLevel: Int, block: Block) {
-	for (x in rectangle.x until rectangle.x + rectangle.w) {
-		world.setBlockState(BlockPos(x, yLevel, rectangle.y), block.defaultState, 3)
-		world.setBlockState(BlockPos(x, yLevel, rectangle.y + rectangle.h - 1), block.defaultState, 3)
-	}
-
-	for (z in rectangle.y until rectangle.y + rectangle.h) {
-		world.setBlockState(BlockPos(rectangle.x, yLevel, z), block.defaultState, 3)
-		world.setBlockState(BlockPos(rectangle.x + rectangle.w - 1, yLevel, z), block.defaultState, 3)
-	}
-}
-fun findRectangle(pointX: Int, pointY: Int, rectangles: List<Rectangle>): Rectangle {
-	for (rectangle in rectangles) {
-		if (pointX in rectangle.x until (rectangle.x + rectangle.w) &&
-			pointY in rectangle.y until (rectangle.y + rectangle.h)
-		) {
-			return rectangle
-		}
-	}
-	return rectangles[0]
+            // If state is not marked dirty, when Minecraft closes, 'writeNbt' won't be called and therefore nothing will be saved.
+            // Technically it's 'cleaner' if you only mark state as dirty when there was actually a change, but the vast majority
+            // of mod writers are just going to be confused when their data isn't being saved, and so it's best just to 'markDirty' for them.
+            // Besides, it's literally just setting a bool to true, and the only time there's a 'cost' is when the file is written to disk when
+            // there were no actual change to any of the mods state (INCREDIBLY RARE).
+            state.markDirty()
+            return state
+        }
+    }
 }

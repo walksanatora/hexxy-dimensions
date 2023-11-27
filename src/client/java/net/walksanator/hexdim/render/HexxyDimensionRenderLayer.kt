@@ -19,7 +19,7 @@ class HexxyDimensionRenderLayer {
             false,
             RenderLayer.MultiPhaseParameters.builder().program(
                 ShaderProgram { HexxyDimensionShaders.dimShader }
-            ).build(false)
+            ).build(true)
         );
 
     }

@@ -35,6 +35,7 @@ object HexxyDimensionsClient : ClientModInitializer {
 
 		WorldRenderEvents.BEFORE_ENTITIES.register { ctx ->
 			val camPos = ctx.camera().pos
+			ctx.worldRenderer();
 			ctx.worldRenderer().renderLayer(HexxyDimensionRenderLayer.NATURE,ctx.matrixStack(),camPos.x,camPos.y,camPos.z,ctx.projectionMatrix())
 		}
 

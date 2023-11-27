@@ -3,7 +3,7 @@ package net.walksanator.hexdim
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
+class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int, var height: Int) {
     val openSides: MutableList<RectSideOpen> = mutableListOf(RectSideOpen.Up,RectSideOpen.Down,RectSideOpen.Left,RectSideOpen.Right)
 
     fun isOverlap(other: Rectangle): Boolean {
@@ -35,7 +35,7 @@ class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
                 RectSideOpen.Left -> Pair(x-target.first,y)
                 RectSideOpen.Right -> Pair(x+w,y)
             }
-            val newRect = Rectangle(xy.first,xy.second,target.first,target.second)
+            val newRect = Rectangle(xy.first,xy.second,target.first,target.second,0)
             if (!newRect.isOverlap(all)) {
                 locations.add(xy)
             }
@@ -45,7 +45,7 @@ class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
                 RectSideOpen.Up -> Pair(x,y-minimum.second)
                 RectSideOpen.Left -> Pair(x-minimum.first,y)
             }
-            val testRect = Rectangle(testPos.first,testPos.second,minimum.first,minimum.second)
+            val testRect = Rectangle(testPos.first,testPos.second,minimum.first,minimum.second,0)
             if (testRect.isOverlap(all)) {
                 toClose.add(side) // there is not enough space for even the "minimum" so mark it as dead
             }
@@ -58,21 +58,27 @@ class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
     }
 }
 
-fun addRectangle(wh: Pair<Int,Int>, open: MutableList<Rectangle>, all:MutableList<Rectangle>, target: Pair<Int,Int>, minimum: Pair<Int, Int>): Boolean {
+fun addRectangle(wh: Pair<Int,Int>, height: Int, storage: HexxyDimStorage, target: Pair<Int,Int>, minimum: Pair<Int, Int>): Boolean {
+    val all = storage.all
+    val open = storage.open
     if (all.isEmpty()) {//this is the first rectangle. it gets 0,0 no contest
-        val newRect = Rectangle(0,0,wh.first,wh.second)
+        val newRect = Rectangle(0,0,wh.first,wh.second,height)
         all.add(newRect)
         open.add(newRect)
         return true
     }
     val possibilities = ArrayList<Pair<Int,Int>>()
+    val toClose: ArrayList<Rectangle> = ArrayList()
     for (rect in open) {
         val poss = rect.getPossibleSections(wh,all,minimum)
         if (poss.remove) {
-            open.remove(rect)
+            toClose.add(rect)
         } else {
             possibilities.addAll(poss.points)
         }
+    }
+    for (rect in toClose) {
+        open.remove(rect)
     }
     if (possibilities.isEmpty()) {
         return false
@@ -82,7 +88,7 @@ fun addRectangle(wh: Pair<Int,Int>, open: MutableList<Rectangle>, all:MutableLis
                 (it.second - target.second).toDouble().pow(2)
     ) }
     val newPos = possibilities.first()
-    val newRect = Rectangle(newPos.first,newPos.second,wh.first,wh.second)
+    val newRect = Rectangle(newPos.first,newPos.second,wh.first,wh.second,height)
     all.add(newRect)
     open.add(newRect)
     return true

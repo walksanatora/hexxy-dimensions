@@ -8,7 +8,7 @@
 			"features": false,
 			"layers": [
 				{
-					"block": "minecraft:glowstone",
+					"block": "hexdim:skybox",
 					"height": 384
 				}
 			],

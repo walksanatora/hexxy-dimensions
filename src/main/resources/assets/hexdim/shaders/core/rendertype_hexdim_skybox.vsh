@@ -15,6 +15,7 @@ uniform mat4 ProjMat;
 uniform vec3 ChunkOffset;
 uniform int FogShape;
 
+
 out float vertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;
