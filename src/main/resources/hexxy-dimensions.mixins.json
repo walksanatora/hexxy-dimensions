@@ -3,7 +3,8 @@
 	"package": "net.walksanator.hexdim.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"MixinCastingEnvironment"
 	],
 	"injectors": {
 		"defaultRequire": 1

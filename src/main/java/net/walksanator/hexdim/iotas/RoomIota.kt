@@ -4,15 +4,22 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 
-class RoomIota(private val pay: Pair<Int,Int>) : Iota(TYPE,pay) {
+open class RoomIota(val pay: Pair<Int,Int>) : Iota(TYPE,pay), RoomAccess {
     override fun isTruthy(): Boolean = true
 
+    override fun getRoom(): Pair<Int, Int> = pay
+
+    fun downgradeToEntry(): EntryIota = EntryIota(pay)
+
     override fun toleratesOther(p0: Iota?): Boolean {
-        return if (p0 is RoomIota) {
-            p0.payload == payload
-        } else {
-            false
+        if (p0 != null) {
+            return if (p0.type == TYPE) {
+                (p0 as RoomIota).payload == payload
+            } else {
+                false
+            }
         }
+        return false
     }
 
     override fun serialize(): NbtElement {

@@ -20,6 +20,7 @@ object IotaTypes {
     private val TYPES: MutableMap<Identifier, IotaType<*>> = LinkedHashMap()
 
     val ROOM = type("room",RoomIota.TYPE)
+    val ENTRY = type("entry",EntryIota.TYPE)
 
     private fun <U : Iota, T : IotaType<U>> type(@Suppress("SameParameterValue", "SameParameterValue") name: String, type: T): T {
         val old = TYPES.put(Identifier(HexxyDimensions.MOD_ID, name), type)
