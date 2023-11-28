@@ -14,6 +14,7 @@ import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.casting.HexDimComponents
 import net.walksanator.hexdim.iotas.RoomIota
 import net.walksanator.hexdim.mixin.MixinCastingEnvironment
+import java.util.*
 
 class OpDimExecute(val activate: Boolean) : Action {
     override fun operate(
@@ -22,20 +23,23 @@ class OpDimExecute(val activate: Boolean) : Action {
         continuation: SpellContinuation
     ): OperationResult {
         val stack = image.stack.toMutableList()
-        val room = stack.removeLastOrNull() ?: throw MishapNotEnoughArgs(2,1)
-        if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,1, Text.literal("expected room iota"))}
-
-        return exec((room as RoomIota).pay,env,image,continuation,stack)
+        val room = if (activate) {
+            val room = stack.removeLastOrNull() ?: throw MishapNotEnoughArgs(1,0)
+            if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,1, Text.literal("expected room iota"))}
+            Optional.of((room as RoomIota).pay)
+        } else {
+            Optional.empty()
+        }
+        return exec(room,env,image,continuation,stack)
     }
 
-    private fun exec(roomIdx: Pair<Int,Int>, env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation, stack: MutableList<Iota>): OperationResult {
-        val image2 = image.withUsedOp().copy(stack = stack)
-
-        val storage = HexxyDimensions.STORAGE.get()
-        val room = storage.all[roomIdx.first]
-        if (!room.keyCheck(roomIdx.second)) { return OperationResult(image2, listOf(), continuation, HexEvalSounds.MISHAP) } //TODO: mishap invalid room
-
+    private fun exec(roomOpt: Optional<Pair<Int,Int>>, env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation, stack: MutableList<Iota>): OperationResult {
         if (activate) {
+            val roomIdx = roomOpt.get()
+            val storage = HexxyDimensions.STORAGE.get()
+            val room = storage.all[roomIdx.first]
+            if (!room.keyCheck(roomIdx.second)) { return OperationResult(image, listOf(), continuation, HexEvalSounds.MISHAP) } //TODO: mishap invalid room
+
             val oldWorld = env.world
             (env as MixinCastingEnvironment).setWorld(storage.world)
             env.addExtension(HexDimComponents.VecInRange(oldWorld,room)) //we pass oldWorld here so that we can retrieve it if we de-activate
@@ -47,7 +51,7 @@ class OpDimExecute(val activate: Boolean) : Action {
             (env as MixinCastingEnvironment).setWorld(oldWorld)
         }
 
-        return OperationResult(image2, listOf(), continuation, HexEvalSounds.HERMES)
+        return OperationResult(image, listOf(), continuation, HexEvalSounds.HERMES)
 
     }
 }

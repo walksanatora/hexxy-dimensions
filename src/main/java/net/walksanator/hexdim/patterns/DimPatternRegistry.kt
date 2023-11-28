@@ -25,7 +25,7 @@ object DimPatternRegistry {
     val DIM_TORELATIVE = pattern("adeeda",HexDir.EAST,"dim/rel/to",OpDimRelative(true))
     val DIM_FROMRELATIVE = pattern("daqqad",HexDir.NORTH_EAST,"dim/rel/from",OpDimRelative(false))
     val DIM_ACTIVATE = pattern("deaqqeweeeeewdqdqdqdqdq", HexDir.SOUTH_EAST,"dim/cast/activate", OpDimExecute(true))
-    val DIM_DEACTIVATE = pattern("deaqqeqdqdqdqdqdq",HexDir.EAST, "dim/cast/deactivate", OpDimExecute(false))
+    val DIM_DEACTIVATE = pattern("aqdeeqeaeaeaeaeae",HexDir.SOUTH_WEST, "dim/cast/deactivate", OpDimExecute(false))
 
     fun registerPatterns() {
         val r = BiConsumer { type: ActionRegistryEntry, id: Identifier -> Registry.register(HexActions.REGISTRY, id, type) }
