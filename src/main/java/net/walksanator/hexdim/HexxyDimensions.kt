@@ -60,16 +60,13 @@ object HexxyDimensions : ModInitializer {
             STORAGE = Optional.of(HexxyDimStorage.getServerState(server))
         }
         ServerLifecycleEvents.SERVER_STOPPING.register {
-            if (STORAGE.isPresent) {
-                STORAGE.get().markDirty() // we are shutting down to, so we should prepare to save data
-            }
+            STORAGE.get().markDirty() // we are shutting down to, so we should prepare to save data
         }
 
         CommandRegistrationCallback.EVENT.register { dispatch, _, _ ->
             run {
                 dispatch.register(literal("hexdim")
                     .then(literal("allocate")
-                        .requires { src -> src.hasPermissionLevel(4) }
                         .then(literal("random")
                             .executes {
                                 val w = Random.nextInt(32, 64)
@@ -105,11 +102,11 @@ object HexxyDimensions : ModInitializer {
                         )
                         .then(argument("x", integer(0))
                             .then(argument("y", integer(0))
-                                .then(argument("z", integer(0))
+                                .then(argument("z",integer(0))
                                     .executes {
                                         val w = getInteger(it, "x")
                                         val h = getInteger(it, "z")
-                                        val height = getInteger(it, "y")
+                                        val height = getInteger(it,"y")
                                         val storage = STORAGE.get()
                                         val placed = storage.mallocRoom(Pair(w, h), height)
                                             ?: throw CommandException(
@@ -129,61 +126,20 @@ object HexxyDimensions : ModInitializer {
                         )
                     )
                     .then(literal("query")
-                        .then(literal("carveQueue")
+                        .then(argument("index",integer(0))
                             .executes {
+                                val idx = getInteger(it,"index")
                                 val storage = STORAGE.get()
-                                val indexes = storage.getCarveQueueIdxs()
-                                it.source.sendMessage(
-                                    Text.literal(
-                                        "Rooms that need carving: %s\nx16: %s\nx32: %s\nx64: %s\nx128: %s".format(
-                                            storage.all.filter {room -> !room.isDone} .map { room -> storage.all.indexOf(room) }.toString(),
-                                            indexes[0],
-                                            indexes[1],
-                                            indexes[2],
-                                            indexes[3],
-                                        )
-                                    )
-                                )
-                                1
-                            }
-                        )
-                        .then(argument("index", integer(0))
-                            .executes {
-                                val idx = getInteger(it, "index")
-                                val storage = STORAGE.get()
-                                if (idx >= storage.all.size) {
-                                    it.source.sendError(
-                                        Text.literal(
-                                            "index is out of bounds range 0..%s".format(
-                                                storage.all.size
-                                            )
-                                        )
-                                    )
+                                if (idx >= storage.all.size ) {
+                                    it.source.sendError(Text.literal("index is out of bounds range 0..%s".format(storage.all.size)))
                                 } else {
                                     val room = storage.all[idx]
                                     val rect = room.rect
                                     val rect2 = room.internalToRect()
                                     it.source.sendMessage(Text.literal("Information for room: %s".format(idx)))
-                                    it.source.sendMessage(
-                                        Text.literal(
-                                            "Perimeter: (xywh) %s, %s, %s, %s".format(
-                                                rect.x,
-                                                rect.y,
-                                                rect.w,
-                                                rect.h
-                                            )
-                                        )
-                                    )
-                                    it.source.sendMessage(
-                                        Text.literal(
-                                            "Room Size: (xyz) %s, %s, %s,".format(
-                                                room.getW(),
-                                                room.height,
-                                                room.getH()
-                                            )
-                                        )
-                                    )
-                                    it.source.sendMessage(Text.literal("Carved?: %s".format(room.isDone)))
+                                    it.source.sendMessage(Text.literal("Perimeter: (xywh) %s, %s, %s, %s".format(rect.x,rect.y,rect.w,rect.h)))
+                                    it.source.sendMessage(Text.literal("Internal: (xywh) %s, %s, %s, %s".format(rect2.x,rect2.y,rect2.w,rect2.h)))
+                                    it.source.sendMessage(Text.literal("InternalHeight: %s".format(room.height)))
                                 }
 
                                 1
@@ -191,117 +147,65 @@ object HexxyDimensions : ModInitializer {
                         )
                         .executes {
                             val storage = STORAGE.get()
-                            it.source.sendMessage(Text.literal("Room Stats,\n allocated: %s\n open: %s\n free: %s\n toCarve: %s".format(
-                                storage.all.size, storage.open.size, storage.free.size,
-                                storage.all.filter { room -> !room.isDone }.size
+                            it.source.sendMessage(Text.literal("there are currently %s rooms allocated with %s being open and %s being free".format(
+                                storage.all.size,storage.open.size,storage.free.size
                             )))
                             1
                         }
                     )
                     .then(literal("warp")
                         .requires { src -> src.hasPermissionLevel(4) }
-                        .then(argument("index", integer(0))
+                        .then(argument("index",integer(0))
                             .executes {
-                                val idx = getInteger(it, "index")
+                                val idx = getInteger(it,"index")
                                 val storage = STORAGE.get()
-                                if (idx >= storage.all.size) {
-                                    it.source.sendError(
-                                        Text.literal(
-                                            "index is out of bounds range 0..%s".format(
-                                                storage.all.size
-                                            )
-                                        )
-                                    )
+                                if (idx >= storage.all.size ) {
+                                    it.source.sendError(Text.literal("index is out of bounds range 0..%s".format(storage.all.size)))
                                 } else {
+
                                     val room = storage.all[idx]
                                     val ent = it.source.entity!!
-                                    FabricDimensions.teleport(
-                                        ent, storage.world, TeleportTarget(
-                                            Vec3d(
-                                                room.getX().toDouble() + 0.5,
-                                                0.0,
-                                                room.getY().toDouble() + 0.5
-                                            ),
-                                            Vec3d.ZERO,
-                                            0F, 0F
-                                        )
-                                    )
+                                    FabricDimensions.teleport(ent,storage.world, TeleportTarget(
+                                        Vec3d(
+                                            (room.getX().toDouble() + (room.getW().toDouble()/2)),
+                                            room.height.toDouble()/2,
+                                            (room.getY().toDouble() + (room.getH().toDouble()/2))
+                                        ),
+                                        Vec3d.ZERO,
+                                        0F,0F
+                                    ))
                                 }
                                 1
                             }
                         )
                     )
                     .then(literal("dump")
-                        .requires { src -> src.hasPermissionLevel(4) }
-                        .then(argument("idx", integer(0))
+                        .then(argument("idx",integer(0))
                             .executes {
-                                val idx = getInteger(it, "idx")
+                                val idx = getInteger(it,"idx")
                                 val storage = STORAGE.get()
-                                if (idx >= storage.all.size) {
-                                    it.source.sendError(
-                                        Text.literal(
-                                            "index is out of bounds range 0..%s".format(
-                                                storage.all.size
-                                            )
-                                        )
-                                    )
+                                if (idx >= storage.all.size ) {
+                                    it.source.sendError(Text.literal("index is out of bounds range 0..%s".format(storage.all.size)))
                                 } else {
                                     val plr = (it.source.entity!! as PlayerEntity)
                                     val hand = plr.mainHandStack;
                                     if (hand.item is IotaHolderItem) {
                                         (hand.item as IotaHolderItem).writeDatum(
                                             hand,
-                                            RoomIota(Pair(idx, storage.all[idx].key!!))
+                                            RoomIota(Pair(idx,storage.all[idx].key!!))
                                         )
                                     } else {
                                         val ohand = plr.offHandStack
                                         if (ohand.item is IotaHolderItem) {
                                             (ohand.item as IotaHolderItem).writeDatum(
                                                 hand,
-                                                RoomIota(Pair(idx, storage.all[idx].key!!))
+                                                RoomIota(Pair(idx,storage.all[idx].key!!))
                                             )
                                         }
                                     }
                                 }
                                 1
                             }
-                        )
-                    )
-                    .then(literal("queue")
-                        .requires { src -> src.hasPermissionLevel(4) }
-                        .then(literal("restart")
-                            .executes {
-                                val storage = STORAGE.get()
-                                storage.restartQueueJobs()
-                                1
-                            }
-                        )
-                        .then(literal("recarve")
-                            .requires { src -> src.hasPermissionLevel(4) }
-                            .then(argument("index", integer(0))
-                                .executes {
-                                    try {
-                                        val idx = getInteger(it, "index")
-                                        val storage = STORAGE.get()
-                                        if (idx >= storage.all.size) {
-                                            it.source.sendError(
-                                                Text.literal(
-                                                    "index is out of bounds range 0..%s".format(
-                                                        storage.all.size
-                                                    )
-                                                )
-                                            )
-                                        } else {
-                                            val room = storage.all[idx]
-                                            room.isDone = false
-                                            storage.enqueRoomCarving(room)
-                                        }
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
-                                    1
-                                }
-                            )
                         )
                     )
                 )
