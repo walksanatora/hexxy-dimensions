@@ -28,7 +28,7 @@ class HexDimComponents {
     companion object {
         fun withinRoom(room: Room, pos: Vec3d): Boolean {
             val withinX = room.getX() <= pos.x && pos.x <= room.getX() + room.getW()
-            val withinY = pos.x >= room.height
+            val withinY = pos.x <= room.height
             val withinZ = room.getY() <= pos.z && pos.z <= room.getY() + room.getH()
             return withinX && withinY && withinZ
         }
