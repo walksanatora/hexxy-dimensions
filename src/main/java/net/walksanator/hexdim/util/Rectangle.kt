@@ -69,7 +69,7 @@ fun addRectangle(wh: Pair<Int,Int>, height: Int, storage: HexxyDimStorage, targe
     val open = storage.open
     if (all.isEmpty()) {//this is the first rectangle. it gets 0,0 no contest
         val newRect = Rectangle(0,0,wh.first,wh.second)
-        val room = Room(newRect,height,null)
+        val room = Room(newRect,height,null,false)
         storage.insertRoom(room)
         return true
     }
@@ -97,7 +97,8 @@ fun addRectangle(wh: Pair<Int,Int>, height: Int, storage: HexxyDimStorage, targe
         Room(
             newRect,
             height,
-            null
+            null,
+            false
         )
     )
     return true
