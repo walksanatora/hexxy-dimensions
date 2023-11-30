@@ -50,11 +50,6 @@ object HexxyDimensions : ModInitializer {
 
         Registry.register(Registries.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
         Registry.register(Registries.ITEM, Identifier(MOD_ID, "skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
-        Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
-            Identifier(MOD_ID, "skybox_entity"),
-            BlockRegistry.SKYBOX_ENTITY
-        )
 
         ServerLifecycleEvents.SERVER_STARTED.register { server ->
             STORAGE = Optional.of(HexxyDimStorage.getServerState(server))

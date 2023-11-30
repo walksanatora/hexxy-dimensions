@@ -18,38 +18,47 @@ import net.walksanator.hexdim.casting.HexDimComponents
 class OpBanish : ConstMediaAction {
     override val argc = 1
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
-        val ext =  env.getExtension(HexDimComponents.VecInRange.KEY)
+        val ext = env.getExtension(HexDimComponents.VecInRange.KEY)
         val envEnabled = ext != null
         if (envEnabled) {
             val iota = args[0]
             val world = env.world.server.getWorld(World.OVERWORLD)!!
             if (iota.type == ListIota.TYPE) {
                 val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
-                if (iotas.isEmpty()) {throw MishapInvalidIota(iota,0,Text.literal("List contains no entities"))}
+                if (iotas.isEmpty()) {
+                    throw MishapInvalidIota(iota, 0, Text.literal("List contains no entities"))
+                }
                 for (entity in iotas) {
-                    banish(env, world, (entity as EntityIota).entity)
+                    val target = (entity as EntityIota).entity
+                    env.assertEntityInRange(target)
+                    banish(world, target)
                 }
             } else if (iota.type == EntityIota.TYPE) {
-                banish(env, world, (iota as EntityIota).entity)
-            } else {throw MishapInvalidIota(iota,0, Text.literal("Iota is not a list of entities or entity"))}
+                val target = (iota as EntityIota).entity
+                env.assertEntityInRange(target)
+                banish(world, target)
+            } else {
+                throw MishapInvalidIota(iota, 0, Text.literal("Iota is not a list of entities or entity"))
+            }
         } else {
             throw MishapDisallowedSpell() //TODO: make mishap for not in env
         }
         return listOf()
     }
 
-    private fun banish(env: CastingEnvironment, world: ServerWorld, target: Entity) {
-        env.assertEntityInRange(target)
-        val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
-        FabricDimensions.teleport(
-            target,
-            world,
-            TeleportTarget(
-                pos.toCenterPos(),
-                target.velocity,
-                target.headYaw,
-                target.pitch
+    companion object {
+        fun banish(world: ServerWorld, target: Entity) {
+            val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
+            FabricDimensions.teleport(
+                target,
+                world,
+                TeleportTarget(
+                    pos.toCenterPos(),
+                    target.velocity,
+                    target.headYaw,
+                    target.pitch
+                )
             )
-        )
+        }
     }
 }

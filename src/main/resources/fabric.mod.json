@@ -42,7 +42,7 @@
 		"java": ">=17",
 		"fabric-api": "*",
 		"fabric-language-kotlin": ">=1.9.20",
-		"hexcasting": ">=0.11.1"
+		"hexcasting": ">=0.11.1-7"
 	},
 	"suggests": {
 		"another-mod": "*"
