@@ -3,7 +3,6 @@ package net.walksanator.hexdim.patterns.dim
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import net.minecraft.text.Text
@@ -15,12 +14,12 @@ class OpDimRelative(private val convertTo: Boolean) : ConstMediaAction {
     override val argc = 2
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val input = args[1]
-        if (input.type != Vec3Iota.TYPE) {throw MishapInvalidIota(input,1, Text.literal("expected Vec3 Iota"))}
+        if (input.type != Vec3Iota.TYPE) {throw MishapInvalidIota(input,1, Text.literal("expected Vec3 Iota"))} //TODO: use hexcasting's existing vec3 translation string
         val room = args[0]
-        if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,0,Text.literal("expected Room Iota"))}
+        if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,0,Text.literal("expected Room Iota"))} //TODO: make translation string
         val payload = (room as RoomIota).pay
         val roomInstance = HexxyDimensions.STORAGE.get().all[payload.first]
-        if (!roomInstance.keyCheck(payload.second)) {return listOf(NullIota())} //TODO: make mishap for expired room
+        roomInstance.keyCheck(payload.second) // this mishaps
         val v3 = (input as Vec3Iota).vec3
         return listOf(Vec3Iota(if (convertTo) {
             Vec3d(
