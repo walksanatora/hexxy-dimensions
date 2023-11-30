@@ -1,0 +1,150 @@
+{
+	"name": "hexdim.entry.dim",
+	"category": "hexcasting:patterns/great_spells",
+	"icon": "minecraft:end_portal_frame",
+	"advancement": "hexcasting:root",
+	"sort_num": 1,
+	"read_by_default": true,
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.1"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.2"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/create",
+			"anchor": "hexdim:dim/create",
+			"input": "",
+			"output": "room",
+			"text": "hexdim.page.dim.create"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.create.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/enter",
+			"anchor": "hexdim:dim/enter",
+			"input": "room | entry",
+			"output": "",
+			"text": "hexdim.page.dim.enter"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.enter.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/cast/activate",
+			"anchor": "hexdim:dim/cast/activate",
+			"input": "room",
+			"output": "room",
+			"text": "hexdim.page.dim.cast.activate"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.cast.activate.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/cast/deactivate",
+			"anchor": "hexdim:dim/cast/deactivate",
+			"input": "",
+			"output": "",
+			"text": "hexdim.page.dim.cast.deactivate"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.cast.deactivate.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/kick",
+			"anchor": "hexdim:dim/kick",
+			"input": "entity | [entity]",
+			"output": "",
+			"text": "hexdim.page.dim.kick"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.kick.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/rel/to",
+			"anchor": "hexdim:dim/rel/to",
+			"input": "room, vec3",
+			"output": "vec3",
+			"text": "hexdim.page.dim.rel.to"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.rel.to.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/rel/from",
+			"anchor": "hexdim:dim/rel/from",
+			"input": "room, vec3",
+			"output": "vec3",
+			"text": "hexdim.page.dim.rel.from"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.rel.from.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/downgrade",
+			"anchor": "hexdim:dim/downgrade",
+			"input": "room",
+			"output": "entry",
+			"text": "hexdim.page.dim.downgrade"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.downgrade.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/downgrade/pos",
+			"anchor": "hexdim:dim/downgrade/pos",
+			"input": "room, vec3",
+			"output": "entry",
+			"text": "hexdim.page.dim.downgrade.pos"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.downgrade.pos.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/queue/pos",
+			"anchor": "hexdim:dim/queue/pos",
+			"input": "room",
+			"output": "num, num",
+			"text": "hexdim.page.dim.queue.pos"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.queue.pos.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/carved",
+			"anchor": "hexdim:dim/carved",
+			"input": "room",
+			"output": "bool",
+			"text": "hexdim.page.dim.carved"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.carved.extend"
+		}
+	]
+}

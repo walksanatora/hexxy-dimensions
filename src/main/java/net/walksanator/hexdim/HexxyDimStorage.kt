@@ -173,11 +173,9 @@ class HexxyDimStorage : PersistentState() {
             val storage = HexxyDimStorage()
             val rectangles = nbt.getIntArray("rects")
             for (i in rectangles.chunked(Room.argc)) {
-                storage.all.add(
-                    Room(i)
-                )
+                storage.insertRoom(Room(i))
             }
-            storage.open.addAll(storage.all)
+
             nbt.getIntArray("free").toCollection(storage.free)
 
             storage.enqueRoomCarvings(
