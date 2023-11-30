@@ -3,7 +3,7 @@
 	"hexdim.page.dim.1": "When I saw $(l:greatwork/the_work)IT$().$(br)I realized it could be shaped by my will.$(br)I just need the right $(l:patterns/great_spells/dimension#hexdim:dim/create)pattern$()$(br)There also appear to be a few new mishaps I can encounter. most of them being that the room is not ready yet or was removed",
 	"hexdim.page.dim.2": "Alongside this there appear to be two new Iotas which I have named room and entry$(br)$(li)a $(thing)room/$ Iota appears to give me extensive powers over a domain, and most places that can take entry can take a room in the same place$(li)a $(thing)entry/$ iota though only appears to let me into a room. much safer to give to others",
 
-	"hexcasting.action.hexdim:dim/create": "Everett's Reflection",
+	"hexcasting.action.hexdim:dim/create": "Everett's Exaltation",
 	"hexdim.page.dim.create": "Creates a new room for me",
 	"hexdim.page.dim.create.extend": "$(br)When I first make a room it appears I must wait for it to be \"carved\"$(br)I am unable to do anything practical in the dim until I let nature carve it out.$(br)$(br)Nature appears to put new room creations into 4 queues numbered 0 to 3. They also appear to be sorted based on size with the max side length of the cube doubling in each queue staring at 16",
 
