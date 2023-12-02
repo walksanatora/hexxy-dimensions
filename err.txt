@@ -1,0 +1,66 @@
+  error: subprocess-exited-with-error
+  
+  × Preparing editable metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [51 lines of output]
+      Traceback (most recent call last):
+        File "/home/walksanator/git/projects/hexxy-dimensions/doc/venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 167, in prepare_metadata_for_build_editable
+          hook = backend.prepare_metadata_for_build_editable
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      AttributeError: module 'hatchling.build' has no attribute 'prepare_metadata_for_build_editable'
+      
+      During handling of the above exception, another exception occurred:
+      
+      Traceback (most recent call last):
+        File "/home/walksanator/git/projects/hexxy-dimensions/doc/venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 353, in <module>
+          main()
+        File "/home/walksanator/git/projects/hexxy-dimensions/doc/venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 335, in main
+          json_out['return_val'] = hook(**hook_input['kwargs'])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/home/walksanator/git/projects/hexxy-dimensions/doc/venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 176, in prepare_metadata_for_build_editable
+          whl_basename = build_hook(metadata_directory, config_settings)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatchling/build.py", line 78, in build_editable
+          return os.path.basename(next(builder.build(wheel_directory, ['editable'])))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatchling/builders/plugin/interface.py", line 93, in build
+          self.metadata.validate_fields()
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatchling/metadata/core.py", line 243, in validate_fields
+          _ = self.version
+              ^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatchling/metadata/core.py", line 128, in version
+          self._version = self._get_version()
+                          ^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatchling/metadata/core.py", line 222, in _get_version
+          core_metadata = self.core
+                          ^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatchling/metadata/core.py", line 174, in core
+          metadata_hook.update(self.core_raw_metadata)
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatch_gradle_version/plugins/metadata_hook/base.py", line 35, in update
+          self.parse_dependencies(self.dependencies),
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatch_gradle_version/common/decorators.py", line 13, in wrapper
+          return list(func(*args, **kwargs))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatch_gradle_version/plugins/metadata_hook/base.py", line 58, in parse_dependencies
+          yield self.parse_gradle_dependency(dependency)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatch_gradle_version/plugins/metadata_hook/gradle_properties.py", line 24, in parse_gradle_dependency
+          gradle_version = GradleVersion.from_properties(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/hatch_gradle_version/common/gradle.py", line 47, in from_properties
+          raw_version=str(p[key].data),
+                          ~^^^^^
+        File "/tmp/pip-build-env-rzmjeyji/overlay/lib/python3.11/site-packages/jproperties.py", line 274, in __getitem__
+          raise KeyError("Key not found")
+      KeyError: 'Key not found'
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.

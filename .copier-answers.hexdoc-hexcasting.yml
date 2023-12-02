@@ -1,0 +1,27 @@
+# Changes here will be overwritten by Copier. NEVER EDIT MANUALLY
+# See: https://copier.readthedocs.io/en/stable/configuring/#the-copier-answersyml-file
+_commit: v0.1.8
+_src_path: gh:object-Object/hexdoc-hexcasting-template
+author: walksanatora
+book_id: hexcasting:thehexbook
+default_branch: main
+github_repo: hexxy-dimensions
+gradle_mod_version_key: mod_version
+hexdoc_mod_plugin_classname: HexdimModPlugin
+hexdoc_plugin_classname: HexdimPlugin
+java_lang:
+    ext: kt
+    src: kotlin
+java_package: net/walksanator/hexdim
+mod_display_name: Hexxy Dimensions
+modid: hexdim
+multiloader: false
+package_export_root: doc/src/hexdoc_hexdim/_export
+package_name: hexdoc-hexdim
+package_slug: hexdoc_hexdim
+package_src: doc/src/hexdoc_hexdim
+pages_url: https://walksanatora.github.io/hexxy-dimensions/
+pattern_regex:
+    per_world_value: 'true'
+    regex: make\(\s*"(?P<name>[a-zA-Z0-9_\/]+)",\s*(?:new )?(?:ActionRegistryEntry|OperationAction)\(\s*HexPattern\.fromAngles\(\s*"(?P<signature>[aqweds]+)",\s*HexDir.(?P<startdir>\w+)\)
+pattern_registry: patterns/DimPatternRegistry.kt

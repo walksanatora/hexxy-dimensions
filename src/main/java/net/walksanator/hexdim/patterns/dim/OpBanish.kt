@@ -49,6 +49,7 @@ class OpBanish : ConstMediaAction {
     companion object {
         fun banish(world: ServerWorld, target: Entity) {
             val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
+            target.remove(Entity.RemovalReason.DISCARDED)
             FabricDimensions.teleport(
                 target,
                 world,
