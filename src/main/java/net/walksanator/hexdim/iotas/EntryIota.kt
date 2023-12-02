@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.math.Vec3d
+import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.util.Room
 import java.util.*
 
@@ -16,23 +17,6 @@ class EntryIota(val pay: Pair<Int,Int>) : Iota(TYPE,pay), RoomAccess {
 
     companion object {
         val TYPE = EntryIotaType()
-    }
-
-    override fun modifyTeleportPosition(room: Room, pos: Vec3d): Vec3d {
-        if (offsetPos.isEmpty) {return pos}
-        val offset = offsetPos.get()
-        if (room.getW() >= offset.x+0.5) {
-            if (room.height >= offset.y) {
-                if (room.getH() >= offset.z+0.5) {
-                    return Vec3d(
-                        room.getX() + offset.x+0.5,
-                        offset.y,
-                        room.getY() + offset.z+0.5,
-                    )
-                }
-            }
-        }
-        return pos
     }
 
     override fun isTruthy(): Boolean  = true
@@ -62,5 +46,28 @@ class EntryIota(val pay: Pair<Int,Int>) : Iota(TYPE,pay), RoomAccess {
         return nbt
     }
 
-    override fun getRoom(): Pair<Int, Int> = pay
+    override fun getRoomIndex(): Pair<Int, Int> = pay
+
+    override fun getRoomValue(): Room {
+        val storage = HexxyDimensions.STORAGE.get()
+        val room = storage.all[pay.first]
+        room.keyCheck(pay.second)
+        return room
+    }
+
+    override fun getTeleportPosition(): Vec3d {
+        val room = getRoomValue()
+        val pos = Vec3d(
+            room.getX().toDouble(),
+            room.height.toDouble(),
+            room.getY().toDouble()
+        )
+        return if (offsetPos.isPresent) {
+            val offset = offsetPos.get()
+            pos.add(Vec3d(offset.toVector3f()))
+        } else {
+            pos
+        }
+
+    }
 }

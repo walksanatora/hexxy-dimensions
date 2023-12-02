@@ -40,6 +40,18 @@
 		},
 		{
 			"type": "hexcasting:pattern",
+			"op_id": "hexdim:dim/kidnap",
+			"anchor": "hexdim:dim/kidnap",
+			"input": "room | entry, entity | [entity]",
+			"output": "",
+			"text": "hexdim.page.dim.kidnap"
+		},
+		{
+			"type": "patchouli:text",
+			"text": "hexdim.page.dim.kidnap.extend"
+		},
+		{
+			"type": "hexcasting:pattern",
 			"op_id": "hexdim:dim/cast/activate",
 			"anchor": "hexdim:dim/cast/activate",
 			"input": "room",

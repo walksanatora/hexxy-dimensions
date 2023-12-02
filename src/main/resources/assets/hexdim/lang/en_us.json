@@ -11,6 +11,10 @@
 	"hexdim.page.dim.enter": "Lets actually go there",
 	"hexdim.page.dim.enter.extend": "$(br)Although I cannot enter a room when it is being carved. once it is done I can finally go into it.$(br)I must be careful though because if I use my $(thing)room/$ Iota it will put me into the exact center of the room which could be $(o)problematic$().$(br)luckily I can $(l:patterns/great_spells/dimension#hexdim:dim/downgrade/pos)create a iota$() that will put me at a relative position to a corner",
 
+	"hexcasting.action.hexdim:dim/kidnap": "Everett's Abduction",
+	"hexdim.page.dim.kidnap": "You are going to $(m)Brazil$(), $(m)My Domain$(), $(o)T H E   F U N   Z O N E",
+	"hexdim.page.dim.kidnap.extend": "$(br)It takes my \"Willing\" participants to the room/entry specified. same as if they casted $(l:patterns/great_spells/dimension#hexdim:dim/enter)Everett's Gateway$()$(br)$(o)There is no will save. should probally prepare countermeasures for if I find myself taken$()",
+
 	"hexcasting.action.hexdim:dim/cast/activate": "Everett's Environment",
 	"hexdim.page.dim.cast.activate": "My own personal casting space",
 	"hexdim.page.dim.cast.activate.extend": "$(br)When I cast this it mutates my environment and forces it to cast in the provided $(thing)room/$ giving me full $(thing)ambit/$.$(br)Trying to enter a env while already having one active results in a $(thing)Mishap/$.$(br)My staff appears to actively conflict with the env unless I $(l:patterns/meta#hexcasting:eval)execute it all at once/$",

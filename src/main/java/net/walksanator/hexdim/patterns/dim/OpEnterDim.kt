@@ -19,20 +19,10 @@ class OpEnterDim : ConstMediaAction {
         val target = args[0]
         if (target !is RoomAccess ) { throw MishapInvalidIota(target,0, Text.literal("Expected Room-like Iota")) } //TODO: make translation string
         val storage = HexxyDimensions.STORAGE.get()
-        val payload = (target as RoomAccess).getRoom()
-        val index = payload.first
-        val key = payload.second
-
-        val room = storage.all[index]
-        room.keyCheck(key)
 
         val caster = env.caster ?: return emptyList()
         //TODO: make mishap for environment has no caster
-        val pos = target.modifyTeleportPosition(room,Vec3d(
-            (room.getX().toDouble() + (room.getW().toDouble()/2)),
-            room.height.toDouble()/2,
-            (room.getY().toDouble() + (room.getH().toDouble()/2))
-        ))
+        val pos = target.getTeleportPosition()
         FabricDimensions.teleport(
             caster, storage.world!!,
             TeleportTarget(

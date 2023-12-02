@@ -4,8 +4,7 @@ import net.minecraft.util.math.Vec3d
 import net.walksanator.hexdim.util.Room
 
 interface RoomAccess {
-    fun getRoom(): Pair<Int,Int>
-    fun modifyTeleportPosition(room: Room, pos: Vec3d): Vec3d {
-        return pos
-    }
+    fun getRoomIndex(): Pair<Int,Int>
+    fun getRoomValue(): Room
+    fun getTeleportPosition(): Vec3d
 }
