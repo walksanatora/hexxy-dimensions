@@ -2,6 +2,7 @@ package net.walksanator.hexdim.blocks
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -15,4 +16,7 @@ class SkyboxBlock(settings: Settings) : Block(settings) {
         OpBanish.banish(world.server!!.getWorld(World.OVERWORLD)!!,player) // LET THEM BE FREE
         world.setBlockState(pos,state) //we put the block back where it came from (help me)
     }
+
+    @Deprecated("Deprecated in Java", ReplaceWith("PistonBehavior.BLOCK", "net.minecraft.block.piston.PistonBehavior"))
+    override fun getPistonBehavior(state: BlockState?): PistonBehavior = PistonBehavior.BLOCK
 }

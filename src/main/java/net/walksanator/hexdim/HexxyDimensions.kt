@@ -12,20 +12,18 @@ import net.minecraft.command.CommandException
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item.Settings
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
 import net.walksanator.hexdim.blocks.BlockRegistry
 import net.walksanator.hexdim.iotas.IotaTypes
 import net.walksanator.hexdim.iotas.RoomIota
-import net.walksanator.hexdim.patterns.DimPatternRegistry
 import net.walksanator.hexdim.util.Rectangle
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -45,11 +43,8 @@ object HexxyDimensions : ModInitializer {
         logger.info("Hello Fabric world!")
 
         IotaTypes.registerTypes()
-        DimPatternRegistry.registerPatterns()
-
-
-        Registry.register(Registries.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
-        Registry.register(Registries.ITEM, Identifier(MOD_ID, "skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
+        Registry.register(Registry.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
+        Registry.register(Registry.ITEM, Identifier(MOD_ID, "skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
 
         ServerLifecycleEvents.SERVER_STARTED.register { server ->
             STORAGE = Optional.of(HexxyDimStorage.getServerState(server))

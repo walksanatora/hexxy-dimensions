@@ -1,11 +1,11 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.iota.EntityIota
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.ListIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.spell.ConstMediaAction
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.EntityIota
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.ListIota
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.Entity
 import net.minecraft.text.Text
@@ -16,9 +16,9 @@ import net.walksanator.hexdim.iotas.RoomAccess
 
 class OpKidnap : ConstMediaAction {
     override val argc = 2
-    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val room = args[0]
-        if (room !is RoomAccess) {throw MishapInvalidIota(room,1,Text.literal("expected room-access iota"))} //TODO: make and use a translation string for room-access iota
+        if (room !is RoomAccess) {throw MishapInvalidIota(room,1,Text.literal("expected room-access iota")) } //TODO: make and use a translation string for room-access iota
         val iota = args[1]
         if (iota.type == ListIota.TYPE) {
             val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }

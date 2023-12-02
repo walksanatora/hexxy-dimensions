@@ -1,62 +1,37 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.castables.Action
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.eval.OperationResult
-import at.petrak.hexcasting.api.casting.eval.vm.CastingImage
-import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
-import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
+import at.petrak.hexcasting.api.spell.ConstMediaAction
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.mishaps.MishapDisallowedSpell
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.minecraft.text.Text
 import net.walksanator.hexdim.HexxyDimensions
-import net.walksanator.hexdim.casting.HexDimComponents
 import net.walksanator.hexdim.iotas.RoomIota
-import net.walksanator.hexdim.mixin.MixinCastingEnvironment
-import java.util.*
+import net.walksanator.hexdim.mixin_interface.ICastingContext
 
-class OpDimExecute(val activate: Boolean) : Action {
-    override fun operate(
-        env: CastingEnvironment,
-        image: CastingImage,
-        continuation: SpellContinuation
-    ): OperationResult {
-        val stack = image.stack.toMutableList()
-        val room = if (activate) {
-            val room = stack.removeLastOrNull() ?: throw MishapNotEnoughArgs(1,0)
-            if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,1, Text.literal("expected room iota"))} //TODO: make this a translation string
-            Optional.of((room as RoomIota).pay)
-        } else {
-            Optional.empty()
+class OpDimExecute(private val activate: Boolean) : ConstMediaAction {
+    override val argc: Int
+        get() {
+            return if (activate) {1} else {0}
         }
-        return exec(room,env,image,continuation,stack)
-    }
 
-    private fun exec(roomOpt: Optional<Pair<Int,Int>>, env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation, stack: MutableList<Iota>): OperationResult {
-        val envEnabled = env.getExtension(HexDimComponents.VecInRange.KEY) != null
-        if (activate) {
+    override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
+        val envEnabled = (ctx as ICastingContext).`hexxy_dimensions$isModded`()
+        val storage = HexxyDimensions.STORAGE.get()
+        return if (activate) {
             if (envEnabled) {throw MishapDisallowedSpell()} // TODO: make mishap for allready in env
-            val roomIdx = roomOpt.get()
-            val storage = HexxyDimensions.STORAGE.get()
-            val room = storage.all[roomIdx.first]
-
-            room.keyCheck(roomIdx.second) // this throws a mishap if the key check fails
-
-            val oldWorld = env.world
-            env.addExtension(HexDimComponents.VecInRange(oldWorld,room)) //we pass oldWorld here so that we can retrieve it if we de-activate
-            env.addExtension(HexDimComponents.HasPermissionsAt(room))
-            (env as MixinCastingEnvironment).setWorld(storage.world)
+            val iota = args[0]
+            if (iota.type != RoomIota.TYPE) {throw MishapInvalidIota(iota,0,Text.literal("Room iota"))} //TODO: use a translation string
+            val room = (iota as RoomIota).getRoomValue()
+            ctx.`hexxy_dimensions$setRoom`(room)
+            ctx.`hexxy_dimensions$setWorld`(storage.world)
+            listOf(iota)
         } else {
             if (!envEnabled) {throw MishapDisallowedSpell()} //TODO: make mishap for not in env
-            val oldWorld = env.getExtension(HexDimComponents.VecInRange.KEY)!!.oldWorld
-            env.removeExtension(HexDimComponents.VecInRange.KEY)
-            env.removeExtension(HexDimComponents.HasPermissionsAt.KEY)
-            (env as MixinCastingEnvironment).setWorld(oldWorld)
+            ctx.`hexxy_dimensions$setRoom`(null)
+            ctx.`hexxy_dimensions$setWorld`(null)
+            listOf()
         }
-
-        return OperationResult(image, listOf(), continuation, HexEvalSounds.HERMES)
-
     }
 }

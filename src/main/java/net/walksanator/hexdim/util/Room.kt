@@ -6,7 +6,7 @@ import kotlin.random.Random
 
 class Room(val rect: Rectangle,val height: Int, var key: Int?, var isDone: Boolean) {
     companion object {
-        val argc: Int = 7 //this is the number of args
+        const val ARGC: Int = 7 //this is the number of args
     }
 
     constructor(part: IntArray) : this(

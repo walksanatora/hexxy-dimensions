@@ -3,12 +3,12 @@ package net.walksanator.hexdim
 import net.minecraft.block.Blocks
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.PersistentState
 import net.minecraft.world.chunk.ChunkStatus
 import net.walksanator.hexdim.util.ProcessingQueue
@@ -96,9 +96,9 @@ class HexxyDimStorage : PersistentState() {
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        val rectangles = IntArray(all.size * Room.argc)
+        val rectangles = IntArray(all.size * Room.ARGC)
         for ((idx, rect) in all.withIndex()) {
-            rect.toIntArray().copyInto(rectangles, idx * Room.argc)
+            rect.toIntArray().copyInto(rectangles, idx * Room.ARGC)
         }
         nbt.putIntArray("rects", rectangles)
         nbt.putIntArray("free", free)
@@ -172,7 +172,7 @@ class HexxyDimStorage : PersistentState() {
         fun createFromNBT(nbt: NbtCompound): HexxyDimStorage {
             val storage = HexxyDimStorage()
             val rectangles = nbt.getIntArray("rects")
-            for (i in rectangles.chunked(Room.argc)) {
+            for (i in rectangles.chunked(Room.ARGC)) {
                 storage.insertRoom(Room(i))
             }
 
@@ -187,7 +187,7 @@ class HexxyDimStorage : PersistentState() {
 
         fun getServerState(server: MinecraftServer): HexxyDimStorage {
             // (Note: arbitrary choice to use 'World.OVERWORLD' instead of 'World.END' or 'World.NETHER'.  Any work)
-            val world = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, Identifier("hexdim", "hexdim")))!!
+            val world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, Identifier("hexdim", "hexdim")))!!
             val persistentStateManager = world.persistentStateManager
 
             // The first time the following 'getOrCreate' function is called, it creates a brand new 'StateSaverAndLoader' and

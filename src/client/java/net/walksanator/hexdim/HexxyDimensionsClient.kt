@@ -6,9 +6,11 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.util.Identifier
 import net.walksanator.hexdim.blocks.BlockRegistry
+import net.walksanator.hexdim.mixin.client.WorldRendererInvoker
 import net.walksanator.hexdim.render.HexxyDimensionRenderLayer
 import net.walksanator.hexdim.render.HexxyDimensionShaders
 
@@ -30,8 +32,7 @@ object HexxyDimensionsClient : ClientModInitializer {
 
 		WorldRenderEvents.BEFORE_ENTITIES.register { ctx ->
 			val camPos = ctx.camera().pos
-			ctx.worldRenderer();
-			ctx.worldRenderer().renderLayer(HexxyDimensionRenderLayer.NATURE,ctx.matrixStack(),camPos.x,camPos.y,camPos.z,ctx.projectionMatrix())
+			(ctx.worldRenderer() as WorldRendererInvoker).plzRenderLayer(HexxyDimensionRenderLayer.NATURE,ctx.matrixStack(),camPos.x,camPos.y,camPos.z,ctx.projectionMatrix())
 		}
 
 	}

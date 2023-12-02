@@ -1,11 +1,9 @@
 package net.walksanator.hexdim.render
 
 import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.RenderPhase.*
-import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.VertexFormat.DrawMode
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer
 
 
 class HexxyDimensionRenderLayer {
@@ -17,10 +15,9 @@ class HexxyDimensionRenderLayer {
             256,
             false,
             false,
-            RenderLayer.MultiPhaseParameters.builder().program(
-                ShaderProgram { HexxyDimensionShaders.dimShader }
+            RenderLayer.MultiPhaseParameters.builder().shader(
+                RenderPhase.Shader { HexxyDimensionShaders.dimShader }
             ).build(true)
-        );
-
+        )
     }
 }

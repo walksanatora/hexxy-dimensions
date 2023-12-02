@@ -1,6 +1,6 @@
 package net.walksanator.hexdim.iotas
 
-import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.math.Vec3d
@@ -64,7 +64,7 @@ class EntryIota(val pay: Pair<Int,Int>) : Iota(TYPE,pay), RoomAccess {
         )
         return if (offsetPos.isPresent) {
             val offset = offsetPos.get()
-            pos.add(Vec3d(offset.toVector3f()))
+            pos.add(Vec3d(offset.x,offset.y,offset.z))
         } else {
             pos
         }

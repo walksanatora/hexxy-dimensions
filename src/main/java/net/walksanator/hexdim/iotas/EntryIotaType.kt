@@ -1,6 +1,6 @@
 package net.walksanator.hexdim.iotas
 
-import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.spell.iota.IotaType
 import at.petrak.hexcasting.api.utils.styledWith
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d
 import java.awt.Color
 
 class EntryIotaType : IotaType<EntryIota>() {
-    override fun deserialize(p0: NbtElement?, p1: ServerWorld?): EntryIota? {
+    override fun deserialize(p0: NbtElement?, p1: ServerWorld?): EntryIota {
         val nbt: NbtCompound = (p0 as NbtCompound)
         return if (nbt.getBoolean("doOffset")){
             EntryIota(

@@ -1,10 +1,10 @@
 package net.walksanator.hexdim.iotas
 
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.IotaType
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
-import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import net.walksanator.hexdim.HexxyDimensions
 import java.util.function.BiConsumer
 
@@ -19,10 +19,13 @@ object IotaTypes {
 
     private val TYPES: MutableMap<Identifier, IotaType<*>> = LinkedHashMap()
 
-    val ROOM = type("room",RoomIota.TYPE)
-    val ENTRY = type("entry",EntryIota.TYPE)
+    val ROOM = type("room", RoomIota.TYPE)
+    val ENTRY = type("entry", EntryIota.TYPE)
 
-    private fun <U : Iota, T : IotaType<U>> type(@Suppress("SameParameterValue", "SameParameterValue") name: String, type: T): T {
+    private fun <U : Iota, T : IotaType<U>> type(
+        @Suppress("SameParameterValue", "SameParameterValue") name: String,
+        type: T
+    ): T {
         val old = TYPES.put(Identifier(HexxyDimensions.MOD_ID, name), type)
         require(old == null) { "Typo? Duplicate id $name" }
         return type

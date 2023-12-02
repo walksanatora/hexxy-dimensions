@@ -1,6 +1,6 @@
 package net.walksanator.hexdim.iotas
 
-import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.math.Vec3d

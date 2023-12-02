@@ -1,25 +1,25 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.iota.EntityIota
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.ListIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.spell.ConstMediaAction
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.EntityIota
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.ListIota
+import at.petrak.hexcasting.api.spell.mishaps.MishapDisallowedSpell
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.Entity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
-import net.walksanator.hexdim.casting.HexDimComponents
+import net.walksanator.hexdim.mixin_interface.ICastingContext
 
 class OpBanish : ConstMediaAction {
     override val argc = 1
-    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
-        val ext = env.getExtension(HexDimComponents.VecInRange.KEY)
-        val envEnabled = ext != null
+    override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
+        val envEnabled =(env as ICastingContext).`hexxy_dimensions$isModded`()
         if (envEnabled) {
             val iota = args[0]
             val world = env.world.server.getWorld(World.OVERWORLD)!!
@@ -54,7 +54,11 @@ class OpBanish : ConstMediaAction {
                 target,
                 world,
                 TeleportTarget(
-                    pos.toCenterPos(),
+                    Vec3d(
+                        pos.x.toDouble() + 0.5,
+                        pos.y.toDouble() + 0.5,
+                        pos.z.toDouble() + 0.5
+                    ),
                     target.velocity,
                     target.headYaw,
                     target.pitch

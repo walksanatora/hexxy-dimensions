@@ -32,9 +32,6 @@ repositories {
 		name = "BlameJared's Maven"
 		url = "https://maven.blamejared.com/"
 	}
-	flatDir { // since hex is not on blamejared maven yet.
-		dir 'libs'
-	}
 	maven {
 		name = 'Ladysnake Mods'
 		url = 'https://maven.ladysnake.org/releases'
@@ -46,6 +43,21 @@ repositories {
 	}
 	maven {
 		url "https://squiddev.cc/maven/"
+	}
+	maven {
+		url "https://maven.jamieswhiteshirt.com/libs-release"
+		content {
+			includeGroup "com.jamieswhiteshirt"
+		}
+	}
+	maven { url = "https://mvn.devos.one/snapshots/" }
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
+		name = "Ladysnake Libs"
+		url = 'https://maven.ladysnake.org/releases'
 	}
 }
 
@@ -72,21 +84,20 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
 	//HexCasting (include all files from lib as implementation)
-	modImplementation fileTree(dir: 'lib', include: ['*.jar'])
+	//modImplementation fileTree(dir: 'lib', include: ['*.jar'])
+
+	modImplementation("at.petra-k.hexcasting:hexcasting-fabric-1.19.2:0.10.3") {
+		exclude group: 'vazkii.patchouli', module: 'Patchouli'
+	}
 
 	//patchi
-	modImplementation "vazkii.patchouli:Patchouli:$minecraft_version-82-FABRIC-SNAPSHOT"
+	modImplementation "vazkii.patchouli:Patchouli:$minecraft_version-76-FABRIC-SNAPSHOT"
 
 	//cc api
-	modImplementation "maven.modrinth:cardinal-components-api:HykM2Qyv"
-
-	modImplementation "me.shedaniel.cloth:cloth-config-fabric:11.1.106"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:${project.cca_version}"
+	modImplementation "me.shedaniel.cloth:cloth-config-fabric:8.2.88"
 
 	implementation(include("com.github.LlamaLad7:MixinExtras:0.1.1"))
-
-	modRuntimeOnly "maven.modrinth:ducky-periphs:FYDI2Gut"
-	modRuntimeOnly "maven.modrinth:architectury-api:Sbew3kXe"
-	modRuntimeOnly "cc.tweaked:cc-tweaked-1.20.1-fabric:1.109.0"
 
 	// Uncomment the following line to enable the deprecated Fabric API modules.
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
