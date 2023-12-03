@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier. NEVER EDIT MANUALLY
 # See: https://copier.readthedocs.io/en/stable/configuring/#the-copier-answersyml-file
-_commit: v0.1.8
+_commit: v0.1.10
 _src_path: gh:object-Object/hexdoc-hexcasting-template
 author: walksanatora
 book_id: hexcasting:thehexbook
