@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Hexxy Dimensions Book</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description" content="The Hexxy Dimensions Book, all in one place." />
+      <meta name="author" content="walksanatora" />
+        <link rel="None" type="image/ico" href="favicon.ico" />
+        <link rel="icon" type="image/png" href="favicon-16x16.png" />
+        <link rel="icon" type="image/png" href="favicon-32x32.png" />
+        <link rel="icon" type="image/png" href="favicon-64x64.png" />
+        <link rel="icon" type="image/png" href="favicon-96x96.png" />
+        <link rel="icon" type="image/png" href="favicon-180x180.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-167x167.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-180x180.png" />
+        <link rel="None" type="image/png" href="mstile-70x70.png" />
+        <link rel="None" type="image/png" href="mstile-270x270.png" />
+        <link rel="None" type="image/png" href="mstile-310x310.png" />
+        <link rel="None" type="image/png" href="mstile-310x150.png" />
+        <link rel="shortcut icon" type="image/png" href="favicon-196x196.png" />
+      <link rel="mask-icon" href="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/main/media/safari-pinned-tab.svg" color="#332233">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Hexxy Dimensions Book" />
+<meta property="og:image" content="https://walksanatora.github.io/hexxy-dimensions/v/1.1.0/1.0.dev0/zh_cn/icon.png" />
+<meta property="og:url" content="https://walksanatora.github.io/hexxy-dimensions/v/1.1.0/1.0.dev0/zh_cn" />
+<meta property="og:description" content="The Hexxy Dimensions Book, all in one place." />
+<meta property="og:site_name" content="Hexxy Dimensions (1.1.0)" />
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="index.css">
+      <link rel="stylesheet" href="textures.css">
+      <noscript>
+        <style>
+          /* for accessibility */
+          .spoilered {
+            filter: none !important;
+          }
+        </style>
+      </noscript>
+        <script type="module" src="index.js"></script>
+  <script type="module" src="hexcasting.js"></script>
+  </head>
+  <body>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <!-- toggle and name -->
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        data-toggle="collapse"
+        data-target="#navbar-collapse"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://walksanatora.github.io/hexxy-dimensions">Hexxy Dimensions Book</a>
+    </div>
+    <!-- content -->
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >1.1.0 <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="version-dropdown"></ul>
+        </li>
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >简体中文 (中国大陆) <span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-menu-left" id="lang-dropdown"></ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container" style="margin-top: 3em;">
+  <blockquote>
+    <h1><p>This is the online version of the Hexxy Dimensions documentation.</p></h1>
+    <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
+    <span id="old-version-notice" class="hidden">
+      <br />
+      <p><i>往事犹若异乡；他们在那里做的事情都不一样。</i></p>
+    </span>
+  </blockquote>
+</div>
+<div class="container">
+<div id="table-of-contents"></div>
+<nav class="toc-container">
+  <h2 class="page-header">
+    <span class="nobr">目录<a
+      href="javascript:void(0)"
+      class="permalink toggle-link small"
+      data-target="toc-category"
+      title="显示或收起全部"
+    ><i class="bi bi-list-nested"></i></a><a
+    href="#table-of-contents"
+    class="permalink small toc-permalink"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></span>
+  </h2>
+    <details class="toc-category">
+      <summary><a href="#patterns/great_spells" class="toc-elem "><img
+      title="潮涌能量"
+      alt="潮涌能量"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.20.2/mob_effect/conduit_power.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 卓越法术</a></summary>
+      <ul>
+          <li><a href="#patterns/great_spells/dimension" class="toc-elem "><img
+      title="末地传送门框架"
+      alt="末地传送门框架"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/end_portal_frame.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 咒法维度</a></li>
+      </ul>
+    </details>
+</nav>
+  <main class="book-body">
+<section id="patterns/great_spells">
+    <h2 class="category-title page-header">
+    <img
+      title="潮涌能量"
+      alt="潮涌能量"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.20.2/mob_effect/conduit_power.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >卓越法术<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/great_spells"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>这类法术据信极难施放，但也极为强力。记载它们的文献极为少见（据称理由充分）。这也许只是某些消亡的老古董口中的胡言乱语，不过——它们只是简单的图案罢了。</p><p>试试看又能出什么错呢？</p>
+<div id="patterns/great_spells/dimension" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="末地传送门框架"
+      alt="末地传送门框架"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/end_portal_frame.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >咒法维度<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/great_spells/dimension"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>在看到<a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev21/en_us#greatwork/the_work">那样的事物</a>时。<br />我便意识到，我能随我心意将其塑形。<br />我只是需要正确的<a href="#patterns/great_spells/dimension@hexdim:dim/create">图案</a>。<br />我似乎还会遇到几种新事故，大多数都是因为维室未准备好或是已被移除。<strong>我不应破坏周围的墙壁，不然可能会引起<span style="color: #8d6acc">它们的注意，而它们不喜欢闯入者</span></strong>。</p>
+<br />
+    <p>此外，貌似还有了两种新 iota，我分别称为“维室”和“维径”。</p><p class="fake-li"><span style="color: #8d6acc">维室</span> iota 似乎会给予我对某一领域强大的控制力，且许多需要维径的参数位置送入维室也可以。</p><p class="fake-li"><span style="color: #8d6acc">维径</span> iota 则似乎只能用来进入维室。给别人用就安全多了。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/create">
+<h4 class="pattern-title">埃弗雷特之提整 (num, num, num → room)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/create"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw"
+        data-start="south_west"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw</canvas>
+  </details>
+      <p>为我制造一个新维室。</p>
+  </div>
+<br />
+    <p><br />每次新造维室时，似乎必须先等其“雕琢”完毕。<br />在自然雕琢完毕之前，我无法在其中做任何有实际效果的事。<br /><br />自然会将新造的各维室放入 4 个队列，分别以 0 到 3 标记。且各维室会按最大边长分入这些队列，其中最小为 16，每级队列的最大边长翻倍。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/enter">
+<h4 class="pattern-title">埃弗雷特之门径 (room | entry →)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/enter"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww"
+        data-start="north_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww</canvas>
+  </details>
+      <p>我们动身前往吧。</p>
+  </div>
+<br />
+    <p><br />维室还在雕琢时无法进入，完成后就可直接进去了。<br />然而必须万分小心，如果使用的是自己的<span style="color: #8d6acc">维室</span> iota，则进入点会是整个维室的正中心，可能会带来<i>些许麻烦</i>。<br />不过好在我可以<a href="#patterns/great_spells/dimension@hexdim:dim/downgrade/pos">创造一个 iota</a>，以此按照相对某个角落的位置进入维室。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/kidnap">
+<h4 class="pattern-title">埃弗雷特之劫持 (room | entry, entity | [entity] →)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/kidnap"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aeaeaeaeaeaaedwaq"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：aeaeaeaeaeaaedwaq</canvas>
+  </details>
+      <p>即将前往：<s>巴西</s>，<s>我的领域</s>，<i>欢 乐 的 地 方</i></p>
+  </div>
+<br />
+    <p><br />将那些“心甘情愿”的参与者送入所给维室或维径。就和他们施放了<a href="#patterns/great_spells/dimension@hexdim:dim/enter">埃弗雷特之门径</a>一样。<i>此法术没有效果豁免。最好为我自己被劫持准备些反制手段。</i></p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/cast/activate">
+<h4 class="pattern-title">埃弗雷特之环境 (room → room)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/cast/activate"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="deaqqeweeeeewdqdqdqdqdq"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：deaqqeweeeeewdqdqdqdqdq</canvas>
+  </details>
+      <p>独属我自己的施法空间。</p>
+  </div>
+<br />
+    <p><br />运行此图案时，其会将我的环境变换至所给<span style="color: #8d6acc">维室</span>，并强制法术施放于该维室中，且<span style="color: #8d6acc">影响力</span>囊括整个维室。<br />已在环境中时试图再次进入环境会导致<span style="color: #8d6acc">事故</span>。<br />我的法杖似乎会主动排斥环境，除非<a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev21/en_us#patterns/meta@hexcasting:eval">在同一时刻运行所有</a>事物。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/cast/deactivate">
+<h4 class="pattern-title">埃弗雷特之环境，第二型<a
+    href="#patterns/great_spells/dimension@hexdim:dim/cast/deactivate"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqdeeqeaeaeaeaeae"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：aqdeeqeaeaeaeaeae</canvas>
+  </details>
+      <p>双维度在手</p>
+  </div>
+<br />
+    <p><br />运行此图案时，其会移除<a href="#patterns/great_spells/dimension@hexdim:dim/cast/activate">我环境上的变换</a>。<br />如果需要在当前维度引用数据，并需从个人空间中迅速读取时，这个图案就很有用了。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/kick">
+<h4 class="pattern-title">埃弗雷特之驱逐 (entity | [entity] →)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/kick"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw</canvas>
+  </details>
+      <p>滚  出  去</p>
+  </div>
+<br />
+    <p><br />此图案会将所给的我维室中实体驱逐到主世界。<br />在不处于环境中时，它会导致事故。并且所给实体需处于环境对应的维室中。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/rel/to">
+<h4 class="pattern-title">埃弗雷特相对之纯化 (room, vec3 → vec3)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/rel/to"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="adeeda"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：adeeda</canvas>
+  </details>
+      <p>应该能让事情更简单些。</p>
+  </div>
+<br />
+    <p><br />此图案会将所给位置转换至对所给维室西北角的相对位置。<br /><br />在计算该维室中坐标的时候应该很有用。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/rel/from">
+<h4 class="pattern-title">埃弗雷特相对之纯化，二型 (room, vec3 → vec3)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/rel/from"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="daqqad"
+        data-start="north_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：daqqad</canvas>
+  </details>
+      <p>我能更轻松地访问方块了。</p>
+  </div>
+<br />
+    <p><br />此图案会将对所给维室西北角的相对位置转换至绝对位置。<br /><br />在访问该维室中方块和实体的时候应该很有用。<br />正数指向房间内部。负数则对应着维室之间的“墙壁”。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/downgrade">
+<h4 class="pattern-title">埃弗雷特维室之纯化 (room → entry)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/downgrade"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="awqwawqdqawwwaq"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：awqwawqdqawwwaq</canvas>
+  </details>
+      <p>也算是室友？</p>
+  </div>
+<br />
+    <p><br />此图案会将<span style="color: #8d6acc">维室</span>转变为<span style="color: #8d6acc">维径</span> iota。<br />维径 iota 分享或公开时更安全，使用它的咒术师们在<i>我的</i>维室中没有完整的影响力。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/downgrade/pos">
+<h4 class="pattern-title">埃弗雷特之馏化 (room, vec3 → entry)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/downgrade/pos"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="dewedaewdwewd"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：dewedaewdwewd</canvas>
+  </details>
+      <p>自定义门径位置？</p>
+  </div>
+<br />
+    <p><br />此图案会将<span style="color: #8d6acc">维室</span>转变为<span style="color: #8d6acc">维径</span> iota，并设定一个相对位置。<br />该维径的位置相对点为维室的西北角。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/queue/pos">
+<h4 class="pattern-title">埃弗雷特之拆解 (room → num, num)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/queue/pos"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqwaeaeaeaeaeadwdedqde"
+        data-start="north_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqwaeaeaeaeaeadwdedqde</canvas>
+  </details>
+      <p>我还要等多久？</p>
+  </div>
+<br />
+    <p><br />传入维室时，此图案会返回该维室所处的队列，以及在队列中的位置。<br />第一个数（栈顶）是队列中的位置，为 0 意味着当前正在雕琢它；第二个数是队列的编号（研究表明此数一直处于 0 到 3 之间）。</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/carved">
+<h4 class="pattern-title">埃弗雷特雕琢之纯化 (room → bool)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/carved"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqwaeaeaeaeaeadwaqaeaq"
+        data-start="north_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqwaeaeaeaeaeadwaqaeaq</canvas>
+  </details>
+      <p>我们完成了吗？</p>
+  </div>
+<br />
+    <p><br />检验所给位置是否已雕琢完毕可供使用。</p>
+<br />
+</div>
+</section>
+  </main>
+</div>
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">
+            Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.<br />
+            Minecraft content and materials are the intellectual property of their respective owners.<br />
+            Made with ❤️ using <a href="https://pypi.org/project/hexdoc/" target="_blank">hexdoc</a>
+          </p>
+        </div>
+      </footer>
+  </body>
+</html>
