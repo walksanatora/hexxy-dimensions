@@ -13,7 +13,7 @@ object DimPatternRegistry {
 
 
     //SOUTH_WEST wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw
-    val DIM_CREATE = pattern("wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw",HexDir.SOUTH_WEST,"dim/create",OpCreateDimension()) //
+    val DIM_CREATE = pattern("wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw",HexDir.SOUTH_WEST,"dim/create",OpCreateDimension(),true) //
     val DIM_WARP = pattern("wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww",HexDir.NORTH_EAST,"dim/enter",OpEnterDim()) //
     val DIM_KIDNAP = pattern("aeaeaeaeaeaaedwaq", HexDir.SOUTH_EAST,"dim/kidnap",OpKidnap())
     val DIM_BANISH = pattern("wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw", HexDir.EAST, "dim/kick",OpBanish()) //
@@ -27,6 +27,9 @@ object DimPatternRegistry {
     val DIM_CARVED = pattern("qqqqqwaeaeaeaeaeadwaqaeaq", HexDir.NORTH_WEST, "dim/carved",OpDimCarved()) //
 
     private fun pattern(pat: String, dir: HexDir, name: String, oa: Action) {
-        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, oa.isGreat)
+        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, false)
+    }
+    private fun pattern(pat: String, dir: HexDir, name: String, oa: Action, great: Boolean) {
+        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, great)
     }
 }
