@@ -3,7 +3,7 @@
 	"category": "hexcasting:patterns/great_spells",
 	"icon": "minecraft:end_portal_frame",
 	"advancement": "hexcasting:root",
-	"sort_num": 1,
+	"sortnum": 1,
 	"read_by_default": true,
 	"pages": [
 		{
