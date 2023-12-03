@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Hexxy Dimensions Book</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description" content="The Hexxy Dimensions Book, all in one place." />
+      <meta name="author" content="walksanatora" />
+        <link rel="None" type="image/ico" href="favicon.ico" />
+        <link rel="icon" type="image/png" href="favicon-16x16.png" />
+        <link rel="icon" type="image/png" href="favicon-32x32.png" />
+        <link rel="icon" type="image/png" href="favicon-64x64.png" />
+        <link rel="icon" type="image/png" href="favicon-96x96.png" />
+        <link rel="icon" type="image/png" href="favicon-180x180.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-167x167.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-180x180.png" />
+        <link rel="None" type="image/png" href="mstile-70x70.png" />
+        <link rel="None" type="image/png" href="mstile-270x270.png" />
+        <link rel="None" type="image/png" href="mstile-310x310.png" />
+        <link rel="None" type="image/png" href="mstile-310x150.png" />
+        <link rel="shortcut icon" type="image/png" href="favicon-196x196.png" />
+      <link rel="mask-icon" href="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/main/media/safari-pinned-tab.svg" color="#332233">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Hexxy Dimensions Book" />
+<meta property="og:image" content="https://walksanatora.github.io/hexxy-dimensions/v/latest/main/en_us/icon.png" />
+<meta property="og:url" content="https://walksanatora.github.io/hexxy-dimensions/v/latest/main/en_us" />
+<meta property="og:description" content="The Hexxy Dimensions Book, all in one place." />
+<meta property="og:site_name" content="Hexxy Dimensions (latest/main)" />
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="index.css">
+      <link rel="stylesheet" href="textures.css">
+      <noscript>
+        <style>
+          /* for accessibility */
+          .spoilered {
+            filter: none !important;
+          }
+        </style>
+      </noscript>
+        <script type="module" src="index.js"></script>
+  <script type="module" src="hexcasting.js"></script>
+  </head>
+  <body>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <!-- toggle and name -->
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        data-toggle="collapse"
+        data-target="#navbar-collapse"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://walksanatora.github.io/hexxy-dimensions">Hexxy Dimensions Book</a>
+    </div>
+    <!-- content -->
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >latest/main <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="version-dropdown"></ul>
+        </li>
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >English (United States) <span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-menu-left" id="lang-dropdown"></ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container" style="margin-top: 3em;">
+  <blockquote>
+    <h1><p>This is the online version of the Hexxy Dimensions documentation.</p></h1>
+      <p>This page is built from the latest code on GitHub. It may describe <strong>newer</strong> features that you may not necessarily have, even on the latest Modrinth/CurseForge version!</p>
+    <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
+    <span id="old-version-notice" class="hidden">
+      <br />
+      <p><i>The past is a foreign country; they do things differently there.</i></p>
+    </span>
+  </blockquote>
+</div>
+<div class="container">
+<div id="table-of-contents"></div>
+<nav class="toc-container">
+  <h2 class="page-header">
+    Table of <span class="nobr">Contents<a
+      href="javascript:void(0)"
+      class="permalink toggle-link small"
+      data-target="toc-category"
+      title="Toggle all"
+    ><i class="bi bi-list-nested"></i></a><a
+    href="#table-of-contents"
+    class="permalink small toc-permalink"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></span>
+  </h2>
+    <details class="toc-category">
+      <summary><a href="#patterns/great_spells" class="toc-elem "><img
+      title="Conduit Power"
+      alt="Conduit Power"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.20.2/mob_effect/conduit_power.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > Great Spells</a></summary>
+      <ul>
+          <li><a href="#patterns/great_spells/dimension" class="toc-elem "><img
+      title="End Portal Frame"
+      alt="End Portal Frame"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/end_portal_frame.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Hexxy Dimensions</a></li>
+      </ul>
+    </details>
+</nav>
+  <main class="book-body">
+<section id="patterns/great_spells">
+    <h2 class="category-title page-header">
+    <img
+      title="Conduit Power"
+      alt="Conduit Power"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.20.2/mob_effect/conduit_power.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >Great Spells<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/great_spells"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>The spells catalogued here are purported to be of legendary difficulty and power. They seem to have been recorded only sparsely (for good reason, the texts claim). It&#39;s probably just the ramblings of extinct traditionalists, though -- a pattern&#39;s a pattern.</p><p>What could possibly go wrong?</p>
+<div id="patterns/great_spells/dimension" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="End Portal Frame"
+      alt="End Portal Frame"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/end_portal_frame.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Hexxy Dimensions<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/great_spells/dimension"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>When I saw <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev21/en_us#greatwork/the_work">IT</a>.<br />I realized it could be shaped by my will.<br />I just need the right <a href="#patterns/great_spells/dimension@hexdim:dim/create">pattern</a><br />There also appear to be a few new mishaps I can encounter. most of them being that the room is not ready yet or was removed.<strong>i shouldn&#39;t punch the walls, that may draw <span style="color: #8d6acc">their attention, and they do not like intruders</span></strong></p>
+<br />
+    <p>Alongside this there appear to be two new Iotas which I have named room and entry</p><p class="fake-li">a <span style="color: #8d6acc">room</span> Iota appears to give me extensive powers over a domain, and most places that can take entry can take a room in the same place</p><p class="fake-li">a <span style="color: #8d6acc">entry</span> iota though only appears to let me into a room. much safer to give to others</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/create">
+<h4 class="pattern-title">Everett&#39;s Exaltation (num, num, num → room)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/create"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw"
+        data-start="south_west"
+        data-per-world="True"
+      >Your browser does not support visualizing patterns. Pattern code: wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw</canvas>
+  </details>
+      <p>Creates a new room for me</p>
+  </div>
+<br />
+    <p><br />When I first make a room it appears I must wait for it to be &#34;carved&#34;<br />I am unable to do anything practical in the dim until I let nature carve it out.<br /><br />Nature appears to put new room creations into 4 queues numbered 0 to 3. They also appear to be sorted based on size with the max side length of the cube doubling in each queue staring at 16</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/enter">
+<h4 class="pattern-title">Everett&#39;s Gateway (room | entry →)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/enter"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww"
+        data-start="north_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww</canvas>
+  </details>
+      <p>Lets actually go there</p>
+  </div>
+<br />
+    <p><br />Although I cannot enter a room when it is being carved. once it is done I can finally go into it.<br />I must be careful though because if I use my <span style="color: #8d6acc">room</span> Iota it will put me into the exact center of the room which could be <i>problematic</i>.<br />luckily I can <a href="#patterns/great_spells/dimension@hexdim:dim/downgrade/pos">create a iota</a> that will put me at a relative position to a corner</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/kidnap">
+<h4 class="pattern-title">Everett&#39;s Abduction (room | entry, entity | [entity] →)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/kidnap"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aeaeaeaeaeaaedwaq"
+        data-start="south_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: aeaeaeaeaeaaedwaq</canvas>
+  </details>
+      <p>You are going to <s>Brazil</s>, <s>My Domain</s>, <i>T H E   F U N   Z O N E</i></p>
+  </div>
+<br />
+    <p><br />It takes my &#34;Willing&#34; participants to the room/entry specified. same as if they casted <a href="#patterns/great_spells/dimension@hexdim:dim/enter">Everett&#39;s Gateway</a><i>There is no will save. should probally prepare countermeasures for if I find myself taken</i></p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/cast/activate">
+<h4 class="pattern-title">Everett&#39;s Environment (room → room)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/cast/activate"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="deaqqeweeeeewdqdqdqdqdq"
+        data-start="south_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: deaqqeweeeeewdqdqdqdqdq</canvas>
+  </details>
+      <p>My own personal casting space</p>
+  </div>
+<br />
+    <p><br />When I cast this it mutates my environment and forces it to cast in the provided <span style="color: #8d6acc">room</span> giving me full <span style="color: #8d6acc">ambit</span>.<br />Trying to enter a env while already having one active results in a <span style="color: #8d6acc">Mishap</span>.<br />My staff appears to actively conflict with the env unless I <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev21/en_us#patterns/meta@hexcasting:eval">execute it all at once</a></p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/cast/deactivate">
+<h4 class="pattern-title">Everett&#39;s Environment II<a
+    href="#patterns/great_spells/dimension@hexdim:dim/cast/deactivate"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqdeeqeaeaeaeaeae"
+        data-start="south_west"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: aqdeeqeaeaeaeaeae</canvas>
+  </details>
+      <p>Look Ma two dimensions</p>
+  </div>
+<br />
+    <p><br />When I cast this it removes <a href="#patterns/great_spells/dimension@hexdim:dim/cast/activate">the mutation to my environment</a>.<br />This can be usefull for if I want to refrence data in my current dimension and then swap to read something really quick from my personal space</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/kick">
+<h4 class="pattern-title">Everett&#39;s Expulsion (entity | [entity] →)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/kick"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw"
+        data-start="east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw</canvas>
+  </details>
+      <p>G E T   O U T</p>
+  </div>
+<br />
+    <p><br />This expels entities to the overworld that I pass into it from my room.<br />It mishaps when I am not running in a environment though. And the entities have to be within the room the env is bound to</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/rel/to">
+<h4 class="pattern-title">Everett&#39;s Relative Prfn. (room, vec3 → vec3)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/rel/to"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="adeeda"
+        data-start="east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: adeeda</canvas>
+  </details>
+      <p>This should make things easier</p>
+  </div>
+<br />
+    <p><br />This pattern when given a room converts a position to a be relative to the North West corner of the room.<br /><br />It should be fairly usefull when making cordinates in this room</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/rel/from">
+<h4 class="pattern-title">Everett&#39;s Relative Prfn. II (room, vec3 → vec3)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/rel/from"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="daqqad"
+        data-start="north_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: daqqad</canvas>
+  </details>
+      <p>I can access blocks easier</p>
+  </div>
+<br />
+    <p><br />This pattern when given a room converts a position from a relative to North West corner<br /><br />It should be fairly usefull when accessing block/entities within this room.<br />Only Positive numbers lead into the room. negative numbers lead into the &#34;wall&#34; between rooms</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/downgrade">
+<h4 class="pattern-title">Everett&#39;s Room Prfn. (room → entry)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/downgrade"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="awqwawqdqawwwaq"
+        data-start="south_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: awqwawqdqawwwaq</canvas>
+  </details>
+      <p>Roommates perhaps?</p>
+  </div>
+<br />
+    <p><br />This allows me to turn a <span style="color: #8d6acc">room</span> into a <span style="color: #8d6acc">entry</span> Iota<br />A entry iota is safer for me to share or make public since it wont allow my peers to cast with full ambit in <i>my</i> room</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/downgrade/pos">
+<h4 class="pattern-title">Everett&#39;s Distl. (room, vec3 → entry)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/downgrade/pos"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="dewedaewdwewd"
+        data-start="east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: dewedaewdwewd</canvas>
+  </details>
+      <p>Custom door location?</p>
+  </div>
+<br />
+    <p><br />This allows me to turn a <span style="color: #8d6acc">room</span> into a <span style="color: #8d6acc">entry</span> Iota and give it a relative position.<br />This entry iota&#39;s Position is relative to the North West corner of my room</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/queue/pos">
+<h4 class="pattern-title">Everett&#39;s Decomp. (room → num, num)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/queue/pos"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqwaeaeaeaeaeadwdedqde"
+        data-start="north_west"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: qqqqqwaeaeaeaeaeadwdedqde</canvas>
+  </details>
+      <p>How much longer must I wait</p>
+  </div>
+<br />
+    <p><br />When I give it a room it will tell me both what queue it is in, and it&#39;s position in that queue.<br />The first number (top of stack) is position in queue with zero meaning it is carving right now, The second number is the queue it is in (and from research always is within 0 to 3)</p>
+<br />
+  <div id="patterns/great_spells/dimension@hexdim:dim/carved">
+<h4 class="pattern-title">Everett&#39;s Carving Prfn. (room → bool)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/carved"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqwaeaeaeaeaeadwaqaeaq"
+        data-start="north_west"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: qqqqqwaeaeaeaeaeadwaqaeaq</canvas>
+  </details>
+      <p>Are we done yet</p>
+  </div>
+<br />
+    <p><br />It takes the room and tells me if it is carved and able to be used.</p>
+<br />
+</div>
+</section>
+  </main>
+</div>
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">
+            Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.<br />
+            Minecraft content and materials are the intellectual property of their respective owners.<br />
+            Made with ❤️ using <a href="https://pypi.org/project/hexdoc/" target="_blank">hexdoc</a>
+          </p>
+        </div>
+      </footer>
+  </body>
+</html>
