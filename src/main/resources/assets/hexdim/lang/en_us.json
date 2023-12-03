@@ -5,11 +5,11 @@
 
 	"hexcasting.action.hexdim:dim/create": "Everett's Exaltation",
 	"hexdim.page.dim.create": "Creates a new room for me",
-	"hexdim.page.dim.create.extend": "$(br)When I first make a room it appears I must wait for it to be \"carved\"$(br)I am unable to do anything practical in the dim until I let nature carve it out.$(br)$(br)Nature appears to put new room creations into 4 queues numbered 0 to 3. They also appear to be sorted based on size with the max side length of the cube doubling in each queue staring at 16",
+	"hexdim.page.dim.create.extend": "$(br)When I first make a room it appears I must wait for it to be \"carved\"$(br)I am unable to do anything practical in the dim until I let nature carve it out.$(br)$(br)Nature appears to put new room creations into 4 queues numbered 0 to 3. They also appear to be sorted based on size with the max side length of the cube doubling in each queue staring at 16, cost 1/2 a $(l:greatwork/quenching_allays)quenched allay$() per block",
 
 	"hexcasting.action.hexdim:dim/enter": "Everett's Gateway",
 	"hexdim.page.dim.enter": "Lets actually go there",
-	"hexdim.page.dim.enter.extend": "$(br)Although I cannot enter a room when it is being carved. once it is done I can finally go into it.$(br)I must be careful though because if I use my $(thing)room/$ Iota it will put me into the exact center of the room which could be $(o)problematic$().$(br)luckily I can $(l:patterns/great_spells/dimension#hexdim:dim/downgrade/pos)create a iota$() that will put me at a relative position to a corner",
+	"hexdim.page.dim.enter.extend": "$(br)Although I cannot enter a room when it is being carved. once it is done I can finally go into it.$(br)I must be careful though because if I use my $(thing)room/$ Iota it will put me into the exact center of the room which could be $(o)problematic$().$(br)luckily I can $(l:patterns/great_spells/dimension#hexdim:dim/downgrade/pos)create a iota$() that will put me at a relative position to a corner.$(br)Cost 1 amethyst shard",
 
 	"hexcasting.action.hexdim:dim/kidnap": "Everett's Abduction",
 	"hexdim.page.dim.kidnap": "You are going to $(m)Brazil$(), $(m)My Domain$(), $(o)T H E   F U N   Z O N E",
