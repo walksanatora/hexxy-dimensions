@@ -3,12 +3,15 @@
   "values": [
     "hexdim:dim/create",
     "hexdim:dim/enter",
+    "hexdim:dim/kidnap",
     "hexdim:dim/kick",
     "hexdim:dim/downgrade",
     "hexdim:dim/downgrade/pos",
     "hexdim:dim/rel/to",
     "hexdim:dim/rel/from",
     "hexdim:dim/cast/activate",
-    "hexdim:dim/cast/deactivate"
+    "hexdim:dim/cast/deactivate",
+    "hexdim:dim/queue/pos",
+    "hexdim:dim/carved"
   ]
 }
