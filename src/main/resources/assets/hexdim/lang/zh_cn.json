@@ -1,0 +1,53 @@
+{
+	"hexdim.entry.dim": "咒法维度",
+	"hexdim.page.dim.1": "在看到$(l:greatwork/the_work)那样的事物$()时。$(br)我便意识到，我能随我心意将其塑形。$(br)我只是需要正确的$(l:patterns/great_spells/dimension#hexdim:dim/create)图案$()。$(br)我似乎还会遇到几种新事故，大多数都是因为维室未准备好或是已被移除。$(br)$(l)我不应破坏周围的墙壁，不然可能会引起$(thing)它们的注意，而它们不喜欢闯入者$()。",
+	"hexdim.page.dim.2": "此外，貌似还有了两种新 iota，我分别称为“维室”和“维径”。$(br)$(li)$(thing)维室/$ iota 似乎会给予我对某一领域强大的控制力，且许多需要维径的参数位置送入维室也可以。$(li)$(thing)维径/$ iota 则似乎只能用来进入维室。给别人用就安全多了。",
+
+	"hexcasting.action.hexdim:dim/create": "埃弗雷特之提整",
+	"hexdim.page.dim.create": "为我制造一个新维室。",
+	"hexdim.page.dim.create.extend": "$(br)每次新造维室时，似乎必须先等其“雕琢”完毕。$(br)在自然雕琢完毕之前，我无法在其中做任何有实际效果的事。$(br)$(br)自然会将新造的各维室放入 4 个队列，分别以 0 到 3 标记。且各维室会按最大边长分入这些队列，其中最小为 16，每级队列的最大边长翻倍。",
+
+	"hexcasting.action.hexdim:dim/enter": "埃弗雷特之门径",
+	"hexdim.page.dim.enter": "我们动身前往吧。",
+	"hexdim.page.dim.enter.extend": "$(br)维室还在雕琢时无法进入，完成后就可直接进去了。$(br)然而必须万分小心，如果使用的是自己的$(thing)维室/$ iota，则进入点会是整个维室的正中心，可能会带来$(o)些许麻烦$()。$(br)不过好在我可以$(l:patterns/great_spells/dimension#hexdim:dim/downgrade/pos)创造一个 iota$()，以此按照相对某个角落的位置进入维室。",
+
+	"hexcasting.action.hexdim:dim/kidnap": "埃弗雷特之劫持",
+	"hexdim.page.dim.kidnap": "即将前往：$(m)巴西$()，$(m)我的领域$()，$(o)欢 乐 的 地 方",
+	"hexdim.page.dim.kidnap.extend": "$(br)将那些“心甘情愿”的参与者送入所给维室或维径。就和他们施放了$(l:patterns/great_spells/dimension#hexdim:dim/enter)埃弗雷特之门径$()一样。$(br)$(o)此法术没有效果豁免。最好为我自己被劫持准备些反制手段。$()",
+
+	"hexcasting.action.hexdim:dim/cast/activate": "埃弗雷特之环境",
+	"hexdim.page.dim.cast.activate": "独属我自己的施法空间。",
+	"hexdim.page.dim.cast.activate.extend": "$(br)运行此图案时，其会将我的环境变换至所给$(thing)维室/$，并强制法术施放于该维室中，且$(thing)影响力/$囊括整个维室。$(br)已在环境中时试图再次进入环境会导致$(thing)事故/$。$(br)我的法杖似乎会主动排斥环境，除非$(l:patterns/meta#hexcasting:eval)在同一时刻运行所有/$事物。",
+
+	"hexcasting.action.hexdim:dim/cast/deactivate": "埃弗雷特之环境，第二型",
+	"hexdim.page.dim.cast.deactivate": "双维度在手",
+	"hexdim.page.dim.cast.deactivate.extend": "$(br)运行此图案时，其会移除$(l:patterns/great_spells/dimension#hexdim:dim/cast/activate)我环境上的变换$()。$(br)如果需要在当前维度引用数据，并需从个人空间中迅速读取时，这个图案就很有用了。",
+
+	"hexcasting.action.hexdim:dim/kick": "埃弗雷特之驱逐",
+	"hexdim.page.dim.kick": "滚  出  去",
+	"hexdim.page.dim.kick.extend": "$(br)此图案会将所给的我维室中实体驱逐到主世界。$(br)在不处于环境中时，它会导致事故。并且所给实体需处于环境对应的维室中。",
+
+	"hexcasting.action.hexdim:dim/rel/to": "埃弗雷特相对之纯化",
+	"hexdim.page.dim.rel.to": "应该能让事情更简单些。",
+	"hexdim.page.dim.rel.to.extend": "$(br)此图案会将所给位置转换至对所给维室西北角的相对位置。$(br)$(br)在计算该维室中坐标的时候应该很有用。",
+
+	"hexcasting.action.hexdim:dim/rel/from": "埃弗雷特相对之纯化，二型",
+	"hexdim.page.dim.rel.from": "我能更轻松地访问方块了。",
+	"hexdim.page.dim.rel.from.extend": "$(br)此图案会将对所给维室西北角的相对位置转换至绝对位置。$(br)$(br)在访问该维室中方块和实体的时候应该很有用。$(br)正数指向房间内部。负数则对应着维室之间的“墙壁”。",
+
+	"hexcasting.action.hexdim:dim/downgrade": "埃弗雷特维室之纯化",
+	"hexdim.page.dim.downgrade": "也算是室友？",
+	"hexdim.page.dim.downgrade.extend": "$(br)此图案会将$(thing)维室/$转变为$(thing)维径/$ iota。$(br)维径 iota 分享或公开时更安全，使用它的咒术师们在$(o)我的/$维室中没有完整的影响力。",
+
+	"hexcasting.action.hexdim:dim/downgrade/pos": "埃弗雷特之馏化",
+	"hexdim.page.dim.downgrade.pos": "自定义门径位置？",
+	"hexdim.page.dim.downgrade.pos.extend": "$(br)此图案会将$(thing)维室/$转变为$(thing)维径/$ iota，并设定一个相对位置。$(br)该维径的位置相对点为维室的西北角。",
+
+	"hexcasting.action.hexdim:dim/queue/pos": "埃弗雷特之拆解",
+	"hexdim.page.dim.queue.pos": "我还要等多久？",
+	"hexdim.page.dim.queue.pos.extend": "$(br)传入维室时，此图案会返回该维室所处的队列，以及在队列中的位置。$(br)第一个数（栈顶）是队列中的位置，为 0 意味着当前正在雕琢它；第二个数是队列的编号（研究表明此数一直处于 0 到 3 之间）。",
+
+	"hexcasting.action.hexdim:dim/carved": "埃弗雷特雕琢之纯化",
+	"hexdim.page.dim.carved": "我们完成了吗？",
+	"hexdim.page.dim.carved.extend": "$(br)检验所给位置是否已雕琢完毕可供使用。"
+}
