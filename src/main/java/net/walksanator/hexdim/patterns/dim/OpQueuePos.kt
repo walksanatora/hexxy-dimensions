@@ -12,6 +12,7 @@ import net.walksanator.hexdim.iotas.RoomIota
 
 class OpQueuePos : ConstMediaAction {
     override val argc = 1
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val iota = args[0]
         if (iota.type != RoomIota.TYPE) {throw MishapInvalidIota(iota,0, Text.literal("Room Iota")) } //TODO: make a translation string for room iota

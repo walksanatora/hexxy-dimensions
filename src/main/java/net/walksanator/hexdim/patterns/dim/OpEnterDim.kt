@@ -15,6 +15,7 @@ import net.walksanator.hexdim.iotas.RoomAccess
 class OpEnterDim : ConstMediaAction {
     override val argc = 1
     override val mediaCost: Int = MediaConstants.SHARD_UNIT
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val target = args[0]
         if (target !is RoomAccess ) { throw MishapInvalidIota(target,0, Text.literal("Expected Room-like Iota")) } //TODO: make translation string

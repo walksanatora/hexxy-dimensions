@@ -27,6 +27,6 @@ object DimPatternRegistry {
     val DIM_CARVED = pattern("qqqqqwaeaeaeaeaeadwaqaeaq", HexDir.NORTH_WEST, "dim/carved",OpDimCarved()) //
 
     private fun pattern(pat: String, dir: HexDir, name: String, oa: Action) {
-        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa)
+        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, oa.isGreat)
     }
 }

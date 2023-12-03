@@ -15,7 +15,7 @@ class OpDimExecute(private val activate: Boolean) : ConstMediaAction {
         get() {
             return if (activate) {1} else {0}
         }
-
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val envEnabled = (ctx as ICastingContext).`hexxy_dimensions$isModded`()
         val storage = HexxyDimensions.STORAGE.get()

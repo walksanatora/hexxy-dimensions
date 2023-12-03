@@ -299,34 +299,3 @@ object HexxyDimensions : ModInitializer {
         }
     }
 }
-
-fun fillAreaWithBlock(world: World, start: Pair<Int, Int>, end: Pair<Int, Int>, y: Int, block: Block) {
-    for (x in start.first until end.first) {
-        for (z in start.second until end.second) {
-            world.setBlockState(BlockPos(x, y, z), block.defaultState, 3) // Use 3 for block update
-        }
-    }
-}
-
-fun outlineRectangle(world: World, rectangle: Rectangle, yLevel: Int, block: Block) {
-    for (x in rectangle.x until rectangle.x + rectangle.w) {
-        world.setBlockState(BlockPos(x, yLevel, rectangle.y), block.defaultState, 3)
-        world.setBlockState(BlockPos(x, yLevel, rectangle.y + rectangle.h - 1), block.defaultState, 3)
-    }
-
-    for (z in rectangle.y until rectangle.y + rectangle.h) {
-        world.setBlockState(BlockPos(rectangle.x, yLevel, z), block.defaultState, 3)
-        world.setBlockState(BlockPos(rectangle.x + rectangle.w - 1, yLevel, z), block.defaultState, 3)
-    }
-}
-
-fun findRectangle(pointX: Int, pointY: Int, rectangles: List<Rectangle>): Rectangle {
-    for (rectangle in rectangles) {
-        if (pointX in rectangle.x until (rectangle.x + rectangle.w) &&
-            pointY in rectangle.y until (rectangle.y + rectangle.h)
-        ) {
-            return rectangle
-        }
-    }
-    return rectangles[0]
-}

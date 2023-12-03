@@ -7,12 +7,15 @@ import at.petrak.hexcasting.api.spell.iota.DoubleIota
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.minecraft.text.Text
-import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.casting.VarMediaOutputAction
 import net.walksanator.hexdim.iotas.RoomIota
+import net.walksanator.hexdim.HexxyDimensions
 
 class OpCreateDimension : VarMediaOutputAction {
     override val argc: Int = 3
+
+    override val causesBlindDiversion: Boolean = true
+    override val isGreat: Boolean = true
 
     override fun execute(args: List<Iota>, env: CastingContext): VarMediaOutputAction.CastResult {
         if (args[0] is DoubleIota) {

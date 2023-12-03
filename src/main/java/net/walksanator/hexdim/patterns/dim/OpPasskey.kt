@@ -12,6 +12,7 @@ import net.walksanator.hexdim.iotas.RoomIota
 class OpPasskey(private val acceptRelative: Boolean) : ConstMediaAction {
     override val argc: Int
         get() {return if (acceptRelative) {2} else {1}}
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val iota = args[0]
         return if (acceptRelative) {

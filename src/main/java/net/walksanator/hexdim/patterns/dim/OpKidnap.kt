@@ -16,6 +16,7 @@ import net.walksanator.hexdim.iotas.RoomAccess
 
 class OpKidnap : ConstMediaAction {
     override val argc = 2
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val room = args[0]
         if (room !is RoomAccess) {throw MishapInvalidIota(room,1,Text.literal("expected room-access iota")) } //TODO: make and use a translation string for room-access iota

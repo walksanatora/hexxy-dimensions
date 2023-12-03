@@ -18,6 +18,7 @@ import net.walksanator.hexdim.mixin_interface.ICastingContext
 
 class OpBanish : ConstMediaAction {
     override val argc = 1
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val envEnabled =(env as ICastingContext).`hexxy_dimensions$isModded`()
         if (envEnabled) {

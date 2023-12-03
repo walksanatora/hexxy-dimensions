@@ -12,6 +12,7 @@ import net.walksanator.hexdim.iotas.RoomIota
 
 class OpDimRelative(private val convertTo: Boolean) : ConstMediaAction {
     override val argc = 2
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val input = args[1]
         if (input.type != Vec3Iota.TYPE) {throw MishapInvalidIota(input,1, Text.translatable("hexcasting.iota.hexcasting:vec3")) }
