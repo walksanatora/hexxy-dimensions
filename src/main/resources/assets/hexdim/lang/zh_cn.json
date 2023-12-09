@@ -17,7 +17,7 @@
 
 	"hexcasting.action.hexdim:dim/cast/activate": "埃弗雷特之环境",
 	"hexdim.page.dim.cast.activate": "独属我自己的施法空间。",
-	"hexdim.page.dim.cast.activate.extend": "$(br)运行此图案时，其会将我的环境变换至所给$(thing)维室/$，并强制法术施放于该维室中，且$(thing)影响力/$囊括整个维室。$(br)已在环境中时试图再次进入环境会导致$(thing)事故/$。$(br)我的法杖似乎会主动排斥环境，除非$(l:patterns/meta#hexcasting:eval)在同一时刻运行所有/$事物。",
+	"hexdim.page.dim.cast.activate.extend": "$(br)运行此图案时，其会将我的环境变换至所给$(thing)维室/$，并强制法术施放于该维室中，且$(thing)施法范围/$囊括整个维室。$(br)已在环境中时试图再次进入环境会导致$(thing)事故/$。$(br)我的法杖似乎会主动排斥环境，除非$(l:patterns/meta#hexcasting:eval)在同一时刻运行所有/$事物。",
 
 	"hexcasting.action.hexdim:dim/cast/deactivate": "埃弗雷特之环境，第二型",
 	"hexdim.page.dim.cast.deactivate": "双维度在手",
@@ -37,7 +37,7 @@
 
 	"hexcasting.action.hexdim:dim/downgrade": "埃弗雷特维室之纯化",
 	"hexdim.page.dim.downgrade": "也算是室友？",
-	"hexdim.page.dim.downgrade.extend": "$(br)此图案会将$(thing)维室/$转变为$(thing)维径/$ iota。$(br)维径 iota 分享或公开时更安全，使用它的咒术师们在$(o)我的/$维室中没有完整的影响力。",
+	"hexdim.page.dim.downgrade.extend": "$(br)此图案会将$(thing)维室/$转变为$(thing)维径/$ iota。$(br)维径 iota 分享或公开时更安全，使用它的咒术师们在$(o)我的/$维室中没有完整的施法范围。",
 
 	"hexcasting.action.hexdim:dim/downgrade/pos": "埃弗雷特之馏化",
 	"hexdim.page.dim.downgrade.pos": "自定义门径位置？",
