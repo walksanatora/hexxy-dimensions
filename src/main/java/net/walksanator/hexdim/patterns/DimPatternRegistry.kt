@@ -17,7 +17,6 @@ object DimPatternRegistry {
     private val ACTIONS: MutableMap<Identifier, ActionRegistryEntry> =
         LinkedHashMap()
 
-    //SOUTH_WEST wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw
     val DIM_CREATE = pattern("wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw",HexDir.SOUTH_WEST,"dim/create",OpCreateDimension()) //
     val DIM_WARP = pattern("wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww",HexDir.NORTH_EAST,"dim/enter",OpEnterDim()) //
     val DIM_KIDNAP = pattern("aeaeaeaeaeaaedwaq",HexDir.SOUTH_EAST,"dim/kidnap",OpKidnap())
@@ -29,6 +28,7 @@ object DimPatternRegistry {
     val DIM_ACTIVATE = pattern("deaqqeweeeeewdqdqdqdqdq", HexDir.SOUTH_EAST,"dim/cast/activate", OpDimExecute(true)) //
     val DIM_DEACTIVATE = pattern("aqdeeqeaeaeaeaeae",HexDir.SOUTH_WEST, "dim/cast/deactivate", OpDimExecute(false)) //
     val DIM_CARVED = pattern("qqqqqwaeaeaeaeaeadwaqaeaq", HexDir.NORTH_WEST, "dim/carved",OpDimCarved()) //
+    val DIM_ESTIMATE_TIME = pattern("qqqqqwaeaeaeaeaeadqwdwqwdwdwqw", HexDir.NORTH_EAST, "dim/time",OpEstimateTime())
 
     fun registerPatterns() {
         val r = BiConsumer { type: ActionRegistryEntry, id: Identifier -> Registry.register(HexActions.REGISTRY, id, type) }

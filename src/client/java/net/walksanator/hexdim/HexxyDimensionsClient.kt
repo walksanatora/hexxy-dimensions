@@ -5,6 +5,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.util.Identifier
@@ -14,7 +15,8 @@ import net.walksanator.hexdim.render.HexxyDimensionShaders
 
 object HexxyDimensionsClient : ClientModInitializer {
 	override fun onInitializeClient() {
-		if (System.getProperty("hexdim.enableShader") != null) {
+		// sadly the shaders are not sodium compatible... and it would be too annoying to get it to work...
+		if ((!FabricLoader.getInstance().isModLoaded("sodium")) && System.getProperty("hexdim.disableShader") == null) {
 			// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 			CoreShaderRegistrationCallback.EVENT.register { ctx ->
 				ctx.register(

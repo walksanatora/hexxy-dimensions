@@ -18,10 +18,11 @@ class OpCreateDimension : VarMediaOutputAction {
         if (args[0] is DoubleIota) {
             if (args[1] is DoubleIota) {
                 if (args[2] is DoubleIota) {
-                    val x = (args[0] as DoubleIota).double.toInt()
-                    val y = (args[1] as DoubleIota).double.toInt()
-                    val z = (args[2] as DoubleIota).double.toInt()
+                    val x = (args[0] as DoubleIota).double.toInt().coerceIn(1,100)
+                    val y = (args[1] as DoubleIota).double.toInt().coerceIn(1,50)
+                    val z = (args[2] as DoubleIota).double.toInt().coerceIn(1,100)
                     val cost = x*y*z*MediaConstants.QUENCHED_SHARD_UNIT/2
+                    HexxyDimensions.logger.info("Allocating room %s %s %s by user".format(x,y,z, env.caster?.name))
                     return Spell(x,y,z,cost,listOf(),1)
                 }
                 throw MishapInvalidIota(args[2],2, Text.literal("Excepted a double"))

@@ -61,8 +61,8 @@ object HexxyDimensions : ModInitializer {
             }
         }
 
-        ServerTickEvents.END_WORLD_TICK.register {
-            STORAGE.get().carveRoomTick(it);
+        ServerTickEvents.END_SERVER_TICK.register {
+            STORAGE.get().carveRoomTick();
             //logger.info("Tick")
         }
 

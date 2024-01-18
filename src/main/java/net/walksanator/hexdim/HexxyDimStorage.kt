@@ -43,7 +43,9 @@ class HexxyDimStorage : PersistentState() {
     val uncarvedRooms: MutableList<Pair<Room,Iterator<BlockPos>>> = mutableListOf()
 
     fun enqueRoomCarving(room: Room) {
-        uncarvedRooms.add(Pair(room,room.stream()))
+        if (!uncarvedRooms.map {it.first}.contains(room)) {
+            uncarvedRooms.add(Pair(room,room.stream()))
+        }
     }
 
     fun enqueRoomCarvings(rooms: Collection<Room>) {
@@ -71,21 +73,23 @@ class HexxyDimStorage : PersistentState() {
         }
     }
 
-     fun carveRoomTick(world: ServerWorld) {
+     fun carveRoomTick() {
          val zero = 0.toDouble()
          for (carver in uncarvedRooms) {
              //HexxyDimensions.logger.info("carve one block from %s".format(room))
              val iter = carver.second
              val room = carver.first
-             if (!iter.hasNext()) {room.isDone = true; continue}
+             if (!iter.hasNext()) {
+                 room.isDone = true;
+                 continue
+             }
              val pos = iter.next()
 
-             val chunkPos = world.getChunk(pos).pos
-             val chunk = world.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
+             val chunkPos = world?.getChunk(pos)!!.pos
+             val chunk = world?.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
 
-             world.setBlockState(pos,Blocks.GLASS.defaultState, Block.NOTIFY_ALL,999)
-
-             world.spawnParticles(ParticleTypes.SMOKE,
+             chunk?.setBlockState(pos,Blocks.AIR.defaultState,false)
+             world?.spawnParticles(ParticleTypes.SMOKE,
                  pos.x.toDouble()+0.5,
                  pos.y.toDouble()+0.5,
                  pos.z.toDouble()+0.5,
@@ -93,11 +97,17 @@ class HexxyDimStorage : PersistentState() {
                  zero,zero,zero,zero
              )
 
-             world.randomAlivePlayer?.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
+             //world?.randomAlivePlayer?.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
 
              room.blocksCarved+=1
          }
-         uncarvedRooms.removeIf { it.first.isDone }
+         uncarvedRooms.removeIf {
+             val done = it.first.isDone
+             if (done) {
+                 HexxyDimensions.logger.info("Finished Carving room %s".format(all.indexOf(it.first)))
+             }
+             return@removeIf done
+         }
      }
 
     fun insertRoom(room: Room) {

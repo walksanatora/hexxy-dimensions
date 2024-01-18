@@ -5,7 +5,7 @@
 
 	"hexcasting.action.hexdim:dim/create": "Everett's Exaltation",
 	"hexdim.page.dim.create": "Creates a new room for me",
-	"hexdim.page.dim.create.extend": "$(br)When I first make a room it appears I must wait for it to be \"carved\"$(br)I am unable to do anything practical in the dim until I let nature carve it out.$(br)$(br)Nature appears to put new room creations into 4 queues numbered 0 to 3. They also appear to be sorted based on size with the max side length of the cube doubling in each queue staring at 16, cost 1/2 a $(l:greatwork/quenching_allays)quenched allay$() per block",
+	"hexdim.page.dim.create.extend": "$(br)When I first make a room it appears I must wait for it to be \"carved\"$(br)I am unable to do anything practical in the dim until I let nature carve it out.$(br)$(br)Carving appears to be 20-ish blocks per seconds. I can $(l:patterns/great_spells/dimension#hexdim:dim/time)Figure out how many are left$() with a simple pattern, cost 1/2 a $(l:greatwork/quenching_allays)quenched allay$() per block",
 
 	"hexcasting.action.hexdim:dim/enter": "Everett's Gateway",
 	"hexdim.page.dim.enter": "Lets actually go there",
@@ -43,9 +43,9 @@
 	"hexdim.page.dim.downgrade.pos": "Custom door location?",
 	"hexdim.page.dim.downgrade.pos.extend": "$(br)This allows me to turn a $(thing)room/$ into a $(thing)entry/$ Iota and give it a relative position.$(br)This entry iota's Position is relative to the North West corner of my room",
 
-	"hexcasting.action.hexdim:dim/queue/pos": "Everett's Decomp.",
-	"hexdim.page.dim.queue.pos": "How much longer must I wait",
-	"hexdim.page.dim.queue.pos.extend": "$(br)When I give it a room it will tell me both what queue it is in, and it's position in that queue.$(br)The first number (top of stack) is position in queue with zero meaning it is carving right now, The second number is the queue it is in (and from research always is within 0 to 3)",
+	"hexcasting.action.hexdim:dim/time": "Everett's Timing Prfn.",
+	"hexdim.page.dim.time": "How much longer must I wait",
+	"hexdim.page.dim.time.extend": "$(br)When I pass a room/entry into this pattern it returns the number of blocks left to be carved($br)(which I can then roughly calculate into a time remaing till avaliable)",
 
 	"hexcasting.action.hexdim:dim/carved": "Everett's Carving Prfn.",
 	"hexdim.page.dim.carved": "Are we done yet",
