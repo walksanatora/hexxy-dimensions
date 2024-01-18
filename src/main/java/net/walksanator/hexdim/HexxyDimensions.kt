@@ -1,6 +1,8 @@
 package net.walksanator.hexdim
 
 import at.petrak.hexcasting.api.item.IotaHolderItem
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import com.mojang.brigadier.arguments.IntegerArgumentType.getInteger
 import com.mojang.brigadier.arguments.IntegerArgumentType.integer
 import net.fabricmc.api.ModInitializer
@@ -8,6 +10,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.Block
 import net.minecraft.command.CommandException
 import net.minecraft.entity.player.PlayerEntity
@@ -29,13 +32,18 @@ import net.walksanator.hexdim.iotas.RoomIota
 import net.walksanator.hexdim.patterns.DimPatternRegistry
 import net.walksanator.hexdim.util.Rectangle
 import org.slf4j.LoggerFactory
+import java.nio.file.StandardOpenOption
 import java.util.*
+import kotlin.io.path.exists
+import kotlin.io.path.reader
+import kotlin.io.path.writeText
 import kotlin.random.Random
 
 object HexxyDimensions : ModInitializer {
     const val MOD_ID = "hexdim"
     val logger = LoggerFactory.getLogger("hexxy-dimensions")
     var STORAGE: Optional<HexxyDimStorage> = Optional.empty()
+    var CONFIG: HexxyDimConfig = HexxyDimConfig()
 
     override fun onInitialize() {
         //HexConfig.ServerConfigAccess.DEFAULT_DIM_TP_DENYLIST.add("hexdim:hexdim")
@@ -54,16 +62,34 @@ object HexxyDimensions : ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register { server ->
             STORAGE = Optional.of(HexxyDimStorage.getServerState(server))
+            val config = FabricLoader.getInstance().configDir.resolve("hexdim.json")
+            try {
+                if (config.exists()) {
+                    val gson = GsonBuilder().setLenient().setPrettyPrinting().create()
+                    CONFIG = gson.fromJson(config.reader(Charsets.UTF_8),HexxyDimConfig::class.java)
+                }
+            } catch (ex: Exception) {
+                when (ex) {
+                    is JsonParseException -> {
+                        logger.error("Failed to load config. resetting to defaults")
+                        ex.printStackTrace()
+                    }
+                    else -> throw ex //pass it up
+                }
+            }
         }
         ServerLifecycleEvents.SERVER_STOPPING.register {
             if (STORAGE.isPresent) {
                 STORAGE.get().markDirty() // we are shutting down to, so we should prepare to save data
             }
+            val gson = GsonBuilder().setLenient().setPrettyPrinting().create()
+            val config = FabricLoader.getInstance().configDir.resolve("hexdim.json")
+            val ser = gson.toJson(CONFIG)
+            config.writeText(ser,Charsets.UTF_8,StandardOpenOption.WRITE,StandardOpenOption.CREATE)
         }
 
         ServerTickEvents.END_SERVER_TICK.register {
-            STORAGE.get().carveRoomTick();
-            //logger.info("Tick")
+            STORAGE.get().carveRoomTick()
         }
 
         CommandRegistrationCallback.EVENT.register { dispatch, _, _ ->
@@ -112,7 +138,7 @@ object HexxyDimensions : ModInitializer {
                                         val h = getInteger(it, "z")
                                         val height = getInteger(it, "y")
                                         val storage = STORAGE.get()
-                                        val placed = storage.mallocRoom(Pair(w, h), height)
+                                        storage.mallocRoom(Pair(w, h), height)
                                             ?: throw CommandException(
                                                 Text.literal(
                                                     "failed to place rectangle (%s,%s)".format(
@@ -163,7 +189,6 @@ object HexxyDimensions : ModInitializer {
                                 } else {
                                     val room = storage.all[idx]
                                     val rect = room.rect
-                                    val rect2 = room.internalToRect()
                                     it.source.sendMessage(Text.literal("Information for room: %s".format(idx)))
                                     it.source.sendMessage(
                                         Text.literal(
@@ -253,7 +278,7 @@ object HexxyDimensions : ModInitializer {
                                     )
                                 } else {
                                     val plr = (it.source.entity!! as PlayerEntity)
-                                    val hand = plr.mainHandStack;
+                                    val hand = plr.mainHandStack
                                     if (hand.item is IotaHolderItem) {
                                         (hand.item as IotaHolderItem).writeDatum(
                                             hand,

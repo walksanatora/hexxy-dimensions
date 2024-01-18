@@ -3,10 +3,7 @@ package net.walksanator.hexdim.util
 import net.minecraft.util.math.BlockPos
 import net.walksanator.hexdim.HexxyDimStorage
 import net.walksanator.hexdim.casting.mishap.MishapInvalidRoom
-import java.util.*
-import java.util.stream.Stream
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.random.Random
 
 class Room(val rect: Rectangle, val height: Int, var key: Int?, var isDone: Boolean, var blocksCarved: Int) {
@@ -73,10 +70,6 @@ class Room(val rect: Rectangle, val height: Int, var key: Int?, var isDone: Bool
     fun getH(): Int {
         return rect.h - HexxyDimStorage.Y_PADDING
     }
-
-    fun internalToRect(): Rectangle = Rectangle(
-        getX(), getY(), getW(), getH()
-    )
 
     fun stream(): Iterator<BlockPos> {
         val iter: MutableList<BlockPos> = mutableListOf()

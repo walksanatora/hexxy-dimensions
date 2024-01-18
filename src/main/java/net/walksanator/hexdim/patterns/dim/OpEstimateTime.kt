@@ -10,7 +10,7 @@ import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.iotas.RoomAccess
 
 class OpEstimateTime : ConstMediaAction {
-    override val argc = 1;
+    override val argc = 1
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val mut = args.toMutableList()
         val iota = mut.removeLast()

@@ -20,22 +20,26 @@ class OpKidnap : ConstMediaAction {
         val room = args[0]
         if (room !is RoomAccess) {throw MishapInvalidIota(room,1,Text.literal("expected room-access iota"))} //TODO: make and use a translation string for room-access iota
         val iota = args[1]
-        if (iota.type == ListIota.TYPE) {
-            val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
-            if (iotas.isEmpty()) {
-                throw MishapInvalidIota(iota, 1, Text.literal("List contains no entities"))
+        when (iota.type) {
+            ListIota.TYPE -> {
+                val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
+                if (iotas.isEmpty()) {
+                    throw MishapInvalidIota(iota, 1, Text.literal("List contains no entities"))
+                }
+                for (entity in iotas) {
+                    val target = (entity as EntityIota).entity
+                    env.assertEntityInRange(target)
+                    kidnap(room.getTeleportPosition(), target)
+                }
             }
-            for (entity in iotas) {
-                val target = (entity as EntityIota).entity
+            EntityIota.TYPE -> {
+                val target = (iota as EntityIota).entity
                 env.assertEntityInRange(target)
                 kidnap(room.getTeleportPosition(), target)
             }
-        } else if (iota.type == EntityIota.TYPE) {
-            val target = (iota as EntityIota).entity
-            env.assertEntityInRange(target)
-            kidnap(room.getTeleportPosition(), target)
-        } else {
-            throw MishapInvalidIota(iota, 1, Text.literal("Iota is not a list of entities or entity"))
+            else -> {
+                throw MishapInvalidIota(iota, 1, Text.literal("Iota is not a list of entities or entity"))
+            }
         }
         return listOf()
     }

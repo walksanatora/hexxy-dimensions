@@ -1,10 +1,6 @@
 package net.walksanator.hexdim
 
-import net.minecraft.block.Block
 import net.minecraft.block.Blocks
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.SpawnReason
-import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.RegistryKey
@@ -15,11 +11,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.PersistentState
 import net.minecraft.world.chunk.ChunkStatus
-import net.walksanator.hexdim.util.*
-import java.util.*
-import java.util.stream.Stream
-import kotlin.collections.ArrayList
-import kotlin.math.max
+import net.walksanator.hexdim.util.Rectangle
+import net.walksanator.hexdim.util.Room
+import net.walksanator.hexdim.util.addRectangle
 
 fun IntArray.chunked(size: Int): List<IntArray> {
     val result = mutableListOf<IntArray>()
@@ -75,31 +69,34 @@ class HexxyDimStorage : PersistentState() {
 
      fun carveRoomTick() {
          val zero = 0.toDouble()
+         val blocksPerTick = HexxyDimensions.CONFIG.BlocksPerTick
          for (carver in uncarvedRooms) {
              //HexxyDimensions.logger.info("carve one block from %s".format(room))
              val iter = carver.second
              val room = carver.first
-             if (!iter.hasNext()) {
-                 room.isDone = true;
-                 continue
+             for (`_` in 1..blocksPerTick) {
+                 if (!iter.hasNext()) {
+                     room.isDone = true
+                     break
+                 }
+                 val pos = iter.next()
+
+                 val chunkPos = world?.getChunk(pos)!!.pos
+                 val chunk = world?.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
+
+                 chunk?.setBlockState(pos,Blocks.AIR.defaultState,false)
+                 world?.spawnParticles(ParticleTypes.SMOKE,
+                     pos.x.toDouble()+0.5,
+                     pos.y.toDouble()+0.5,
+                     pos.z.toDouble()+0.5,
+                     10,
+                     zero,zero,zero,zero
+                 )
+
+                 //world?.randomAlivePlayer?.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
+
+                 room.blocksCarved+=1
              }
-             val pos = iter.next()
-
-             val chunkPos = world?.getChunk(pos)!!.pos
-             val chunk = world?.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
-
-             chunk?.setBlockState(pos,Blocks.AIR.defaultState,false)
-             world?.spawnParticles(ParticleTypes.SMOKE,
-                 pos.x.toDouble()+0.5,
-                 pos.y.toDouble()+0.5,
-                 pos.z.toDouble()+0.5,
-                 10,
-                 zero,zero,zero,zero
-             )
-
-             //world?.randomAlivePlayer?.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
-
-             room.blocksCarved+=1
          }
          uncarvedRooms.removeIf {
              val done = it.first.isDone
@@ -133,7 +130,8 @@ class HexxyDimStorage : PersistentState() {
     fun freeRoom(index: Int) {
         free.add(index)
         all[index].isDone = false
-        enqueRoomCarving(all[index]) // we gotta clear this room
+        all[index].blocksCarved = 0
+        enqueRoomCarving(all[index]) // we have got to clear this room
     }
 
     companion object {

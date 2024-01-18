@@ -23,22 +23,24 @@ class OpBanish : ConstMediaAction {
         if (envEnabled) {
             val iota = args[0]
             val world = env.world.server.getWorld(World.OVERWORLD)!!
-            if (iota.type == ListIota.TYPE) {
-                val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
-                if (iotas.isEmpty()) {
-                    throw MishapInvalidIota(iota, 0, Text.literal("List contains no entities"))
+            when (iota.type) {
+                ListIota.TYPE -> {
+                    val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
+                    if (iotas.isEmpty()) {
+                        throw MishapInvalidIota(iota, 0, Text.literal("List contains no entities"))
+                    }
+                    for (entity in iotas) {
+                        val target = (entity as EntityIota).entity
+                        env.assertEntityInRange(target)
+                        banish(world, target)
+                    }
                 }
-                for (entity in iotas) {
-                    val target = (entity as EntityIota).entity
+                EntityIota.TYPE -> {
+                    val target = (iota as EntityIota).entity
                     env.assertEntityInRange(target)
                     banish(world, target)
                 }
-            } else if (iota.type == EntityIota.TYPE) {
-                val target = (iota as EntityIota).entity
-                env.assertEntityInRange(target)
-                banish(world, target)
-            } else {
-                throw MishapInvalidIota(iota, 0, Text.literal("Iota is not a list of entities or entity"))
+                else -> throw MishapInvalidIota(iota,0,Text.literal("Iota is not a list of entities or entity"))
             }
         } else {
             throw MishapDisallowedSpell() //TODO: make mishap for not in env

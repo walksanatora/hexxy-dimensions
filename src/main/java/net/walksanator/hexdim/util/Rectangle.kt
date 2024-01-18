@@ -5,14 +5,14 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
-    val openSides: MutableList<RectSides> = mutableListOf(
+    private val openSides: MutableList<RectSides> = mutableListOf(
         RectSides.Up,
         RectSides.Down,
         RectSides.Left,
         RectSides.Right
     )
 
-    fun isOverlap(other: Rectangle): Boolean {
+    private fun isOverlap(other: Rectangle): Boolean {
         return if (x > other.x) {
             other.x + other.w > x
         } else {
@@ -24,7 +24,7 @@ class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
         }
     }
 
-    fun isOverlap(others: List<Rectangle>): Boolean {
+    private fun isOverlap(others: List<Rectangle>): Boolean {
         for (rect in others) {
             if (isOverlap(rect)) { return true }
         }
@@ -45,7 +45,7 @@ class Rectangle(var x: Int, var y:Int, var w:Int, var h:Int) {
             if (!newRect.isOverlap(all)) {
                 locations.add(xy)
             }
-            //gonna do the pos-check for possible optimisations
+            //going to do the pos-check for possible optimisations
             val testPos = when (side) {
                 RectSides.Right, RectSides.Down -> xy //same equation as above so why recalc?
                 RectSides.Up -> Pair(x,y-minimum.second)
