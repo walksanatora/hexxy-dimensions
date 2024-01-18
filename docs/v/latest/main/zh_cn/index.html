@@ -104,13 +104,13 @@
 </nav>
 <div class="container" style="margin-top: 3em;">
   <blockquote>
-      <h1><p>This is the online version of the Hexxy Dimensions documentation.</p></h1>
-        <p>This page is built from the latest code on GitHub. It may describe <strong>newer</strong> features that you may not necessarily have, even on the latest Modrinth/CurseForge version!</p>
-      <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
-      <span id="old-version-notice" class="hidden">
-        <br />
-        <p><i>往事犹若异乡；他们在那里做的事情都不一样。</i></p>
-      </span>
+    <h1><p>This is the online version of the Hexxy Dimensions documentation.</p></h1>
+      <p>This page is built from the latest code on GitHub. It may describe <strong>newer</strong> features that you may not necessarily have, even on the latest Modrinth/CurseForge version!</p>
+    <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
+    <span id="old-version-notice" class="hidden">
+      <br />
+      <p><i>往事犹若异乡；他们在那里做的事情都不一样。</i></p>
+    </span>
   </blockquote>
 </div>
 <div class="container">
@@ -407,9 +407,9 @@
 <br />
     <p><br />此图案会将<span style="color: #8d6acc">维室</span>转变为<span style="color: #8d6acc">维径</span> iota，并设定一个相对位置。<br />该维径的位置相对点为维室的西北角。</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/time">
-<h4 class="pattern-title">Everett&#39;s Timing Prfn. (room → num)<a
-    href="#patterns/great_spells/dimension@hexdim:dim/time"
+  <div id="patterns/great_spells/dimension@hexdim:dim/queue/pos">
+<h4 class="pattern-title">埃弗雷特之拆解 (room → num, num)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/queue/pos"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -419,15 +419,15 @@
         class="spell-viz"
         width="216"
         height="216"
-        data-string="qqqqqwaeaeaeaeaeadqwdwqwdwdwqw"
-        data-start="north_east"
+        data-string="qqqqqwaeaeaeaeaeadwdedqde"
+        data-start="north_west"
         data-per-world="False"
-      >浏览器不支持图案的可视化。图案代码见此：qqqqqwaeaeaeaeaeadqwdwqwdwdwqw</canvas>
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqwaeaeaeaeaeadwdedqde</canvas>
   </details>
-      <p>How much longer must I wait</p>
+      <p>我还要等多久？</p>
   </div>
 <br />
-    <p><br />When I pass a room/entry into this pattern it returns the number of blocks left to be carved($br)(which I can then roughly calculate into a time remaing till avaliable)</p>
+    <p><br />传入维室时，此图案会返回该维室所处的队列，以及在队列中的位置。<br />第一个数（栈顶）是队列中的位置，为 0 意味着当前正在雕琢它；第二个数是队列的编号（研究表明此数一直处于 0 到 3 之间）。</p>
 <br />
   <div id="patterns/great_spells/dimension@hexdim:dim/carved">
 <h4 class="pattern-title">埃弗雷特雕琢之纯化 (room → bool)<a
