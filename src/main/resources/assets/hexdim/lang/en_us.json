@@ -45,7 +45,7 @@
 
 	"hexcasting.action.hexdim:dim/time": "Everett's Timing Prfn.",
 	"hexdim.page.dim.time": "How much longer must I wait",
-	"hexdim.page.dim.time.extend": "$(br)When I pass a room/entry into this pattern it returns the number of blocks left to be carved($br)(which I can then roughly calculate into a time remaing till avaliable)",
+	"hexdim.page.dim.time.extend": "$(br)When I pass a room/entry into this pattern it returns the number of blocks left to be carved$(br)(which I can then roughly calculate into a time remaing till avaliable)",
 
 	"hexcasting.action.hexdim:dim/carved": "Everett's Carving Prfn.",
 	"hexdim.page.dim.carved": "Are we done yet",
