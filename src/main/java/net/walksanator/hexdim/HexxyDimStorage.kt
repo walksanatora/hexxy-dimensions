@@ -1,6 +1,10 @@
 package net.walksanator.hexdim
 
+import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.SpawnReason
+import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.RegistryKey
@@ -11,10 +15,10 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.PersistentState
 import net.minecraft.world.chunk.ChunkStatus
-import net.walksanator.hexdim.util.ProcessingQueue
-import net.walksanator.hexdim.util.Rectangle
-import net.walksanator.hexdim.util.Room
-import net.walksanator.hexdim.util.addRectangle
+import net.walksanator.hexdim.util.*
+import java.util.*
+import java.util.stream.Stream
+import kotlin.collections.ArrayList
 import kotlin.math.max
 
 fun IntArray.chunked(size: Int): List<IntArray> {
@@ -36,63 +40,14 @@ class HexxyDimStorage : PersistentState() {
     val free = ArrayList<Int>()
     var world: ServerWorld? = null
 
-    private val roomCarveQueue16 = ProcessingQueue<Room>({ room ->
-        HexxyDimensions.logger.info("carving x16")
-        carveRoom(room, world!!)
-        room.isDone = true
-        HexxyDimensions.logger.info("finished carving x16")
-        markDirty()
-    },1000)
-    private val roomCarveQueue32 = ProcessingQueue<Room>({ room ->
-        HexxyDimensions.logger.info("carving x32")
-        carveRoom(room, world!!)
-        room.isDone = true
-        HexxyDimensions.logger.info("finished carving x32")
-        markDirty()
-    },1000)
-    private val roomCarveQueue64 = ProcessingQueue<Room>({ room ->
-        HexxyDimensions.logger.info("carving x64")
-        carveRoom(room, world!!)
-        room.isDone = true
-        HexxyDimensions.logger.info("finished carving x64")
-        markDirty()
-    },1000)
-    private val roomCarveQueue128 = ProcessingQueue<Room>({ room ->
-        HexxyDimensions.logger.info("carving 128")
-        carveRoom(room, world!!)
-        room.isDone = true
-        HexxyDimensions.logger.info("finished carving x128")
-        markDirty()
-    },1000)
+    val uncarvedRooms: MutableList<Pair<Room,Iterator<BlockPos>>> = mutableListOf()
 
     fun enqueRoomCarving(room: Room) {
-        val area = room.getH() * room.getW() * room.height
-        when (area) {
-            in 0..4096 -> roomCarveQueue16.enqueue(room)
-            in 4097..32768 -> roomCarveQueue32.enqueue(room)
-            in 32769..262144 -> roomCarveQueue64.enqueue(room)
-            else -> roomCarveQueue128.enqueue(room)
-        }
-    }
-
-    fun restartQueueJobs() {
-        roomCarveQueue16.restart()
-        roomCarveQueue32.restart()
-        roomCarveQueue64.restart()
-        roomCarveQueue128.restart()
+        uncarvedRooms.add(Pair(room,room.stream()))
     }
 
     fun enqueRoomCarvings(rooms: Collection<Room>) {
         rooms.forEach { enqueRoomCarving(it) }
-    }
-
-    fun getCarveQueueIdxs(): List<List<Int>> {
-        return listOf(
-            roomCarveQueue16.queue().map { room -> all.indexOf(room) },
-            roomCarveQueue32.queue().map { room -> all.indexOf(room) },
-            roomCarveQueue64.queue().map { room -> all.indexOf(room) },
-            roomCarveQueue128.queue().map { room -> all.indexOf(room) }
-        )
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
@@ -116,29 +71,34 @@ class HexxyDimStorage : PersistentState() {
         }
     }
 
-    private fun carveRoom(room: Room, world: ServerWorld) {
-        for (pos in BlockPos.iterate(
-            BlockPos(room.getX(), 0, room.getY()),
-            BlockPos(
-                room.getX() + max(room.getW() - 1, 0),
-                max(room.height - 1, 0),
-                room.getY() + max(room.getH() - 1, 0)
-            )
-        )) {
-            val chunkPos = world.getChunk(pos).pos
-            val zero = 0.toDouble()
-            world.spawnParticles(ParticleTypes.SMOKE,
-                pos.x.toDouble()+0.5,
-                pos.y.toDouble()+0.5,
-                pos.z.toDouble()+0.5,
-                10,
-                zero,zero,zero,zero
-            )
-            if (world.getBlockState(pos).block == Blocks.AIR) {continue}
-            world.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
-            world.setBlockState(pos, Blocks.AIR.defaultState)
-        }
-    }
+     fun carveRoomTick(world: ServerWorld) {
+         val zero = 0.toDouble()
+         for (carver in uncarvedRooms) {
+             //HexxyDimensions.logger.info("carve one block from %s".format(room))
+             val iter = carver.second
+             val room = carver.first
+             if (!iter.hasNext()) {room.isDone = true; continue}
+             val pos = iter.next()
+
+             val chunkPos = world.getChunk(pos).pos
+             val chunk = world.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
+
+             world.setBlockState(pos,Blocks.GLASS.defaultState, Block.NOTIFY_ALL,999)
+
+             world.spawnParticles(ParticleTypes.SMOKE,
+                 pos.x.toDouble()+0.5,
+                 pos.y.toDouble()+0.5,
+                 pos.z.toDouble()+0.5,
+                 10,
+                 zero,zero,zero,zero
+             )
+
+             world.randomAlivePlayer?.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
+
+             room.blocksCarved+=1
+         }
+         uncarvedRooms.removeIf { it.first.isDone }
+     }
 
     fun insertRoom(room: Room) {
         all.add(room)

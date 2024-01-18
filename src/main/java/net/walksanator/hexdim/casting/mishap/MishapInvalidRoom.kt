@@ -1,5 +1,6 @@
 package net.walksanator.hexdim.casting.mishap
 
+
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.Mishap
@@ -25,6 +26,4 @@ class MishapInvalidRoom(val room: Room,val isCarved: Boolean) : Mishap() {
     }
 
     override fun execute(env: CastingEnvironment, errorCtx: Context, stack: MutableList<Iota>) {}
-
-
 }

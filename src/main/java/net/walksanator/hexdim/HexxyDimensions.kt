@@ -7,6 +7,7 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.block.Block
 import net.minecraft.command.CommandException
 import net.minecraft.entity.player.PlayerEntity
@@ -58,6 +59,11 @@ object HexxyDimensions : ModInitializer {
             if (STORAGE.isPresent) {
                 STORAGE.get().markDirty() // we are shutting down to, so we should prepare to save data
             }
+        }
+
+        ServerTickEvents.END_WORLD_TICK.register {
+            STORAGE.get().carveRoomTick(it);
+            //logger.info("Tick")
         }
 
         CommandRegistrationCallback.EVENT.register { dispatch, _, _ ->
@@ -127,15 +133,15 @@ object HexxyDimensions : ModInitializer {
                         .then(literal("carveQueue")
                             .executes {
                                 val storage = STORAGE.get()
-                                val indexes = storage.getCarveQueueIdxs()
+                                val uncarved = storage.uncarvedRooms
+                                val rooms = storage.all
+
                                 it.source.sendMessage(
                                     Text.literal(
-                                        "Rooms that need carving: %s\nx16: %s\nx32: %s\nx64: %s\nx128: %s".format(
-                                            storage.all.filter {room -> !room.isDone} .map { room -> storage.all.indexOf(room) }.toString(),
-                                            indexes[0],
-                                            indexes[1],
-                                            indexes[2],
-                                            indexes[3],
+                                        "Rooms that need carving: %s\nin the queue %s".format(
+                                            storage.all.filter { room -> !room.isDone }
+                                                .map { room -> storage.all.indexOf(room) }.toString(),
+                                            uncarved.map { rooms.indexOf(it.first) }
                                         )
                                     )
                                 )
@@ -179,6 +185,7 @@ object HexxyDimensions : ModInitializer {
                                         )
                                     )
                                     it.source.sendMessage(Text.literal("Carved?: %s".format(room.isDone)))
+                                    it.source.sendMessage(Text.literal("Carved: %s blocks".format(room.blocksCarved)))
                                 }
 
                                 1
@@ -186,10 +193,14 @@ object HexxyDimensions : ModInitializer {
                         )
                         .executes {
                             val storage = STORAGE.get()
-                            it.source.sendMessage(Text.literal("Room Stats,\n allocated: %s\n open: %s\n free: %s\n toCarve: %s".format(
-                                storage.all.size, storage.open.size, storage.free.size,
-                                storage.all.filter { room -> !room.isDone }.size
-                            )))
+                            it.source.sendMessage(
+                                Text.literal(
+                                    "Room Stats,\n allocated: %s\n open: %s\n free: %s\n toCarve: %s".format(
+                                        storage.all.size, storage.open.size, storage.free.size,
+                                        storage.all.filter { room -> !room.isDone }.size
+                                    )
+                                )
+                            )
                             1
                         }
                     )
@@ -264,39 +275,30 @@ object HexxyDimensions : ModInitializer {
                     )
                     .then(literal("queue")
                         .requires { src -> src.hasPermissionLevel(4) }
-                        .then(literal("restart")
+                        .then(argument("index", integer(0))
                             .executes {
-                                val storage = STORAGE.get()
-                                storage.restartQueueJobs()
-                                1
-                            }
-                        )
-                        .then(literal("recarve")
-                            .requires { src -> src.hasPermissionLevel(4) }
-                            .then(argument("index", integer(0))
-                                .executes {
-                                    try {
-                                        val idx = getInteger(it, "index")
-                                        val storage = STORAGE.get()
-                                        if (idx >= storage.all.size) {
-                                            it.source.sendError(
-                                                Text.literal(
-                                                    "index is out of bounds range 0..%s".format(
-                                                        storage.all.size
-                                                    )
+                                try {
+                                    val idx = getInteger(it, "index")
+                                    val storage = STORAGE.get()
+                                    if (idx >= storage.all.size) {
+                                        it.source.sendError(
+                                            Text.literal(
+                                                "index is out of bounds range 0..%s".format(
+                                                    storage.all.size
                                                 )
                                             )
-                                        } else {
-                                            val room = storage.all[idx]
-                                            room.isDone = false
-                                            storage.enqueRoomCarving(room)
-                                        }
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
+                                        )
+                                    } else {
+                                        val room = storage.all[idx]
+                                        room.isDone = false
+                                        room.blocksCarved = 0
+                                        storage.enqueRoomCarving(room)
                                     }
-                                    1
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
                                 }
-                            )
+                                1
+                            }
                         )
                     )
                 )

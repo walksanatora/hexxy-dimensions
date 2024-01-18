@@ -1,10 +1,13 @@
 package net.walksanator.hexdim.util
 
+import net.minecraft.util.math.BlockPos
 import net.walksanator.hexdim.HexxyDimStorage
 import net.walksanator.hexdim.casting.mishap.MishapInvalidRoom
+import java.util.*
+import java.util.stream.Stream
 import kotlin.random.Random
 
-class Room(val rect: Rectangle,val height: Int, var key: Int?, var isDone: Boolean) {
+class Room(val rect: Rectangle, val height: Int, var key: Int?, var isDone: Boolean, var blocksCarved: Int) {
     companion object {
         val argc: Int = 7 //this is the number of args
     }
@@ -18,7 +21,8 @@ class Room(val rect: Rectangle,val height: Int, var key: Int?, var isDone: Boole
         ),
         part[4],
         part[5],
-        part[6] > 0
+        part[6] < 0,
+        part[6]
     )
 
     init {
@@ -28,24 +32,36 @@ class Room(val rect: Rectangle,val height: Int, var key: Int?, var isDone: Boole
     }
 
     fun keyCheck(other: Int) {
-        if (!isDone) {throw MishapInvalidRoom(this,false)}
-        if (other != key) {throw MishapInvalidRoom(this,true)}
+        if (!isDone) {
+            throw MishapInvalidRoom(this, false)
+        }
+        if (other != key) {
+            throw MishapInvalidRoom(this, true)
+        }
     }
+
     fun keyCheckNoCarveCheck(other: Int) {
-        if (other != key) {throw MishapInvalidRoom(this,true)}
+        if (other != key) {
+            throw MishapInvalidRoom(this, true)
+        }
     }
 
     fun toIntArray(): IntArray {
-        val doneInt = if (isDone) {1} else {0}
-        return intArrayOf(rect.x,rect.y,rect.w,rect.h,height,key!!, doneInt)
+        return intArrayOf(
+            rect.x, rect.y, rect.w, rect.h, height, key!!, if (isDone) {
+                -1
+            } else {
+                blocksCarved
+            }
+        )
     }
 
     fun getX(): Int {
-        return rect.x + (HexxyDimStorage.X_PADDING/2)
+        return rect.x + (HexxyDimStorage.X_PADDING / 2)
     }
 
     fun getY(): Int {
-        return rect.y + (HexxyDimStorage.Y_PADDING/2)
+        return rect.y + (HexxyDimStorage.Y_PADDING / 2)
     }
 
     fun getW(): Int {
@@ -57,8 +73,15 @@ class Room(val rect: Rectangle,val height: Int, var key: Int?, var isDone: Boole
     }
 
     fun internalToRect(): Rectangle = Rectangle(
-        getX(),getY(),getW(),getH()
+        getX(), getY(), getW(), getH()
     )
+
+    fun stream(): Iterator<BlockPos> {
+        return BlockPos.iterate(
+            getX(),0,getY(),
+            getX()+getW(),height,getY()+getH()
+        ).iterator()
+    }
 
 }
 

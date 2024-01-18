@@ -28,7 +28,6 @@ object DimPatternRegistry {
     val DIM_FROMRELATIVE = pattern("daqqad",HexDir.NORTH_EAST,"dim/rel/from",OpDimRelative(false)) //
     val DIM_ACTIVATE = pattern("deaqqeweeeeewdqdqdqdqdq", HexDir.SOUTH_EAST,"dim/cast/activate", OpDimExecute(true)) //
     val DIM_DEACTIVATE = pattern("aqdeeqeaeaeaeaeae",HexDir.SOUTH_WEST, "dim/cast/deactivate", OpDimExecute(false)) //
-    val DIM_QUEUE = pattern("qqqqqwaeaeaeaeaeadwdedqde",HexDir.NORTH_WEST,"dim/queue/pos",OpQueuePos()) //
     val DIM_CARVED = pattern("qqqqqwaeaeaeaeaeadwaqaeaq", HexDir.NORTH_WEST, "dim/carved",OpDimCarved()) //
 
     fun registerPatterns() {
