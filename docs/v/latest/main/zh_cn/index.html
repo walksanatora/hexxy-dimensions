@@ -104,13 +104,13 @@
 </nav>
 <div class="container" style="margin-top: 3em;">
   <blockquote>
-    <h1><p>This is the online version of the Hexxy Dimensions documentation.</p></h1>
-      <p>This page is built from the latest code on GitHub. It may describe <strong>newer</strong> features that you may not necessarily have, even on the latest Modrinth/CurseForge version!</p>
-    <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
-    <span id="old-version-notice" class="hidden">
-      <br />
-      <p><i>往事犹若异乡；他们在那里做的事情都不一样。</i></p>
-    </span>
+      <h1><p>This is the online version of the Hexxy Dimensions documentation.</p></h1>
+        <p>This page is built from the latest code on GitHub. It may describe <strong>newer</strong> features that you may not necessarily have, even on the latest Modrinth/CurseForge version!</p>
+      <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
+      <span id="old-version-notice" class="hidden">
+        <br />
+        <p><i>往事犹若异乡；他们在那里做的事情都不一样。</i></p>
+      </span>
   </blockquote>
 </div>
 <div class="container">
@@ -185,7 +185,7 @@
   ><i class="bi bi-link-45deg"></i></a></h3>
     <p>在看到<a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev22/en_us#greatwork/the_work">那样的事物</a>时。<br />我便意识到，我能随我心意将其塑形。<br />我只是需要正确的<a href="#patterns/great_spells/dimension@hexdim:dim/create">图案</a>。<br />我似乎还会遇到几种新事故，大多数都是因为维室未准备好或是已被移除。<strong>我不应破坏周围的墙壁，不然可能会引起<span style="color: #8d6acc">它们的注意，而它们不喜欢闯入者</span></strong>。</p>
 <br />
-    <p>此外，貌似还有了两种新 iota，我分别称为“维室”和“维径”。</p><p class="fake-li"><span style="color: #8d6acc">维室</span> iota 似乎会给予我对某一领域强大的控制力，且许多需要维径的参数位置送入维室也可以。</p><p class="fake-li"><span style="color: #8d6acc">维径</span> iota 则似乎只能用来进入维室。给别人用就安全多了。</p>
+    <p>此外，貌似还有了两种新 iota，我分别称为“维室”和“维径”。</p><p class="fake-li"><span style="color: #8d6acc">维室</span> iota 似乎会给予我对某一领域强大的控制力，且许多需要维径的参数位置送入维室也可以。</p><p class="fake-li"><span style="color: #8d6acc">维径</span> iota 则似乎只能用来进入维室。给别人用就安全多了。<br /><br />（你其实可以“破坏”墙壁，这么做会造成最多 2 颗心的伤害，但不会导致死亡。）</p>
 <br />
   <div id="patterns/great_spells/dimension@hexdim:dim/create">
 <h4 class="pattern-title">埃弗雷特之提整 (num, num, num → room)<a
@@ -207,7 +207,7 @@
       <p>为我制造一个新维室。</p>
   </div>
 <br />
-    <p><br />每次新造维室时，似乎必须先等其“雕琢”完毕。<br />在自然雕琢完毕之前，我无法在其中做任何有实际效果的事。<br /><br />自然会将新造的各维室放入 4 个队列，分别以 0 到 3 标记。且各维室会按最大边长分入这些队列，其中最小为 16，每级队列的最大边长翻倍，每格消耗 1/2 个<a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev22/en_us#greatwork/quenching_allays">淬灵晶块</a>。</p>
+    <p><br />每次新造维室时，似乎必须先等其“雕琢”完毕。<br />在自然雕琢完毕之前，我无法在其中做任何有实际效果的事。<br /><br />雕琢的速度约为 20 个方块每秒。可以用一个简单图案<a href="#patterns/great_spells/dimension@hexdim:dim/time">查看还有多少仍待雕琢</a>，每格消耗 1/2 个<a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev22/en_us#greatwork/quenching_allays">淬灵晶块</a>。</p>
 <br />
   <div id="patterns/great_spells/dimension@hexdim:dim/enter">
 <h4 class="pattern-title">埃弗雷特之门径 (room | entry →)<a
@@ -407,9 +407,9 @@
 <br />
     <p><br />此图案会将<span style="color: #8d6acc">维室</span>转变为<span style="color: #8d6acc">维径</span> iota，并设定一个相对位置。<br />该维径的位置相对点为维室的西北角。</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/queue/pos">
-<h4 class="pattern-title">埃弗雷特之拆解 (room → num, num)<a
-    href="#patterns/great_spells/dimension@hexdim:dim/queue/pos"
+  <div id="patterns/great_spells/dimension@hexdim:dim/time">
+<h4 class="pattern-title">埃弗雷特计时之纯化 (room → num)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/time"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -419,15 +419,15 @@
         class="spell-viz"
         width="216"
         height="216"
-        data-string="qqqqqwaeaeaeaeaeadwdedqde"
-        data-start="north_west"
+        data-string="qqqqqwaeaeaeaeaeadqwdwqwdwdwqw"
+        data-start="north_east"
         data-per-world="False"
-      >浏览器不支持图案的可视化。图案代码见此：qqqqqwaeaeaeaeaeadwdedqde</canvas>
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqwaeaeaeaeaeadqwdwqwdwdwqw</canvas>
   </details>
       <p>我还要等多久？</p>
   </div>
 <br />
-    <p><br />传入维室时，此图案会返回该维室所处的队列，以及在队列中的位置。<br />第一个数（栈顶）是队列中的位置，为 0 意味着当前正在雕琢它；第二个数是队列的编号（研究表明此数一直处于 0 到 3 之间）。</p>
+    <p><br />传入维室或维径时，此图案会返回仍需雕琢的方块数。<br />（由此可以大致计算到维室可用的剩余时间。）</p>
 <br />
   <div id="patterns/great_spells/dimension@hexdim:dim/carved">
 <h4 class="pattern-title">埃弗雷特雕琢之纯化 (room → bool)<a

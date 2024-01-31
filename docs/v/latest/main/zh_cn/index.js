@@ -1,5 +1,22 @@
 "use strict";
 import semver from 'https://cdn.jsdelivr.net/npm/semver@7.5.4/+esm';
+// these are filled by Jinja
+const BOOK_URL = "https://walksanatora.github.io/hexxy-dimensions";
+const VERSION = "latest/main";
+const MINECRAFT_VERSION = "1.20.1";
+const FULL_VERSION = "1.2.1.1.20.0";
+const LANG = "zh_cn";
+const SHOW_DROPDOWN_MINECRAFT_VERSION = "true" === "true";
+const DROPDOWN_MINECRAFT_TEMPLATE = "Minecraft {version}";
+// https://stackoverflow.com/a/61634647
+function replaceTemplate(template, replacements) {
+  return template.replace(
+    /{(\w+)}/g,
+    (placeholderWithDelimiters, placeholderWithoutDelimiters) =>
+    replacements.hasOwnProperty(placeholderWithoutDelimiters) ?
+      replacements[placeholderWithoutDelimiters] : placeholderWithDelimiters
+  );
+}
 let cycleNodes = [];
 function hookLoad(elem) {
   elem.addEventListener("toggle", () => {
@@ -130,10 +147,6 @@ function doCycleTexturesForever() {
   }
   cycleTimeoutID = setTimeout(doCycleTexturesForever, 2000);
 }
-// these are filled by Jinja
-const BOOK_URL = "https://walksanatora.github.io/hexxy-dimensions";
-const VERSION = "latest/main";
-const LANG = "zh_cn";
 // Creates an element in the form `<li><a href=${href}>${text}</a></li>`
 function dropdownItem(text, href) {
   let a = document.createElement("a");
@@ -143,8 +156,9 @@ function dropdownItem(text, href) {
   li.appendChild(a);
   return li;
 }
-function versionDropdownItem(sitemap, version) {
-  const {defaultPath, langPaths} = sitemap[version];
+function versionDropdownItem(sitemap, versionKey) {
+  const {defaultPath, langPaths, markers, defaultLang} = sitemap[versionKey];
+  const {version, full_version, minecraft_version} = markers[LANG] ?? markers[defaultLang];
   // link to the current language if available, else link to the default language
   let path;
   if (langPaths.hasOwnProperty(LANG)) {
@@ -152,7 +166,11 @@ function versionDropdownItem(sitemap, version) {
   } else {
     path = defaultPath;
   }
-  return dropdownItem(version, BOOK_URL + path);
+  const li = dropdownItem(version, BOOK_URL + path);
+  if (full_version === FULL_VERSION && versionKey == VERSION && minecraft_version == MINECRAFT_VERSION) {
+    li.classList.add("disabled");
+  }
+  return li;
 }
 function versionDropdownItems(sitemap, versions) {
   return versions.map((version) => (
@@ -163,6 +181,21 @@ function dropdownSeparator() {
   let li = document.createElement("li");
   li.className = "divider";
   li.setAttribute("role", "separator");
+  return li;
+}
+function dropdownHeader(text) {
+  let li = document.createElement("li");
+  li.className = "dropdown-header";
+  li.textContent = text;
+  return li;
+}
+function dropdownSubmenu(text, items) {
+  let li = dropdownItem(text, "#");
+  li.className = "dropdown-submenu";
+  let ul = document.createElement("ul");
+  ul.className = "dropdown-menu";
+  ul.append(...items);
+  li.appendChild(ul);
   return li;
 }
 // Like array.filter(predicate), but also returns the items which didn't match the filter.
@@ -178,8 +211,8 @@ function partition(array, predicate) {
   });
   return [matched, unmatched];
 }
-function sortSitemapVersions(sitemap) {
-  let [versions, branches] = partition(Object.keys(sitemap), (v) => semver.valid(v) != null);
+function sortSitemapVersions(unsortedVersions) {
+  let [versions, branches] = partition(unsortedVersions, (v) => semver.valid(v) != null);
   // branches ascending, versions descending
   // eg. ["dev", "main"], ["0.10.0", "0.9.0"]
   branches.sort();
@@ -188,21 +221,61 @@ function sortSitemapVersions(sitemap) {
 }
 // Fills the version dropdown menus and the "old version" message.
 function addDropdowns(sitemap) {
-  let [branches, versions] = sortSitemapVersions(sitemap);
+  let isOldVersion, dropdownItems, langNames, langPaths;
+  if (SHOW_DROPDOWN_MINECRAFT_VERSION) {
+    let minecraftVersions = Object.keys(sitemap);
+    minecraftVersions.sort(semver.rcompare);
+    let [_, currentVersions] = sortSitemapVersions(Object.keys(sitemap[MINECRAFT_VERSION]));
+    isOldVersion = currentVersions.slice(1).includes(VERSION);
+    dropdownItems = [];
+    for (const minecraftVersion of minecraftVersions) {
+      const subSitemap = sitemap[minecraftVersion];
+      const [branches, versions] = sortSitemapVersions(Object.keys(subSitemap));
+      dropdownItems.push(
+        dropdownHeader(replaceTemplate(
+          DROPDOWN_MINECRAFT_TEMPLATE,
+          {version: minecraftVersion},
+        )),
+        ...versionDropdownItems(subSitemap, versions),
+      );
+      // honestly, i shouldn't be allowed to write javascript
+      if (branches.length > 1) {
+        dropdownItems.push(
+          dropdownSubmenu(
+            "latest/...", // TODO: this really shouldn't be hardcoded
+            versionDropdownItems(subSitemap, branches).map(item => {
+              item.firstChild.textContent = item.firstChild.textContent.replace(/^latest\//, "");
+              return item;
+            }),
+          ),
+        );
+      } else if (branches.length == 1) {
+        dropdownItems.push(
+          versionDropdownItem(subSitemap, branches[0]),
+        );
+      }
+    }
+    langNames = sitemap[MINECRAFT_VERSION][VERSION].langNames;
+    langPaths = sitemap[MINECRAFT_VERSION][VERSION].langPaths;
+  } else { // legacy sitemap, not using minecraft versions
+    let [branches, versions] = sortSitemapVersions(Object.keys(sitemap));
+    isOldVersion = versions.slice(1).includes(VERSION);
+    dropdownItems = [
+      ...versionDropdownItems(sitemap, versions),
+      dropdownSeparator(),
+      ...versionDropdownItems(sitemap, branches),
+    ];
+    langNames = sitemap[VERSION].langNames;
+    langPaths = sitemap[VERSION].langPaths;
+  }
   // reveal the "old version" message if this page is a version number, but not the latest one
   // this isn't a dropdown, but it's here since we have the data anyway
-  if (versions.slice(1).includes(VERSION)) {
+  if (isOldVersion) {
     document.getElementById("old-version-notice").classList.remove("hidden")
   }
   // versions
-  document.getElementById("version-dropdown").append(
-    ...versionDropdownItems(sitemap, versions),
-    dropdownSeparator(),
-    ...versionDropdownItems(sitemap, branches),
-  );
+  document.getElementById("version-dropdown").append(...dropdownItems);
   // languages for the current version
-  const langNames = sitemap[VERSION].langNames;
-  const langPaths = sitemap[VERSION].langPaths;
   const langs = Object.keys(langPaths).sort();
   document.getElementById("lang-dropdown").append(
     ...langs.map((lang) => dropdownItem(langNames[lang], BOOK_URL + langPaths[lang])),
@@ -212,7 +285,7 @@ function addDropdowns(sitemap) {
 }
 document.addEventListener("DOMContentLoaded", () => {
   // fetch the sitemap from the root and use it to generate the navbar
-  fetch(`${BOOK_URL}/meta/sitemap.json`)
+  fetch(`${BOOK_URL}/meta/${SHOW_DROPDOWN_MINECRAFT_VERSION ? "sitemap-minecraft" : "sitemap"}.json`)
     .then(r => r.json())
     .then(addDropdowns)
     .catch(e => console.error(e))
