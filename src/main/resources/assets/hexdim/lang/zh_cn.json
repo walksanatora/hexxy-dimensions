@@ -1,11 +1,11 @@
 {
 	"hexdim.entry.dim": "咒法维度",
 	"hexdim.page.dim.1": "在看到$(l:greatwork/the_work)那样的事物$()时。$(br)我便意识到，我能随我心意将其塑形。$(br)我只是需要正确的$(l:patterns/great_spells/dimension#hexdim:dim/create)图案$()。$(br)我似乎还会遇到几种新事故，大多数都是因为维室未准备好或是已被移除。$(br)$(l)我不应破坏周围的墙壁，不然可能会引起$(thing)它们的注意，而它们不喜欢闯入者$()。",
-	"hexdim.page.dim.2": "此外，貌似还有了两种新 iota，我分别称为“维室”和“维径”。$(br)$(li)$(thing)维室/$ iota 似乎会给予我对某一领域强大的控制力，且许多需要维径的参数位置送入维室也可以。$(li)$(thing)维径/$ iota 则似乎只能用来进入维室。给别人用就安全多了。",
+	"hexdim.page.dim.2": "此外，貌似还有了两种新 iota，我分别称为“维室”和“维径”。$(br)$(li)$(thing)维室/$ iota 似乎会给予我对某一领域强大的控制力，且许多需要维径的参数位置送入维室也可以。$(li)$(thing)维径/$ iota 则似乎只能用来进入维室。给别人用就安全多了。$(br)$(br)（你其实可以“破坏”墙壁，这么做会造成最多 2 颗心的伤害，但不会导致死亡。）",
 
 	"hexcasting.action.hexdim:dim/create": "埃弗雷特之提整",
 	"hexdim.page.dim.create": "为我制造一个新维室。",
-	"hexdim.page.dim.create.extend": "$(br)每次新造维室时，似乎必须先等其“雕琢”完毕。$(br)在自然雕琢完毕之前，我无法在其中做任何有实际效果的事。$(br)$(br)自然会将新造的各维室放入 4 个队列，分别以 0 到 3 标记。且各维室会按最大边长分入这些队列，其中最小为 16，每级队列的最大边长翻倍，每格消耗 1/2 个$(l:greatwork/quenching_allays)淬灵晶块$()。",
+	"hexdim.page.dim.create.extend": "$(br)每次新造维室时，似乎必须先等其“雕琢”完毕。$(br)在自然雕琢完毕之前，我无法在其中做任何有实际效果的事。$(br)$(br)雕琢的速度约为 20 个方块每秒。可以用一个简单图案$(l:patterns/great_spells/dimension#hexdim:dim/time)查看还有多少仍待雕琢$()，每格消耗 1/2 个$(l:greatwork/quenching_allays)淬灵晶块$()。",
 
 	"hexcasting.action.hexdim:dim/enter": "埃弗雷特之门径",
 	"hexdim.page.dim.enter": "我们动身前往吧。",
@@ -43,9 +43,9 @@
 	"hexdim.page.dim.downgrade.pos": "自定义门径位置？",
 	"hexdim.page.dim.downgrade.pos.extend": "$(br)此图案会将$(thing)维室/$转变为$(thing)维径/$ iota，并设定一个相对位置。$(br)该维径的位置相对点为维室的西北角。",
 
-	"hexcasting.action.hexdim:dim/queue/pos": "埃弗雷特之拆解",
-	"hexdim.page.dim.queue.pos": "我还要等多久？",
-	"hexdim.page.dim.queue.pos.extend": "$(br)传入维室时，此图案会返回该维室所处的队列，以及在队列中的位置。$(br)第一个数（栈顶）是队列中的位置，为 0 意味着当前正在雕琢它；第二个数是队列的编号（研究表明此数一直处于 0 到 3 之间）。",
+	"hexcasting.action.hexdim:dim/time": "埃弗雷特计时之纯化",
+	"hexdim.page.dim.time": "我还要等多久？",
+	"hexdim.page.dim.time.extend": "$(br)传入维室或维径时，此图案会返回仍需雕琢的方块数。$(br)（由此可以大致计算到维室可用的剩余时间。）",
 
 	"hexcasting.action.hexdim:dim/carved": "埃弗雷特雕琢之纯化",
 	"hexdim.page.dim.carved": "我们完成了吗？",
