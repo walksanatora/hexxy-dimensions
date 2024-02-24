@@ -16,7 +16,7 @@ import net.walksanator.hexdim.render.HexxyDimensionShaders
 object HexxyDimensionsClient : ClientModInitializer {
 	override fun onInitializeClient() {
 		// sadly the shaders are not sodium compatible... and it would be too annoying to get it to work...
-		if ((!FabricLoader.getInstance().isModLoaded("sodium")) && System.getProperty("hexdim.disableShader") == null) {
+		if (!(FabricLoader.getInstance().isModLoaded("sodium") || FabricLoader.getInstance().isModLoaded("iris")) && System.getProperty("hexdim.disableShader") == null) {
 			// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 			CoreShaderRegistrationCallback.EVENT.register { ctx ->
 				ctx.register(
