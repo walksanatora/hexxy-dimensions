@@ -1,19 +1,31 @@
 package net.walksanator.hexdim
 
+import at.petrak.hexcasting.api.casting.ParticleSpray
+import at.petrak.hexcasting.api.pigment.FrozenPigment
+import at.petrak.hexcasting.client.particles.ConjureParticle
+import at.petrak.hexcasting.common.lib.HexItems
+import at.petrak.hexcasting.common.lib.HexParticles
+import at.petrak.hexcasting.common.particles.ConjureParticleOptions
+import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.PersistentState
 import net.minecraft.world.chunk.ChunkStatus
 import net.walksanator.hexdim.util.Rectangle
 import net.walksanator.hexdim.util.Room
 import net.walksanator.hexdim.util.addRectangle
+import java.util.*
+import kotlin.collections.ArrayList
 
 fun IntArray.chunked(size: Int): List<IntArray> {
     val result = mutableListOf<IntArray>()
@@ -33,6 +45,8 @@ class HexxyDimStorage : PersistentState() {
     val all = ArrayList<Room>()
     val free = ArrayList<Int>()
     var world: ServerWorld? = null
+
+    val beamDebugPlayers: MutableList<ServerPlayerEntity> = mutableListOf()
 
     val uncarvedRooms: MutableList<Pair<Room,Iterator<BlockPos>>> = mutableListOf()
 
@@ -84,18 +98,23 @@ class HexxyDimStorage : PersistentState() {
                  val chunkPos = world?.getChunk(pos)!!.pos
                  val chunk = world?.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true)
 
-                 chunk?.setBlockState(pos,Blocks.AIR.defaultState,false)
-                 world?.spawnParticles(ParticleTypes.SMOKE,
-                     pos.x.toDouble()+0.5,
-                     pos.y.toDouble()+0.5,
-                     pos.z.toDouble()+0.5,
-                     10,
-                     zero,zero,zero,zero
-                 )
+                 world?.setBlockState(pos,Blocks.AIR.defaultState,Block.NOTIFY_ALL)
+                 ParticleSpray.burst(
+                     Vec3d(
+                         pos.x.toDouble()+0.5,
+                        pos.y.toDouble()+0.5,
+                        pos.z.toDouble()+0.5,
+                        ), 1.0, 10
+                 ).sprayParticles(world!!, FrozenPigment(HexItems.DYE_PIGMENTS[DyeColor.LIGHT_BLUE]!!.defaultStack, UUID.randomUUID()))
+
+                 for (player in beamDebugPlayers) {
+                     player.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
+                 }
 
                  //world?.randomAlivePlayer?.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
 
                  room.blocksCarved+=1
+                 this.markDirty()
              }
          }
          uncarvedRooms.removeIf {

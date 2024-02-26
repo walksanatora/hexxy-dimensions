@@ -16,7 +16,7 @@ class OpDimRelative(private val convertTo: Boolean) : ConstMediaAction {
         val input = args[1]
         if (input.type != Vec3Iota.TYPE) {throw MishapInvalidIota(input,1, Text.translatable("hexcasting.iota.hexcasting:vec3"))}
         val room = args[0]
-        if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,0, Text.literal("expected Room Iota"))} //TODO: make translation string
+        if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,0, Text.translatable("hexdim.iota.room"))}
         val payload = (room as RoomIota).pay
         val roomInstance = HexxyDimensions.STORAGE.get().all[payload.first]
         roomInstance.keyCheckNoCarveCheck(payload.second) // this mishaps if room was deleted

@@ -9,11 +9,14 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.Entity
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
 import net.walksanator.hexdim.casting.HexDimComponents
+import net.walksanator.hexdim.mishap.MishapInvalidEnv
 
 class OpBanish : ConstMediaAction {
     override val argc = 1
@@ -43,25 +46,42 @@ class OpBanish : ConstMediaAction {
                 else -> throw MishapInvalidIota(iota,0,Text.literal("Iota is not a list of entities or entity"))
             }
         } else {
-            throw MishapDisallowedSpell() //TODO: make mishap for not in env
+            throw MishapInvalidEnv()
         }
         return listOf()
     }
 
     companion object {
         fun banish(world: ServerWorld, target: Entity) {
-            val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
-            target.remove(Entity.RemovalReason.DISCARDED)
-            FabricDimensions.teleport(
-                target,
-                world,
-                TeleportTarget(
-                    pos.toCenterPos(),
-                    target.velocity,
-                    target.headYaw,
-                    target.pitch
+            if (target is ServerPlayerEntity) {
+                val spawndim = target.server.getWorld(target.spawnPointDimension)!!
+                val spawnpos = target.spawnPointPosition
+                FabricDimensions.teleport(
+                    target,
+                    spawndim,
+                    TeleportTarget(
+                        spawnpos?.toCenterPos()?: spawndim.spawnPos.toCenterPos(),
+                        Vec3d.ZERO,
+                        target.spawnAngle,
+                        0f
+                    )
                 )
-            )
+            } else {
+                target.moveToWorld(world.server.overworld)
+            }
+
+//            val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
+//            target.remove(Entity.RemovalReason.DISCARDED)
+//            FabricDimensions.teleport(
+//                target,
+//                world,
+//                TeleportTarget(
+//                    pos.toCenterPos(),
+//                    target.velocity,
+//                    target.headYaw,
+//                    target.pitch
+//                )
+//            )
         }
     }
 }

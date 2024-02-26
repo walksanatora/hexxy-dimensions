@@ -17,7 +17,7 @@ class OpEnterDim : ConstMediaAction {
     override val mediaCost: Long = MediaConstants.SHARD_UNIT
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args[0]
-        if (target !is RoomAccess ) { throw MishapInvalidIota(target,0, Text.literal("Expected Room-like Iota")) } //TODO: make translation string
+        if (target !is RoomAccess ) { throw MishapInvalidIota(target,0, Text.translatable("hexdim.iota.roomlike")) }
         val storage = HexxyDimensions.STORAGE.get()
 
         val caster = env.caster ?: return emptyList()

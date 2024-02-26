@@ -1,6 +1,7 @@
 package net.walksanator.hexdim
 
 import at.petrak.hexcasting.api.item.IotaHolderItem
+import at.petrak.hexcasting.common.items.magic.ItemMediaBattery
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.mojang.brigadier.arguments.IntegerArgumentType.getInteger
@@ -20,6 +21,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -321,6 +323,32 @@ object HexxyDimensions : ModInitializer {
                                     }
                                 } catch (e: Exception) {
                                     e.printStackTrace()
+                                }
+                                1
+                            }
+                        )
+                    )
+                    .then(literal("debug")
+                        .then(literal("beam")
+                            .executes {
+                                val storage = STORAGE.get()
+                                val ent = it.source.entity
+                                if (ent is ServerPlayerEntity) {
+                                    if (!storage.beamDebugPlayers.contains(ent)) {
+                                        storage.beamDebugPlayers.add(ent)
+                                    } else {storage.beamDebugPlayers.remove(ent)}
+                                }
+                                1
+                            }
+                        )
+                        .then(literal("phial")
+                            .executes {
+                                val player = (it.source.entity as ServerPlayerEntity)
+                                val item = player.activeItem
+                                if (item.item is ItemMediaBattery) {
+                                    val nbt = item.nbt!!
+                                    nbt.putLong("hexcasting:start_media",Long.MAX_VALUE)
+                                    nbt.putLong("hexcasting:media",Long.MAX_VALUE)
                                 }
                                 1
                             }

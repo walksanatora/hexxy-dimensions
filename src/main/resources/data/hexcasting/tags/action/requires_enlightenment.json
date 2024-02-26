@@ -11,7 +11,7 @@
     "hexdim:dim/rel/from",
     "hexdim:dim/cast/activate",
     "hexdim:dim/cast/deactivate",
-    "hexdim:dim/queue/pos",
-    "hexdim:dim/carved"
+    "hexdim:dim/carved",
+    "hexdim:dim/time"
   ]
 }

@@ -1,4 +1,8 @@
 {
+	"hexdim.mishap.invalidenc": "Invalid Casting Environment. Try casting in a diffrent way",
+	"hexdim.iota.room": "Room Iota",
+	"hexdim.iota.roomlike": "Room or Entry Iota",
+
 	"hexdim.entry.dim": "Hexxy Dimensions",
 	"hexdim.page.dim.1": "When I saw $(l:greatwork/the_work)IT$().$(br)I realized it could be shaped by my will.$(br)I just need the right $(l:patterns/great_spells/dimension#hexdim:dim/create)pattern$()$(br)There also appear to be a few new mishaps I can encounter. most of them being that the room is not ready yet or was removed.$(br)$(l)I shouldn't punch the walls, that may draw $(thing)their attention, and they do not like intruders$()",
 	"hexdim.page.dim.2": "Alongside this there appear to be two new Iotas which I have named room and entry$(br)$(li)a $(thing)room/$ Iota appears to give me extensive powers over a domain, and most places that can take entry can take a room in the same place$(li)a $(thing)entry/$ iota though only appears to let me into a room. much safer to give to others.$(br)$(br) (if it wasn't clear you can \"break\" the walls. which will deal upto 2 hearts of dammage (it cannot kill))",
