@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "hexdim:dim/create",
-    "hexdim:dim/enter",
     "hexdim:dim/kidnap",
     "hexdim:dim/kick",
     "hexdim:dim/downgrade",

@@ -13,7 +13,8 @@ class OpDimCarved : ConstMediaAction {
     override val argc = 1
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val iota = args[0]
-        if (iota.type != RoomIota.TYPE) {throw MishapInvalidIota(iota,0, Text.translatable("hexdim.iota.room"))
+        if (iota.type != RoomIota.TYPE) {
+            throw MishapInvalidIota(iota,0, Text.translatable("hexdim.iota.room"))
         }
         val storage = HexxyDimensions.STORAGE.get()
         val payload = (iota as RoomIota).pay

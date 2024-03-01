@@ -28,14 +28,15 @@ class OpDimExecute(val activate: Boolean) : Action {
         val room = if (activate) {
             val room = stack.removeLastOrNull() ?: throw MishapNotEnoughArgs(1,0)
             if (room.type != RoomIota.TYPE) {throw MishapInvalidIota(room,1, Text.translatable("hexdim.iota.room"))}
-            Optional.of((room as RoomIota).pay)
+            if (!(room as RoomIota).permissions[2]) {throw MishapInvalidIota(room,1, Text.translatable("hexdim.iota.permissions.execute"))}
+            Optional.of(room.pay)
         } else {
             Optional.empty()
         }
-        return exec(room,env,image,continuation,stack)
+        return exec(room,env,image,continuation)
     }
 
-    private fun exec(roomOpt: Optional<Pair<Int,Int>>, env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation, stack: MutableList<Iota>): OperationResult {
+    private fun exec(roomOpt: Optional<Pair<Int,Int>>, env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation): OperationResult {
         val envEnabled = env.getExtension(HexDimComponents.VecInRange.KEY) != null
         if (activate) {
             if (envEnabled) {throw MishapInvalidEnv()}

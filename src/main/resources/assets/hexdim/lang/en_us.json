@@ -1,19 +1,17 @@
 {
 	"hexdim.mishap.invalidenc": "Invalid Casting Environment. Try casting in a diffrent way",
 	"hexdim.iota.room": "Room Iota",
-	"hexdim.iota.roomlike": "Room or Entry Iota",
+	"hexdim.iota.permissions.execute": "Room Iota with Execute Permissions",
+	"hexdim.iota.permissions.write": "Room Iota with Write Permissions",
+	"hexdim.iota.permissions.read": "Room Iota with Read Permissions",
 
 	"hexdim.entry.dim": "Hexxy Dimensions",
 	"hexdim.page.dim.1": "When I saw $(l:greatwork/the_work)IT$().$(br)I realized it could be shaped by my will.$(br)I just need the right $(l:patterns/great_spells/dimension#hexdim:dim/create)pattern$()$(br)There also appear to be a few new mishaps I can encounter. most of them being that the room is not ready yet or was removed.$(br)$(l)I shouldn't punch the walls, that may draw $(thing)their attention, and they do not like intruders$()",
-	"hexdim.page.dim.2": "Alongside this there appear to be two new Iotas which I have named room and entry$(br)$(li)a $(thing)room/$ Iota appears to give me extensive powers over a domain, and most places that can take entry can take a room in the same place$(li)a $(thing)entry/$ iota though only appears to let me into a room. much safer to give to others.$(br)$(br) (if it wasn't clear you can \"break\" the walls. which will deal upto 2 hearts of dammage (it cannot kill))",
+	"hexdim.page.dim.2": "Alongside this there appear to be a new Iota which I have named room $(br)$(li)a $(thing)room/$ Iota appears to give me extensive powers over a room. It appears to have 3 letters RWX. if the R is there I can enter the room. if the W is there I can delete the room, and if the X is there I can execute $(br)$(br) (if it wasn't clear you can \"break\" the walls. which will deal upto 2 hearts of dammage (it cannot kill))",
 
 	"hexcasting.action.hexdim:dim/create": "Everett's Exaltation",
 	"hexdim.page.dim.create": "Creates a new room for me",
 	"hexdim.page.dim.create.extend": "$(br)When I first make a room it appears I must wait for it to be \"carved\"$(br)I am unable to do anything practical in the dim until I let nature carve it out.$(br)$(br)Carving appears to be 20-ish blocks per seconds. I can $(l:patterns/great_spells/dimension#hexdim:dim/time)Figure out how many are left$() with a simple pattern, cost 1/2 a $(l:greatwork/quenching_allays)quenched allay$() per block",
-
-	"hexcasting.action.hexdim:dim/enter": "Everett's Gateway",
-	"hexdim.page.dim.enter": "Lets actually go there",
-	"hexdim.page.dim.enter.extend": "$(br)Although I cannot enter a room when it is being carved. once it is done I can finally go into it.$(br)I must be careful though because if I use my $(thing)room/$ Iota it will put me into the exact center of the room which could be $(o)problematic$().$(br)luckily I can $(l:patterns/great_spells/dimension#hexdim:dim/downgrade/pos)create a iota$() that will put me at a relative position to a corner.$(br)Cost 1 amethyst shard",
 
 	"hexcasting.action.hexdim:dim/kidnap": "Everett's Abduction",
 	"hexdim.page.dim.kidnap": "You are going to $(m)Brazil$(), $(m)My Domain$(), $(o)T H E   F U N   Z O N E",
@@ -21,7 +19,7 @@
 
 	"hexcasting.action.hexdim:dim/cast/activate": "Everett's Environment",
 	"hexdim.page.dim.cast.activate": "My own personal casting space",
-	"hexdim.page.dim.cast.activate.extend": "$(br)When I cast this it mutates my environment and forces it to cast in the provided $(thing)room/$ giving me full $(thing)ambit/$.$(br)Trying to enter a env while already having one active results in a $(thing)Mishap/$.$(br)My staff appears to actively conflict with the env unless I $(l:patterns/meta#hexcasting:eval)execute it all at once/$",
+	"hexdim.page.dim.cast.activate.extend": "$(br)When I cast this it mutates my environment and forces it to cast in the provided $(thing)room/$ giving me full $(thing)ambit/$.$(br)Trying to enter a env while already having one active results in a $(thing)Mishap/$.$(br)My staff appears to actively conflict with the env unless I $(l:patterns/meta#hexcasting:eval)execute it all at once/$$(br)Also the provided $(thing)Room Iota$() must have the X permission set to enable the environment",
 
 	"hexcasting.action.hexdim:dim/cast/deactivate": "Everett's Environment II",
 	"hexdim.page.dim.cast.deactivate": "Look Ma two dimensions",
@@ -39,13 +37,11 @@
 	"hexdim.page.dim.rel.from": "I can access blocks easier",
 	"hexdim.page.dim.rel.from.extend": "$(br)This pattern when given a room converts a position from a relative to North West corner$(br)$(br)It should be fairly usefull when accessing block/entities within this room.$(br)Only Positive numbers lead into the room. negative numbers lead into the \"wall\" between rooms",
 
-	"hexcasting.action.hexdim:dim/downgrade": "Everett's Room Prfn.",
-	"hexdim.page.dim.downgrade": "Roommates perhaps?",
-	"hexdim.page.dim.downgrade.extend": "$(br)This allows me to turn a $(thing)room/$ into a $(thing)entry/$ Iota$(br)A entry iota is safer for me to share or make public since it wont allow my peers to cast with full ambit in $(o)my/$ room",
+	"hexcasting.action.hexdim:dim/pos/set": "Everett's Location",
+	"hexdim.page.dim.pos.set": "Sets the (relative to North West corner) position you warp into this room$(br)Requires W permissions on the room",
 
-	"hexcasting.action.hexdim:dim/downgrade/pos": "Everett's Distl.",
-	"hexdim.page.dim.downgrade.pos": "Custom door location?",
-	"hexdim.page.dim.downgrade.pos.extend": "$(br)This allows me to turn a $(thing)room/$ into a $(thing)entry/$ Iota and give it a relative position.$(br)This entry iota's Position is relative to the North West corner of my room",
+	"hexcasting.action.hexdim:dim/perm/remove": "Everett's Authority",
+	"hexdim.page.dim.perm.remove": "Removes a permission bit (R is 0, W is 1,...)",
 
 	"hexcasting.action.hexdim:dim/time": "Everett's Timing Prfn.",
 	"hexdim.page.dim.time": "How much longer must I wait",

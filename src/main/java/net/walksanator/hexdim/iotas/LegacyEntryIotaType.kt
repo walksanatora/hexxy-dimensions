@@ -10,11 +10,11 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import java.awt.Color
 
-class EntryIotaType : IotaType<EntryIota>() {
-    override fun deserialize(p0: NbtElement?, p1: ServerWorld?): EntryIota? {
+class LegacyEntryIotaType : IotaType<RoomIota>() {
+    override fun deserialize(p0: NbtElement?, p1: ServerWorld?): RoomIota? {
         val nbt: NbtCompound = (p0 as NbtCompound)
         return if (nbt.getBoolean("doOffset")){
-            EntryIota(
+            RoomIota(
                 Pair(
                     nbt.getInt("idx"),
                     nbt.getInt("key")
@@ -23,14 +23,14 @@ class EntryIotaType : IotaType<EntryIota>() {
                     nbt.getDouble("ox"),
                     nbt.getDouble("oy"),
                     nbt.getDouble("oz")
-                )
+                ), listOf(true,false,false)
             )
         } else {
-            EntryIota(
+            RoomIota(
                 Pair(
                     nbt.getInt("idx"),
                     nbt.getInt("key")
-                )
+                ),null, listOf(true,false,false)
             )
         }
     }
