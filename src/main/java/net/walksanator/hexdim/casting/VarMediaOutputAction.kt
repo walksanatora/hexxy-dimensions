@@ -1,6 +1,7 @@
 package net.walksanator.hexdim.casting
 
 import at.petrak.hexcasting.api.casting.ParticleSpray
+import at.petrak.hexcasting.api.casting.RenderedSpell
 import at.petrak.hexcasting.api.casting.castables.Action
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.eval.OperationResult
@@ -28,13 +29,31 @@ interface VarMediaOutputAction : Action {
         val args = stack.takeLast(argc)
         repeat(argc) { stack.removeLast() }
         val spellResponse = this.execute(args, env)
-        val sideEffects = mutableListOf<OperatorSideEffect>(OperatorSideEffect.ConsumeMedia(spellResponse.cost))
-        stack.addAll(spellResponse.cast(env))
+        val sideEffects = mutableListOf(
+                OperatorSideEffect.ConsumeMedia(spellResponse.cost),
+                OperatorSideEffect.AttemptSpell(spellResponse),
+            )
+        sideEffects.addAll(
+            spellResponse.particles.map { OperatorSideEffect.Particles(it) }
+        )
         return OperationResult(
             image.copy(stack), sideEffects, continuation, HexEvalSounds.SPELL
         )
     }
-    abstract class CastResult(val cost: Long, val particles: List<ParticleSpray>, opCount: Long)  {
-        abstract fun cast(env: CastingEnvironment): List<Iota>
+    abstract class CastResult(val cost: Long, val particles: List<ParticleSpray>): RenderedSpell {
+        override fun cast(env: CastingEnvironment) {}//ignored (tf2 crit sound)
+
+        /**
+         * runs the contents of this spell (can mishap)
+         * @return the iotas to append to the stack
+         */
+        abstract fun run(env: CastingEnvironment): List<Iota>
+        override fun cast(env: CastingEnvironment, image: CastingImage): CastingImage? {
+            val append = run(env)
+            val stack = image.stack.toMutableList()
+            append.forEach { stack.add(it) }
+            return image.copy(stack)
+        }
+
     }
 }

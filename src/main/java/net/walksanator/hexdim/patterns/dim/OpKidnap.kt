@@ -44,8 +44,8 @@ class OpKidnap : VarMediaOutputAction {
         return Spell(mediacost,room,target)
     }
 
-    class Spell(cost: Long, val room: RoomIota,val targets: Either<EntityIota, ListIota>) : VarMediaOutputAction.CastResult(cost, listOf(),1) {
-        override fun cast(env: CastingEnvironment): List<Iota> {
+    class Spell(cost: Long, val room: RoomIota,val targets: Either<EntityIota, ListIota>) : VarMediaOutputAction.CastResult(cost, listOf()) {
+        override fun run(env: CastingEnvironment): List<Iota> {
             targets.ifRight {iota ->
                 val iotas = iota.list.filter { value -> value.type == EntityIota.TYPE }
                 if (iotas.isEmpty()) {
