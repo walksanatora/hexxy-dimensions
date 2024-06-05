@@ -1,5 +1,5 @@
 {
-	"hexdim.mishap.invalidenc": "施法环境无效。试试看换种方式施法。",
+	"hexdim.mishap.invalidenv": "施法环境无效。试试看换种方式施法。",
 	"hexdim.iota.room": "维室iota",
 	"hexdim.iota.permissions.execute": "具有执行权限的维室iota",
 	"hexdim.iota.permissions.write": "具有写入权限的维室iota",
