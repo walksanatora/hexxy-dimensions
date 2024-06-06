@@ -1,5 +1,5 @@
 {
-	"hexdim.mishap.invalidenc": "Invalid Casting Environment. Try casting in a diffrent way",
+	"hexdim.mishap.invalidenv": "Invalid Casting Environment. Try casting in a diffrent way",
 	"hexdim.iota.room": "Room Iota",
 	"hexdim.iota.permissions.execute": "Room Iota with Execute Permissions",
 	"hexdim.iota.permissions.write": "Room Iota with Write Permissions",
