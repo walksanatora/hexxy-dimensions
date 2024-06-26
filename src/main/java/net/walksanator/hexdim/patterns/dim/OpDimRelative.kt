@@ -25,7 +25,7 @@ class OpDimRelative(private val convertTo: Boolean) : ConstMediaAction {
             Vec3d(
                 v3.x - roomInstance.getX(),
                 v3.y,
-                v3.z - roomInstance.getY()
+                v3.z - roomInstance.getZ()
             )
         } else {
             Vec3d(
