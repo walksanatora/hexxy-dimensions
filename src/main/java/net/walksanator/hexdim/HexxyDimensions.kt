@@ -42,6 +42,11 @@ import kotlin.io.path.writeText
 import kotlin.random.Random
 
 object HexxyDimensions : ModInitializer {
+
+    fun breakpoint_target() {
+        logger.info("HIT THE BREAKPOINT")
+    }
+
     const val MOD_ID = "hexdim"
     val logger = LoggerFactory.getLogger("hexxy-dimensions")
     var STORAGE: Optional<HexxyDimStorage> = Optional.empty()
