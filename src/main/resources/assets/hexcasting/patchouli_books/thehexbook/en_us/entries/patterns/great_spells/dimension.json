@@ -109,7 +109,7 @@
 		{
 			"type": "hexcasting:pattern",
 			"op_id": "hexdim:dim/perm/remove",
-			"anchor": "hexdim:dim/perm/remove/",
+			"anchor": "hexdim:dim/perm/remove",
 			"input": "room, num",
 			"output": "room",
 			"text": "hexdim.page.dim.perm.remove"
