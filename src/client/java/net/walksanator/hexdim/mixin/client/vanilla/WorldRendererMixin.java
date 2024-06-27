@@ -1,4 +1,4 @@
-package net.walksanator.hexdim.mixin.client;
+package net.walksanator.hexdim.mixin.client.vanilla;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
