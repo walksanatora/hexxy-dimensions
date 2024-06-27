@@ -19,6 +19,7 @@ import net.walksanator.hexdim.iotas.RoomIota
 
 class OpKidnap : VarMediaOutputAction {
     override val argc = 2
+    override val isGreat: Boolean = true
     override fun execute(args: List<Iota>, env: CastingContext): VarMediaOutputAction.CastResult {
         val room = args[0]
         val mediacost: Long

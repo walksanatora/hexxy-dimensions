@@ -11,6 +11,7 @@ import net.walksanator.hexdim.iotas.RoomIota
 
 class OpEstimateTime : ConstMediaAction {
      override val argc = 1
+     override val isGreat: Boolean = true
      override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val mut = args.toMutableList()
         val iota = mut.removeLast()

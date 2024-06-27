@@ -9,7 +9,7 @@ import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.patterns.dim.*
 
 object DimPatternRegistry {
-    val DIM_CREATE = pattern("wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw",HexDir.SOUTH_WEST,"dim/create",OpCreateDimension()) //
+    val DIM_CREATE = pattern("wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw",HexDir.SOUTH_WEST,"dim/create",OpCreateDimension(),true) //
     val DIM_KIDNAP = pattern("wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww",HexDir.SOUTH_WEST,"dim/kidnap",OpKidnap())
     val DIM_BANISH = pattern("wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw", HexDir.EAST, "dim/kick",OpBanish()) //
     val DIM_KEY = pattern("awqwawqdqawwwaq",HexDir.SOUTH_EAST,"dim/pos/set",OpDimSetPos()) //
@@ -26,5 +26,9 @@ object DimPatternRegistry {
     }
     private fun pattern(pat: String, dir: HexDir, name: String, oa: Action, great: Boolean) {
         PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, great)
+    }
+
+    fun loadme() {
+        HexxyDimensions.logger.info("Registered patterns SIR. (insert indecipherable uwu speech)")
     }
 }

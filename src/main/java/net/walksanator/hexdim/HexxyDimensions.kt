@@ -61,6 +61,8 @@ object HexxyDimensions : ModInitializer {
         // Proceed with mild caution.
         logger.info("Hello Fabric world!")
 
+
+        DimPatternRegistry.loadme()
         IotaTypes.registerTypes()
 
         Registry.register(Registry.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
