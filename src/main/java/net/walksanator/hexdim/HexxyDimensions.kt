@@ -1,6 +1,7 @@
 package net.walksanator.hexdim
 
 import at.petrak.hexcasting.api.item.IotaHolderItem
+import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.common.items.magic.ItemMediaBattery
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
@@ -17,8 +18,6 @@ import net.minecraft.command.CommandException
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item.Settings
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.network.ServerPlayerEntity
@@ -26,6 +25,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.registry.BuiltinRegistries
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
 import net.walksanator.hexdim.blocks.BlockRegistry
@@ -61,11 +62,9 @@ object HexxyDimensions : ModInitializer {
         logger.info("Hello Fabric world!")
 
         IotaTypes.registerTypes()
-        DimPatternRegistry.registerPatterns()
 
-
-        Registry.register(Registries.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
-        Registry.register(Registries.ITEM, Identifier(MOD_ID, "skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
+        Registry.register(Registry.BLOCK, Identifier(MOD_ID, "skybox"), BlockRegistry.SKYBOX)
+        Registry.register(Registry.ITEM, Identifier(MOD_ID, "skybox"), BlockItem(BlockRegistry.SKYBOX, Settings()))
 
         ServerLifecycleEvents.SERVER_STARTED.register { server ->
             STORAGE = Optional.of(HexxyDimStorage.getServerState(server))
@@ -289,14 +288,14 @@ object HexxyDimensions : ModInitializer {
                                     if (hand.item is IotaHolderItem) {
                                         (hand.item as IotaHolderItem).writeDatum(
                                             hand,
-                                            RoomIota(Pair(idx, storage.all[idx].key!!))
+                                            RoomIota(Pair(idx, storage.all[idx].key!!)) as Iota
                                         )
                                     } else {
                                         val ohand = plr.offHandStack
                                         if (ohand.item is IotaHolderItem) {
                                             (ohand.item as IotaHolderItem).writeDatum(
                                                 hand,
-                                                RoomIota(Pair(idx, storage.all[idx].key!!))
+                                                RoomIota(Pair(idx, storage.all[idx].key!!)) as Iota
                                             )
                                         }
                                     }

@@ -1,87 +1,70 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.iota.EntityIota
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.ListIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.spell.ConstMediaAction
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.EntityIota
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.ListIota
+import at.petrak.hexcasting.api.spell.mishaps.MishapDisallowedSpell
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.Entity
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
-import net.walksanator.hexdim.casting.HexDimComponents
-import net.walksanator.hexdim.mishap.MishapInvalidEnv
+import net.walksanator.hexdim.duck.ICastingContext
 
 class OpBanish : ConstMediaAction {
     override val argc = 1
-    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
-        val ext = env.getExtension(HexDimComponents.VecInRange.KEY)
-        val envEnabled = ext != null
+    override val isGreat: Boolean = true
+    override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
+        val envEnabled =(env as ICastingContext).`hexxy_dimensions$isModded`()
         if (envEnabled) {
             val iota = args[0]
             val world = env.world.server.getWorld(World.OVERWORLD)!!
-            when (iota.type) {
-                ListIota.TYPE -> {
-                    val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
-                    if (iotas.isEmpty()) {
-                        throw MishapInvalidIota(iota, 0, Text.literal("List contains no entities"))
-                    }
-                    for (entity in iotas) {
-                        val target = (entity as EntityIota).entity
-                        env.assertEntityInRange(target)
-                        banish(world, target)
-                    }
+            if (iota.type == ListIota.TYPE) {
+                val iotas = (iota as ListIota).list.filter { value -> value.type == EntityIota.TYPE }
+                if (iotas.isEmpty()) {
+                    throw MishapInvalidIota(iota, 0, Text.literal("List contains no entities"))
                 }
-                EntityIota.TYPE -> {
-                    val target = (iota as EntityIota).entity
+                for (entity in iotas) {
+                    val target = (entity as EntityIota).entity
                     env.assertEntityInRange(target)
                     banish(world, target)
                 }
-                else -> throw MishapInvalidIota(iota,0,Text.literal("Iota is not a list of entities or entity"))
+            } else if (iota.type == EntityIota.TYPE) {
+                val target = (iota as EntityIota).entity
+                env.assertEntityInRange(target)
+                banish(world, target)
+            } else {
+                throw MishapInvalidIota(iota, 0, Text.literal("Iota is not a list of entities or entity"))
             }
         } else {
-            throw MishapInvalidEnv()
+            throw MishapDisallowedSpell() //TODO: make mishap for not in env
         }
         return listOf()
     }
 
     companion object {
         fun banish(world: ServerWorld, target: Entity) {
-            if (target is ServerPlayerEntity) {
-                val spawndim = target.server.getWorld(target.spawnPointDimension)!!
-                val spawnpos = target.spawnPointPosition
-                FabricDimensions.teleport(
-                    target,
-                    spawndim,
-                    TeleportTarget(
-                        spawnpos?.toCenterPos()?: spawndim.spawnPos.toCenterPos(),
-                        Vec3d.ZERO,
-                        target.spawnAngle,
-                        0f
-                    )
+            val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
+            target.remove(Entity.RemovalReason.DISCARDED)
+            FabricDimensions.teleport(
+                target,
+                world,
+                TeleportTarget(
+                    Vec3d(
+                        pos.x.toDouble() + 0.5,
+                        pos.y.toDouble() + 0.5,
+                        pos.z.toDouble() + 0.5
+                    ),
+                    target.velocity,
+                    target.headYaw,
+                    target.pitch
                 )
-            } else {
-                target.moveToWorld(world.server.overworld)
-            }
-
-//            val pos = world.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world.spawnPos)
-//            target.remove(Entity.RemovalReason.DISCARDED)
-//            FabricDimensions.teleport(
-//                target,
-//                world,
-//                TeleportTarget(
-//                    pos.toCenterPos(),
-//                    target.velocity,
-//                    target.headYaw,
-//                    target.pitch
-//                )
-//            )
+            )
         }
     }
 }

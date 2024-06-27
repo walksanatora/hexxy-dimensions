@@ -74,7 +74,9 @@ dependencies {
 	//HexCasting (include all files from lib as implementation)
 	modImplementation fileTree(dir: 'lib', include: ['*.jar'])
 
-	modImplementation "at.petra-k.hexcasting:hexcasting-fabric-1.20.1:${rootProject.hexcasting_version}"
+	modImplementation("at.petra-k.hexcasting:hexcasting-fabric-${rootProject.minecraft_version}:${rootProject.hexcasting_version}") {
+		 transitive = false
+	}
 
 	//hecasting deps
 	modImplementation "vazkii.patchouli:Patchouli:${rootProject.patchouli_version}-FABRIC"

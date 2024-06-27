@@ -1,22 +1,14 @@
 package net.walksanator.hexdim.patterns
 
-import at.petrak.hexcasting.api.casting.ActionRegistryEntry
-import at.petrak.hexcasting.api.casting.castables.Action
-import at.petrak.hexcasting.api.casting.math.HexDir
-import at.petrak.hexcasting.api.casting.math.HexPattern
-import at.petrak.hexcasting.common.lib.hex.HexActions
-import net.minecraft.registry.Registry
+import at.petrak.hexcasting.api.PatternRegistry
+import at.petrak.hexcasting.api.spell.Action
+import at.petrak.hexcasting.api.spell.math.HexDir
+import at.petrak.hexcasting.api.spell.math.HexPattern
 import net.minecraft.util.Identifier
 import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.patterns.dim.*
-import java.util.function.BiConsumer
-
 
 object DimPatternRegistry {
-
-    private val ACTIONS: MutableMap<Identifier, ActionRegistryEntry> =
-        LinkedHashMap()
-
     val DIM_CREATE = pattern("wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw",HexDir.SOUTH_WEST,"dim/create",OpCreateDimension()) //
     val DIM_KIDNAP = pattern("wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww",HexDir.SOUTH_WEST,"dim/kidnap",OpKidnap())
     val DIM_BANISH = pattern("wwdeeeeeqdwewewewewewwwdwqwdwqwdwqwdwqwdwqwdw", HexDir.EAST, "dim/kick",OpBanish()) //
@@ -29,19 +21,10 @@ object DimPatternRegistry {
     val DIM_CARVED = pattern("qqqqqwaeaeaeaeaeadwaqaeaq", HexDir.NORTH_WEST, "dim/carved",OpDimCarved()) //
     val DIM_ESTIMATE_TIME = pattern("qqqqqwaeaeaeaeaeadqwdwqwdwdwqw", HexDir.NORTH_EAST, "dim/time",OpEstimateTime())
 
-    fun registerPatterns() {
-        val r = BiConsumer { type: ActionRegistryEntry, id: Identifier -> Registry.register(HexActions.REGISTRY, id, type) }
-        for ((key, value) in ACTIONS) {
-            r.accept(value, key)
-        }
+    private fun pattern(pat: String, dir: HexDir, name: String, oa: Action) {
+        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, false)
     }
-
-    private fun pattern(pat: String, dir: HexDir, name: String, oa: Action): ActionRegistryEntry {
-        val are = ActionRegistryEntry(HexPattern.fromAngles(pat,dir),oa)
-        val old = ACTIONS.put(Identifier(HexxyDimensions.MOD_ID,name), are)
-        if (old != null) {
-            throw IllegalArgumentException("Typo? Duplicate id $name")
-        }
-        return are
+    private fun pattern(pat: String, dir: HexDir, name: String, oa: Action, great: Boolean) {
+        PatternRegistry.mapPattern(HexPattern.fromAngles(pat,dir), Identifier(HexxyDimensions.MOD_ID,name), oa, great)
     }
 }

@@ -1,10 +1,10 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.Vec3Iota
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.spell.ConstMediaAction
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.Vec3Iota
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.minecraft.text.Text
 import net.walksanator.hexdim.iotas.RoomIota
 import net.walksanator.hexdim.iotas.setPermision
@@ -12,7 +12,7 @@ import net.walksanator.hexdim.iotas.setPermision
 class OpPasskey(private val acceptRelative: Boolean) : ConstMediaAction {
     override val argc: Int
         get() {return if (acceptRelative) {2} else {1}}
-    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val iota = args[0] as? RoomIota ?: throw MishapInvalidIota(args[0],0,Text.literal("Expected a Room Iota"))
         return if (acceptRelative) {
             val pos = args[1]

@@ -1,13 +1,11 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.ParticleSpray
-import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.iota.EntityIota
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.ListIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.spell.iota.EntityIota
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.iota.ListIota
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.misc.MediaConstants
+import at.petrak.hexcasting.api.spell.casting.CastingContext
 import com.mojang.datafixers.util.Either
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.Entity
@@ -21,7 +19,7 @@ import net.walksanator.hexdim.iotas.RoomIota
 
 class OpKidnap : VarMediaOutputAction {
     override val argc = 2
-    override fun execute(args: List<Iota>, env: CastingEnvironment): VarMediaOutputAction.CastResult {
+    override fun execute(args: List<Iota>, env: CastingContext): VarMediaOutputAction.CastResult {
         val room = args[0]
         val mediacost: Long
         if (room !is RoomIota) {throw MishapInvalidIota(room,1,Text.translatable("hexdim.iota.roomlike"))}
@@ -30,11 +28,11 @@ class OpKidnap : VarMediaOutputAction {
 
         val target: Either<EntityIota,ListIota> = when (iota.type) {
             ListIota.TYPE -> {
-                mediacost = MediaConstants.SHARD_UNIT * (iota as ListIota).list.size()
+                mediacost = (MediaConstants.SHARD_UNIT * (iota as ListIota).list.size()).toLong()
                 Either.right(iota)
             }
             EntityIota.TYPE -> {
-                mediacost = MediaConstants.SHARD_UNIT
+                mediacost = MediaConstants.SHARD_UNIT.toLong()
                 Either.left(iota as EntityIota)
             }
             else -> {
@@ -44,8 +42,8 @@ class OpKidnap : VarMediaOutputAction {
         return Spell(mediacost,room,target)
     }
 
-    class Spell(cost: Long, val room: RoomIota,val targets: Either<EntityIota, ListIota>) : VarMediaOutputAction.CastResult(cost, listOf()) {
-        override fun run(env: CastingEnvironment): List<Iota> {
+    class Spell(cost: Long, val room: RoomIota,val targets: Either<EntityIota, ListIota>) : VarMediaOutputAction.CastResult(cost, listOf(),1) {
+        override fun cast(env: CastingContext): List<Iota> {
             targets.ifRight {iota ->
                 val iotas = iota.list.filter { value -> value.type == EntityIota.TYPE }
                 if (iotas.isEmpty()) {

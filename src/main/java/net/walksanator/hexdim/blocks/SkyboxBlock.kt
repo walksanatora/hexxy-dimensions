@@ -1,6 +1,6 @@
 package net.walksanator.hexdim.blocks
 
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.ktxt.markHurt
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -28,9 +28,7 @@ class SkyboxBlock(settings: Settings) : Block(settings), HexBreakBlockAware {
         world.setBlockState(pos,state) //we put the block back where it came from (help me)
     }
 
-    override fun onHexcastingBreak(env: CastingEnvironment, pos: BlockPos, state: BlockState) {
-        if (env.caster != null) {
-            onBreak(env.world,pos,state, env.caster!!)
-        }
+    override fun onHexcastingBreak(env: CastingContext, pos: BlockPos, state: BlockState) {
+        onBreak(env.world,pos,state, env.caster)
     }
 }

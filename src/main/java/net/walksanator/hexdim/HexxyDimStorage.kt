@@ -1,17 +1,11 @@
 package net.walksanator.hexdim
 
-import at.petrak.hexcasting.api.casting.ParticleSpray
-import at.petrak.hexcasting.api.pigment.FrozenPigment
-import at.petrak.hexcasting.client.particles.ConjureParticle
+import at.petrak.hexcasting.api.misc.FrozenColorizer
+import at.petrak.hexcasting.api.spell.ParticleSpray
 import at.petrak.hexcasting.common.lib.HexItems
-import at.petrak.hexcasting.common.lib.HexParticles
-import at.petrak.hexcasting.common.particles.ConjureParticleOptions
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.particle.ParticleTypes
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -19,6 +13,8 @@ import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.PersistentState
 import net.minecraft.world.chunk.ChunkStatus
 import net.walksanator.hexdim.util.Rectangle
@@ -105,7 +101,7 @@ class HexxyDimStorage : PersistentState() {
                         pos.y.toDouble()+0.5,
                         pos.z.toDouble()+0.5,
                         ), 1.0, 10
-                 ).sprayParticles(world!!, FrozenPigment(HexItems.DYE_PIGMENTS[DyeColor.LIGHT_BLUE]!!.defaultStack, UUID.randomUUID()))
+                 ).sprayParticles(world!!, FrozenColorizer(HexItems.DYE_COLORIZERS[DyeColor.LIGHT_BLUE]!!.defaultStack, UUID.randomUUID()))
 
                  for (player in beamDebugPlayers) {
                      player.teleport(pos.x.toDouble()+0.5,pos.y.toDouble()+0.5,pos.z.toDouble()+0.5)
@@ -174,7 +170,7 @@ class HexxyDimStorage : PersistentState() {
 
         fun getServerState(server: MinecraftServer): HexxyDimStorage {
             // (Note: arbitrary choice to use 'World.OVERWORLD' instead of 'World.END' or 'World.NETHER'.  Any work)
-            val world = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, Identifier("hexdim", "hexdim")))!!
+            val world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, Identifier("hexdim", "hexdim")))!!
             val persistentStateManager = world.persistentStateManager
 
             // The first time the following 'getOrCreate' function is called, it creates a brand new 'StateSaverAndLoader' and

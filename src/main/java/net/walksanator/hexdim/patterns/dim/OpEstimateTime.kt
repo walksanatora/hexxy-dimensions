@@ -1,23 +1,17 @@
 package net.walksanator.hexdim.patterns.dim
 
-import at.petrak.hexcasting.api.casting.castables.Action
-import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.eval.OperationResult
-import at.petrak.hexcasting.api.casting.eval.sideeffects.EvalSound
-import at.petrak.hexcasting.api.casting.eval.vm.CastingImage
-import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation
-import at.petrak.hexcasting.api.casting.iota.DoubleIota
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
-import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
+import at.petrak.hexcasting.api.spell.ConstMediaAction
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.DoubleIota
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.minecraft.text.Text
 import net.walksanator.hexdim.HexxyDimensions
 import net.walksanator.hexdim.iotas.RoomIota
 
-class OpEstimateTime : Action {
-    val argc = 1
-     fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+class OpEstimateTime : ConstMediaAction {
+     override val argc = 1
+     override fun execute(args: List<Iota>, env: CastingContext): List<Iota> {
         val mut = args.toMutableList()
         val iota = mut.removeLast()
         if (iota !is RoomIota) {
@@ -32,19 +26,6 @@ class OpEstimateTime : Action {
         val blocksLeft = area-room.blocksCarved
         mut.add(DoubleIota(blocksLeft.toDouble()))
         return mut
-    }
-
-    override fun operate(
-        env: CastingEnvironment,
-        image: CastingImage,
-        continuation: SpellContinuation
-    ): OperationResult {
-        val mutStack = image.stack.toMutableList()
-        val stack = mutableListOf<Iota>()
-        for (i in 0..<argc) stack.add(mutStack.removeLast())
-        val push = execute(stack,env)
-        push.forEach { mutStack.add(it) }
-        return OperationResult(image.copy(mutStack), listOf(),continuation, HexEvalSounds.NORMAL_EXECUTE)
     }
 
 }

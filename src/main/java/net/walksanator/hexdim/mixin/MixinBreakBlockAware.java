@@ -1,6 +1,6 @@
 package net.walksanator.hexdim.mixin;
 
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(targets = "at.petrak.hexcasting.common.casting.actions.spells.OpBreakBlock$Spell")
+@Mixin(targets = "at.petrak.hexcasting.common.casting.operators.spells.OpBreakBlock$Spell")
 public abstract class MixinBreakBlockAware {
     @Shadow @Final
     private BlockPos pos;
@@ -22,7 +22,7 @@ public abstract class MixinBreakBlockAware {
     protected MixinBreakBlockAware() {}
 
     @Inject(method = "cast(Lat/spetrak/hexcasting/api/casting/eval/CastingEnvironment;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;breakBlock(Lnet/minecraft/util/math/BlockPos;ZLnet/minecraft/entity/Entity;)Z", shift = At.Shift.AFTER))
-    private void hexdim$cast(CallbackInfo ci, @Local CastingEnvironment env, @Local BlockState blockState) {
+    private void hexdim$cast(CallbackInfo ci, @Local CastingContext env, @Local BlockState blockState) {
         Block bl = blockState.getBlock();
         HexxyDimensions.INSTANCE.breakpoint_target();
         if (bl instanceof HexBreakBlockAware hbl) {

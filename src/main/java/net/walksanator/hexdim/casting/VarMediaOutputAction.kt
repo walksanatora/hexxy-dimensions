@@ -1,59 +1,39 @@
 package net.walksanator.hexdim.casting
 
-import at.petrak.hexcasting.api.casting.ParticleSpray
-import at.petrak.hexcasting.api.casting.RenderedSpell
-import at.petrak.hexcasting.api.casting.castables.Action
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.eval.OperationResult
-import at.petrak.hexcasting.api.casting.eval.sideeffects.OperatorSideEffect
-import at.petrak.hexcasting.api.casting.eval.vm.CastingImage
-import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
-import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
+import at.petrak.hexcasting.api.spell.Action
+import at.petrak.hexcasting.api.spell.OperationResult
+import at.petrak.hexcasting.api.spell.ParticleSpray
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
 
 interface VarMediaOutputAction : Action {
     val argc: Int
 
-    fun execute(args: List<Iota>, env: CastingEnvironment): CastResult
+    fun execute(args: List<Iota>, env: CastingContext): CastResult
 
 
     override fun operate(
-        env: CastingEnvironment,
-        image: CastingImage,
-        continuation: SpellContinuation
+        continuation: at.petrak.hexcasting.api.spell.casting.eval.SpellContinuation,
+        stack: MutableList<Iota>,
+        ravenmind: Iota?,
+        ctx: CastingContext
     ): OperationResult {
-        val stack = image.stack.toMutableList()
         if (argc > stack.size)
             throw MishapNotEnoughArgs(argc, stack.size)
         val args = stack.takeLast(argc)
         repeat(argc) { stack.removeLast() }
-        val spellResponse = this.execute(args, env)
-        val sideEffects = mutableListOf(
-                OperatorSideEffect.ConsumeMedia(spellResponse.cost),
-                OperatorSideEffect.AttemptSpell(spellResponse),
-            )
-        sideEffects.addAll(
-            spellResponse.particles.map { OperatorSideEffect.Particles(it) }
-        )
+        val spellResponse = this.execute(args,ctx)
+        val sideEffects = mutableListOf<OperatorSideEffect>(OperatorSideEffect.ConsumeMedia(spellResponse.cost.toInt()))
+        stack.addAll(spellResponse.cast(ctx))
         return OperationResult(
-            image.copy(stack), sideEffects, continuation, HexEvalSounds.SPELL
+            continuation,
+            stack, ravenmind, sideEffects
         )
     }
-    abstract class CastResult(val cost: Long, val particles: List<ParticleSpray>): RenderedSpell {
-        override fun cast(env: CastingEnvironment) {}//ignored (tf2 crit sound)
 
-        /**
-         * runs the contents of this spell (can mishap)
-         * @return the iotas to append to the stack
-         */
-        abstract fun run(env: CastingEnvironment): List<Iota>
-        override fun cast(env: CastingEnvironment, image: CastingImage): CastingImage? {
-            val append = run(env)
-            val stack = image.stack.toMutableList()
-            append.forEach { stack.add(it) }
-            return image.copy(stack)
-        }
-
+    abstract class CastResult(val cost: Long, val particles: List<ParticleSpray>, opCount: Long) {
+        abstract fun cast(env: CastingContext): List<Iota>
     }
 }

@@ -1,24 +1,24 @@
 package net.walksanator.hexdim.mishap
 
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.mishaps.Mishap
-import at.petrak.hexcasting.api.pigment.FrozenPigment
+import at.petrak.hexcasting.api.misc.FrozenColorizer
+import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.mishaps.Mishap
 import at.petrak.hexcasting.common.lib.HexItems
 import net.minecraft.text.Text
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Util
 
 class MishapInvalidEnv : Mishap() {
-    override fun accentColor(ctx: CastingEnvironment, errorCtx: Context): FrozenPigment = FrozenPigment(
-        HexItems.DYE_PIGMENTS[DyeColor.LIGHT_GRAY]!!.defaultStack, Util.NIL_UUID
+    override fun accentColor(ctx: CastingContext, errorCtx: Context): FrozenColorizer = FrozenColorizer(
+        HexItems.DYE_COLORIZERS[DyeColor.LIGHT_GRAY]!!.defaultStack, Util.NIL_UUID
     )
 
-    override fun errorMessage(ctx: CastingEnvironment, errorCtx: Context): Text? = Text.translatable(
+    override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text = Text.translatable(
         "hexdim.mishap.invalidenv"
     )
 
-    override fun execute(env: CastingEnvironment, errorCtx: Context, stack: MutableList<Iota>) {
+    override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {
         //noop
     }
 }
