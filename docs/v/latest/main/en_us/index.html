@@ -53,11 +53,11 @@
       </noscript>
         <script type="module" src="index.js"></script>
   <script type="module" src="hexcasting.js"></script>
+  <script type="module" src="hexcasting_render.js"></script>
   </head>
   <body>
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container">
-    <!-- toggle and name -->
     <div class="navbar-header">
       <button
         type="button"
@@ -73,7 +73,6 @@
       </button>
       <a class="navbar-brand" href="../../../..">Hexxy Dimensions Book</a>
     </div>
-    <!-- content -->
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -183,11 +182,11 @@
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
-    <p>When I saw <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev22/en_us#greatwork/the_work">IT</a>.<br />I realized it could be shaped by my will.<br />I just need the right <a href="#patterns/great_spells/dimension@hexdim:dim/create">pattern</a><br />There also appear to be a few new mishaps I can encounter. most of them being that the room is not ready yet or was removed.<strong>I shouldn&#39;t punch the walls, that may draw <span style="color: #8d6acc">their attention, and they do not like intruders</span></strong></p>
+    <p>When I saw <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0/en_us#greatwork/the_work">IT</a>.<br />I realized it could be shaped by my will.<br />I just need the right <a href="#patterns/great_spells/dimension@hexdim:dim/create">pattern</a>.<br />There also appear to be a few new mishaps I can encounter, most of which involve the room not being ready yet or no longer existing.<strong>I shouldn&#39;t punch the walls for too long - that may draw <span style="color: #8d6acc">their</span></strong> attention, resulting in a painful expulsion from the room.</p>
 <br />
-    <p>Alongside this there appear to be two new Iotas which I have named room and entry</p><p class="fake-li">a <span style="color: #8d6acc">room</span> Iota appears to give me extensive powers over a domain, and most places that can take entry can take a room in the same place</p><p class="fake-li">a <span style="color: #8d6acc">entry</span> iota though only appears to let me into a room. much safer to give to others.<br /><br /> (if it wasn&#39;t clear you can &#34;break&#34; the walls. which will deal upto 2 hearts of dammage (it cannot kill))</p>
+    <p>To work with this power I have developed a new Iota type, which I call a <strong>room</strong>. <br />A <span style="color: #8d6acc">room</span> Iota appears to give me extensive powers over an extradimensional room, which can be created and manipulated by the spells below. Note that for all of these spells, unless a media cost is specified, there is no cost at all. <br /><br />To restrict the powers granted by a given room iota (such as if I want to give partial access to a friend) I have access to three permission settings (R, W, and X) all of which are enabled by default. The R permission allows me to enter the room, the W permission allows me to delete the room, and the X permission allows me to <a href="#patterns/great_spells/dimension@hexdim:dim/cast/activate">transfer my casting into the room</a>. These permissions can be revoked using <a href="#patterns/great_spells/dimension@hexdim:dim/perm/remove">Everett&#39;s Authority</a>$.(br)<br /> (If it wasn&#39;t clear, you can &#34;break&#34; the walls of a room. Doing so will deal some non-lethal damage and return you to the Overworld.)</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/create">
+  <div id="patterns/great_spells/dimension@hexdim:dim/create" class="">
 <h4 class="pattern-title">Everett&#39;s Exaltation (num, num, num → room)<a
     href="#patterns/great_spells/dimension@hexdim:dim/create"
     class="permalink small"
@@ -195,6 +194,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -204,56 +239,70 @@
         data-per-world="True"
       >Your browser does not support visualizing patterns. Pattern code: wawdwawawdwawawdwewdwqwdwqwdwqwdwqwdwqwdw</canvas>
   </details>
-      <p>Creates a new room for me</p>
+      <p>Creates a new room for me, with the provided width, height, and depth. Costs six Charged Amethyst per block.</p>
   </div>
 <br />
-    <p><br />When I first make a room it appears I must wait for it to be &#34;carved&#34;<br />I am unable to do anything practical in the dim until I let nature carve it out.<br /><br />Carving appears to be 20-ish blocks per seconds. I can <a href="#patterns/great_spells/dimension@hexdim:dim/time">Figure out how many are left</a> with a simple pattern, cost 1/2 a <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev22/en_us#greatwork/quenching_allays">quenched allay</a> per block</p>
+    <p><br />When I first make a room it appears I must wait for it to be &#34;carved&#34;.<br />I am unable to do anything practical in the room until I let nature carve it out.<br /><br />Carving takes place at around 20 blocks per second. I can <a href="#patterns/great_spells/dimension@hexdim:dim/time">figure out how many are left</a> with a simple pattern.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/enter">
-<h4 class="pattern-title">Everett&#39;s Gateway (room | entry →)<a
-    href="#patterns/great_spells/dimension@hexdim:dim/enter"
-    class="permalink small"
-    title="Permalink"
-  ><i class="bi bi-link-45deg"></i></a></h4>
-  <details class="details-collapsible">
-    <summary class="collapse-details collapse-spell"></summary>
-      <canvas
-        class="spell-viz"
-        width="216"
-        height="216"
-        data-string="wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww"
-        data-start="north_east"
-        data-per-world="False"
-      >Your browser does not support visualizing patterns. Pattern code: wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww</canvas>
-  </details>
-      <p>Lets actually go there</p>
-  </div>
-<br />
-    <p><br />Although I cannot enter a room when it is being carved. once it is done I can finally go into it.<br />I must be careful though because if I use my <span style="color: #8d6acc">room</span> Iota it will put me into the exact center of the room which could be <i>problematic</i>.<br />luckily I can <a href="#patterns/great_spells/dimension@hexdim:dim/downgrade/pos">create a iota</a> that will put me at a relative position to a corner.<br />Cost 1 amethyst shard</p>
-<br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/kidnap">
-<h4 class="pattern-title">Everett&#39;s Abduction (room | entry, entity | [entity] →)<a
+  <div id="patterns/great_spells/dimension@hexdim:dim/kidnap" class="">
+<h4 class="pattern-title">Everett&#39;s Abduction (room, entity | [entity] →)<a
     href="#patterns/great_spells/dimension@hexdim:dim/kidnap"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
         height="216"
-        data-string="aeaeaeaeaeaaedwaq"
-        data-start="south_east"
+        data-string="wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww"
+        data-start="south_west"
         data-per-world="False"
-      >Your browser does not support visualizing patterns. Pattern code: aeaeaeaeaeaaedwaq</canvas>
+      >Your browser does not support visualizing patterns. Pattern code: wawewawewawewawewawewawwwqwqwqwqwqwaeqqqqqaww</canvas>
   </details>
       <p>You are going to <s>Brazil</s>, <s>My Domain</s>, <i>T H E   F U N   Z O N E</i></p>
   </div>
 <br />
-    <p><br />It takes my &#34;Willing&#34; participants to the room/entry specified. same as if they casted <a href="#patterns/great_spells/dimension@hexdim:dim/enter">Everett&#39;s Gateway</a><i>There is no will save. should probally prepare countermeasures for if I find myself taken</i></p>
+    <p><br />Transports the provided entity/entities (willing or otherwise!) to the provided room, at the cost of one Amethyst Shard per entity. <i>There is no will save. I should probally prepare countermeasures for if I find myself taken.</i></p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/cast/activate">
+  <div id="patterns/great_spells/dimension@hexdim:dim/cast/activate" class="">
 <h4 class="pattern-title">Everett&#39;s Environment (room → room)<a
     href="#patterns/great_spells/dimension@hexdim:dim/cast/activate"
     class="permalink small"
@@ -261,6 +310,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -270,12 +355,12 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: deaqqeweeeeewdqdqdqdqdq</canvas>
   </details>
-      <p>My own personal casting space</p>
+      <p>My own personal casting space!</p>
   </div>
 <br />
-    <p><br />When I cast this it mutates my environment and forces it to cast in the provided <span style="color: #8d6acc">room</span> giving me full <span style="color: #8d6acc">ambit</span>.<br />Trying to enter a env while already having one active results in a <span style="color: #8d6acc">Mishap</span>.<br />My staff appears to actively conflict with the env unless I <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0.dev22/en_us#patterns/meta@hexcasting:eval">execute it all at once</a></p>
+    <p><br />Mutates my casting environment for the rest of the current spell, allowing me to cast as though I was located in the provided <span style="color: #8d6acc">room</span> (so long as the X permission is enabled). While this effect is active, my <span style="color: #8d6acc">ambit</span> within the room extends to the entirety of the space.<br />Trying to cast this pattern again while it&#39;s already active results in a <span style="color: #8d6acc">Mishap</span>.<br />Also, my staff appears to actively conflict with the effect, ignoring it unless I <a href="https://hexcasting.hexxy.media/v/0.11.1-7/1.0/en_us#patterns/meta@hexcasting:eval">execute a spell all at once</a>.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/cast/deactivate">
+  <div id="patterns/great_spells/dimension@hexdim:dim/cast/deactivate" class="">
 <h4 class="pattern-title">Everett&#39;s Environment II<a
     href="#patterns/great_spells/dimension@hexdim:dim/cast/deactivate"
     class="permalink small"
@@ -283,6 +368,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -292,12 +413,12 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: aqdeeqeaeaeaeaeae</canvas>
   </details>
-      <p>Look Ma two dimensions</p>
+      <p>Look Ma, two dimensions!</p>
   </div>
 <br />
-    <p><br />When I cast this it removes <a href="#patterns/great_spells/dimension@hexdim:dim/cast/activate">the mutation to my environment</a>.<br />This can be usefull for if I want to refrence data in my current dimension and then swap to read something really quick from my personal space</p>
+    <p><br />Undoes the current <a href="#patterns/great_spells/dimension@hexdim:dim/cast/activate">mutation to my environment</a>.<br />This can be useful if, for example, I want to briefly swap to my personal space to access information and then return to casting in my actual location.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/kick">
+  <div id="patterns/great_spells/dimension@hexdim:dim/kick" class="">
 <h4 class="pattern-title">Everett&#39;s Expulsion (entity | [entity] →)<a
     href="#patterns/great_spells/dimension@hexdim:dim/kick"
     class="permalink small"
@@ -305,6 +426,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -317,9 +474,9 @@
       <p>G E T   O U T</p>
   </div>
 <br />
-    <p><br />This expels entities to the overworld that I pass into it from my room.<br />It mishaps when I am not running in a environment though. And the entities have to be within the room the env is bound to</p>
+    <p><br />Expels entities from my <span style="color: #8d6acc">room</span> to the overworld.<br />This will only function if I&#39;m casting from within the room the entities are located in, either physically or via <a href="#patterns/great_spells/dimension@hexdim:dim/cast/activate">Everett&#39;s Environment</a>.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/rel/to">
+  <div id="patterns/great_spells/dimension@hexdim:dim/rel/to" class="">
 <h4 class="pattern-title">Everett&#39;s Relative Prfn. (room, vec3 → vec3)<a
     href="#patterns/great_spells/dimension@hexdim:dim/rel/to"
     class="permalink small"
@@ -327,6 +484,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -336,12 +529,12 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: adeeda</canvas>
   </details>
-      <p>This should make things easier</p>
+      <p>This should make things easier.</p>
   </div>
 <br />
-    <p><br />This pattern when given a room converts a position to a be relative to the North West corner of the room.<br /><br />It should be fairly usefull when making cordinates in this room</p>
+    <p><br />Given a room and an absolute position, this will convert the position to be relative to the northwest corner of the room.<br />Does not affect the Y coordinate of the position.<br /><br />This may be helpful for determining offsets within a room.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/rel/from">
+  <div id="patterns/great_spells/dimension@hexdim:dim/rel/from" class="">
 <h4 class="pattern-title">Everett&#39;s Relative Prfn. II (room, vec3 → vec3)<a
     href="#patterns/great_spells/dimension@hexdim:dim/rel/from"
     class="permalink small"
@@ -349,6 +542,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -358,19 +587,55 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: daqqad</canvas>
   </details>
-      <p>I can access blocks easier</p>
+      <p>This should also make things easier.</p>
   </div>
 <br />
-    <p><br />This pattern when given a room converts a position from a relative to North West corner<br /><br />It should be fairly usefull when accessing block/entities within this room.<br />Only Positive numbers lead into the room. negative numbers lead into the &#34;wall&#34; between rooms</p>
+    <p><br />Given a room and a positon relative to the room&#39;s northwest corner, this will convert the position to absolute coordinates.<br />Does not affect the Y coordinate of the position.<br /><br />This may be helpful when accessing block or entities within the room.<br />Only positive relative offsets will become positions that are actually inside the room. Negative offsets will produce a position in the &#34;wall&#34; between rooms.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/downgrade">
-<h4 class="pattern-title">Everett&#39;s Room Prfn. (room → entry)<a
-    href="#patterns/great_spells/dimension@hexdim:dim/downgrade"
+  <div id="patterns/great_spells/dimension@hexdim:dim/pos/set" class="">
+<h4 class="pattern-title">Everett&#39;s Location (room, vec3 → room)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/pos/set"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -380,19 +645,53 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: awqwawqdqawwwaq</canvas>
   </details>
-      <p>Roommates perhaps?</p>
+      <p>Sets the position you arrive at when you warp into this room, relative to the northwest corner.<br />Requires W permission on the room.</p>
   </div>
 <br />
-    <p><br />This allows me to turn a <span style="color: #8d6acc">room</span> into a <span style="color: #8d6acc">entry</span> Iota<br />A entry iota is safer for me to share or make public since it wont allow my peers to cast with full ambit in <i>my</i> room</p>
-<br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/downgrade/pos">
-<h4 class="pattern-title">Everett&#39;s Distl. (room, vec3 → entry)<a
-    href="#patterns/great_spells/dimension@hexdim:dim/downgrade/pos"
+  <div id="patterns/great_spells/dimension@hexdim:dim/perm/remove" class="">
+<h4 class="pattern-title">Everett&#39;s Authority (room, num → room)<a
+    href="#patterns/great_spells/dimension@hexdim:dim/perm/remove"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -402,12 +701,12 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: dewedaewdwewd</canvas>
   </details>
-      <p>Custom door location?</p>
+      <p>Disables the specified permission for this room iota. R is specified with 0, W is specified with 1, and X is specified with 2.</p>
   </div>
 <br />
-    <p><br />This allows me to turn a <span style="color: #8d6acc">room</span> into a <span style="color: #8d6acc">entry</span> Iota and give it a relative position.<br />This entry iota&#39;s Position is relative to the North West corner of my room</p>
+    <p>hexdim.page.dim.downgrade.pos.extend</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/time">
+  <div id="patterns/great_spells/dimension@hexdim:dim/time" class="">
 <h4 class="pattern-title">Everett&#39;s Timing Prfn. (room → num)<a
     href="#patterns/great_spells/dimension@hexdim:dim/time"
     class="permalink small"
@@ -415,6 +714,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -424,12 +759,12 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: qqqqqwaeaeaeaeaeadqwdwqwdwdwqw</canvas>
   </details>
-      <p>How much longer must I wait</p>
+      <p>How much longer must I wait?</p>
   </div>
 <br />
-    <p><br />When I pass a room/entry into this pattern it returns the number of blocks left to be carved<br />(which I can then roughly calculate into a time remaing till avaliable)</p>
+    <p><br />Given a room iota, tells me the number of blocks remaining to be carved.<br />This can be used to determine how much progress has been made on carving the room, and how much longer it will take to finish.</p>
 <br />
-  <div id="patterns/great_spells/dimension@hexdim:dim/carved">
+  <div id="patterns/great_spells/dimension@hexdim:dim/carved" class="">
 <h4 class="pattern-title">Everett&#39;s Carving Prfn. (room → bool)<a
     href="#patterns/great_spells/dimension@hexdim:dim/carved"
     class="permalink small"
@@ -437,6 +772,42 @@
   ><i class="bi bi-link-45deg"></i></a></h4>
   <details class="details-collapsible">
     <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
       <canvas
         class="spell-viz"
         width="216"
@@ -446,22 +817,18 @@
         data-per-world="False"
       >Your browser does not support visualizing patterns. Pattern code: qqqqqwaeaeaeaeaeadwaqaeaq</canvas>
   </details>
-      <p>Are we done yet</p>
+      <p>Are we done yet?</p>
   </div>
 <br />
-    <p><br />It takes the room and tells me if it is carved and able to be used.</p>
+    <p><br />Given a room iota, tells me whether it is finished carving and ready to be used.</p>
 <br />
 </div>
 </section>
   </main>
 </div>
       <footer class="footer">
-        <div class="container">
-          <p class="text-muted">
-            Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.<br />
-            Minecraft content and materials are the intellectual property of their respective owners.<br />
-            Made with ❤️ using <a href="https://pypi.org/project/hexdoc/" target="_blank">hexdoc</a>.
-          </p>
+        <div class="container text-muted">
+          <p>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p><p>Minecraft content and materials are the intellectual property of their respective owners.</p><p>Made with ❤️ using <a href="https://pypi.org/project/hexdoc/" target="_blank">hexdoc</a>.</p>
         </div>
       </footer>
   </body>
