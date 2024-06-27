@@ -15,7 +15,7 @@
 
 	"hexcasting.action.hexdim:dim/kidnap": "埃弗雷特之劫持",
 	"hexdim.page.dim.kidnap": "即将前往：$(m)巴西$()，$(m)我的领域$()，$(o)欢 乐 的 地 方",
-	"hexdim.page.dim.kidnap.extend": "$(br)将那些“心甘情愿”的参与者送入所给维室。就和他们施放了$(l:patterns/great_spells/dimension#hexdim:dim/enter)埃弗雷特之门径$()一样。$(br)$(o)此法术没有效果豁免。最好为我自己被劫持准备些反制手段。$()",
+	"hexdim.page.dim.kidnap.extend": "$(br)将那些“心甘情愿”的参与者送入所给维室。就和他们施放了埃弗雷特之门径一样。$(br)$(o)此法术没有效果豁免。最好为我自己被劫持准备些反制手段。$()",
 
 	"hexcasting.action.hexdim:dim/cast/activate": "埃弗雷特之环境",
 	"hexdim.page.dim.cast.activate": "独属我自己的施法空间。",
