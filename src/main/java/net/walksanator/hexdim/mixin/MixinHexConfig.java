@@ -10,10 +10,7 @@ import java.util.List;
 
 @Mixin(HexConfig.ServerConfigAccess.class)
 public abstract class MixinHexConfig {
-
-
-    protected MixinHexConfig() {}
-
+    
     @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Ljava/util/List;of(Ljava/lang/Object;)Ljava/util/List;"))
     private static List<String> addMeToConfig(List<String> old) {
         int size = old.size();
